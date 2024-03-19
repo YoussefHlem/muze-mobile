@@ -12,18 +12,27 @@
       "resizeMode": "contain",
       "backgroundColor": "#1b1b1b"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.youssefhlemdev.muzemobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.youssefhlemdev.muzemobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "162b9649-0aa7-4217-bb8e-61544e2f9efc"
+      }
     }
   }
 }

@@ -27,6 +27,7 @@ const initialState = {
   searchedUserPosts: [],
   myRoomDetails: {},
   signUpProcessDone: false,
+  authToken: null,
 };
 
 // creating slice which includes different auth actions

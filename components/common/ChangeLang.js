@@ -1,6 +1,6 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import i18next from "../services/i18next";
+import i18next from "../../services/i18next";
 import { useTranslation } from "react-i18next";
 
 const ChangeLang = () => {

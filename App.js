@@ -1,5 +1,5 @@
 // React Native Libs
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 
 // Redux Libs
 import { Provider } from "react-redux";
@@ -9,13 +9,19 @@ import store from "./store/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+// Libs
+import Toast from "react-native-toast-message";
+import i18next from "./services/i18next";
 
 // Utils
 import { getAuthToken } from "./utils/AuthToken";
 import { useEffect } from "react";
+
+// Components
+import Loading from "./components/common/Loading";
 
 // Screens
 import { Home, Explore, Collab, Booking, SignIn, SignUp } from "./screens";
@@ -71,23 +77,36 @@ export default function App() {
 
   return (
     <React.Fragment>
-      <Provider store={store}>
-        <NavigationContainer>
-          {authToken ? (
-            <Tab.Navigator>
-              <Tab.Screen name="Home" component={HomeNavigator} />
-              <Tab.Screen name="Explore" component={ExploreNavigator} />
-              <Tab.Screen name="Collab" component={CollabNavigator} />
-              <Tab.Screen name="Booking" component={BookingNavigator} />
-            </Tab.Navigator>
-          ) : (
-            <Tab.Navigator>
-              <Tab.Screen name="Sign In" component={SignIn} />
-              <Tab.Screen name="Sign Up" component={SignUp} />
-            </Tab.Navigator>
-          )}
-        </NavigationContainer>
-      </Provider>
+      <Suspense fallback={<Loading />}>
+        <Provider store={store}>
+          <NavigationContainer>
+            {authToken ? (
+              <Tab.Navigator
+                initialRouteName="Explore"
+                screenOptions={{
+                  headerShown: false,
+                }}
+              >
+                <Tab.Screen name="Home" component={HomeNavigator} />
+                <Tab.Screen name="Explore" component={ExploreNavigator} />
+                <Tab.Screen name="Collab" component={CollabNavigator} />
+                <Tab.Screen name="Booking" component={BookingNavigator} />
+              </Tab.Navigator>
+            ) : (
+              <Tab.Navigator
+                screenOptions={{
+                  headerShown: false,
+                  tabBarStyle: { display: "none" },
+                }}
+              >
+                <Tab.Screen name="Sign In" component={SignIn} />
+                <Tab.Screen name="Sign Up" component={SignUp} />
+              </Tab.Navigator>
+            )}
+          </NavigationContainer>
+        </Provider>
+      </Suspense>
+      <Toast />
     </React.Fragment>
   );
 }
