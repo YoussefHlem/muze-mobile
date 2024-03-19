@@ -95,15 +95,15 @@ export default function App() {
                 <Tab.Screen name="Booking" component={BookingNavigator} />
               </Tab.Navigator>
             ) : (
-              <Tab.Navigator
+              <Stack.Navigator
                 screenOptions={{
                   headerShown: false,
                   tabBarStyle: { display: "none" },
                 }}
               >
-                <Tab.Screen name="Sign In" component={SignIn} />
-                <Tab.Screen name="Sign Up" component={SignUp} />
-              </Tab.Navigator>
+                <Stack.Screen name="Sign In" component={SignIn} />
+                <Stack.Screen name="Sign Up" component={SignUp} />
+              </Stack.Navigator>
             )}
           </NavigationContainer>
         </Provider>
