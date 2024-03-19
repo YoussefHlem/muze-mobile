@@ -25,6 +25,7 @@ import Loading from "./components/common/Loading";
 
 // Screens
 import { Home, Explore, Collab, Booking, SignIn, SignUp } from "./screens";
+import { StatusBar } from "expo-status-bar";
 
 // Main Navigators
 const HomeNavigator = () => (
@@ -79,6 +80,7 @@ export default function App() {
     <React.Fragment>
       <Suspense fallback={<Loading />}>
         <Provider store={store}>
+          <StatusBar style="auto" />
           <NavigationContainer>
             {authToken ? (
               <Tab.Navigator

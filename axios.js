@@ -19,7 +19,7 @@ axiosIns.interceptors.request.use(async (config) => {
   // If token is found
   if (token) {
     // Set authorization header
-    config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   // Return modified config
