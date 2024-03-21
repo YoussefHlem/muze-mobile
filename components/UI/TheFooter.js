@@ -6,7 +6,7 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/services/userSlice";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -14,96 +14,139 @@ const TheFooter = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { user } = useSelector(selectUser);
+  const authToken = useSelector((state) => state.user.authToken);
   return (
     <>
-      <ImageBackground
-        style={styles.footerContianer}
-        source={require("../../assets/Images/footer-background.png")}
-      >
-        <Pressable
-          onPress={() => {
-            navigation.navigate("Home");
-          }}
-        >
-          <View
-            style={[
-              styles.screenButton,
-              route.name === "Home" && styles.activeScreen,
-            ]}
+      {authToken ? (
+        <>
+          <ImageBackground
+            style={styles.footerContianer}
+            source={require("../../assets/Images/footer-background.png")}
           >
-            <Image
-              source={require("../../assets/Images/side-menu/dark-home.png")}
-            />
-            <Text>Home</Text>
-          </View>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate("Explore")}>
-          <View
-            style={[
-              styles.screenButton,
-              route.name === "Explore" && styles.activeScreen,
-            ]}
-          >
-            <Image
-              source={require("../../assets/Images/side-menu/dark-explore.png")}
-            />
-            <Text>Explore</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            navigation.navigate("Collab");
-          }}
-        >
-          <View
-            style={[
-              styles.screenButton,
-              route.name === "Collab" && styles.activeScreen,
-            ]}
-          >
-            <Image
-              source={require("../../assets/Images/side-menu/dark-collab.png")}
-            />
-            <Text>Collab</Text>
-          </View>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            navigation.navigate("Booking");
-          }}
-        >
-          <View
-            style={[
-              styles.screenButton,
-              route.name === "Booking" && styles.activeScreen,
-            ]}
-          >
-            <Image
-              source={require("../../assets/Images/side-menu/dark-booking.png")}
-            />
-            <Text>Booking</Text>
-          </View>
-        </Pressable>
-      </ImageBackground>
-      <View style={styles.profileImage}>
-        <Pressable onPress={() => navigation.navigate("Profile")}>
-          <View
-            style={[
-              styles.innerImageContainer,
-              route.name === "Profile" && styles.activeScreen,
-            ]}
-          >
-            <Image
-              source={{
-                uri: user.userImage.blobUrl
-                  ? user.userImage.blobUrl
-                  : "https://muzefirststorage.blob.core.windows.net/usercontainer/img/img-1687160459492",
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Home");
               }}
-              style={styles.innerImage}
-            />
+            >
+              <View
+                style={[
+                  styles.screenButton,
+                  route.name === "Home" && styles.activeScreen,
+                ]}
+              >
+                <Image
+                  source={require("../../assets/Images/side-menu/dark-home.png")}
+                />
+                <Text>Home</Text>
+              </View>
+            </Pressable>
+            <Pressable onPress={() => navigation.navigate("Explore")}>
+              <View
+                style={[
+                  styles.screenButton,
+                  route.name === "Explore" && styles.activeScreen,
+                ]}
+              >
+                <Image
+                  source={require("../../assets/Images/side-menu/dark-explore.png")}
+                />
+                <Text>Explore</Text>
+              </View>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Collab");
+              }}
+            >
+              <View
+                style={[
+                  styles.screenButton,
+                  route.name === "Collab" && styles.activeScreen,
+                ]}
+              >
+                <Image
+                  source={require("../../assets/Images/side-menu/dark-collab.png")}
+                />
+                <Text>Collab</Text>
+              </View>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Booking");
+              }}
+            >
+              <View
+                style={[
+                  styles.screenButton,
+                  route.name === "Booking" && styles.activeScreen,
+                ]}
+              >
+                <Image
+                  source={require("../../assets/Images/side-menu/dark-booking.png")}
+                />
+                <Text>Booking</Text>
+              </View>
+            </Pressable>
+          </ImageBackground>
+          <View style={styles.profileImage}>
+            <Pressable onPress={() => navigation.navigate("Profile")}>
+              <View
+                style={[
+                  styles.innerImageContainer,
+                  route.name === "Profile" && styles.activeScreen,
+                ]}
+              >
+                <Image
+                  source={{
+                    uri: user.userImage.blobUrl
+                      ? user.userImage.blobUrl
+                      : "https://muzefirststorage.blob.core.windows.net/usercontainer/img/img-1687160459492",
+                  }}
+                  style={styles.innerImage}
+                />
+              </View>
+            </Pressable>
           </View>
-        </Pressable>
-      </View>
+        </>
+      ) : (
+        <>
+          <ImageBackground
+            style={styles.footerContianer}
+            source={require("../../assets/Images/footer-background.png")}
+          >
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Sign In");
+              }}
+            >
+              <View
+                style={[
+                  styles.screenButton,
+                  route.name === "Sign In" && styles.activeScreen,
+                ]}
+              >
+                <Image
+                  source={require("../../assets/Images/side-menu/dark-home.png")}
+                />
+                <Text>Sign In</Text>
+              </View>
+            </Pressable>
+            <Pressable onPress={() => navigation.navigate("Sign Up")}>
+              <View
+                style={[
+                  styles.screenButton,
+                  route.name === "Sign Up" && styles.activeScreen,
+                ]}
+              >
+                <Image
+                  source={require("../../assets/Images/side-menu/dark-explore.png")}
+                />
+                <Text>Sign Up</Text>
+              </View>
+            </Pressable>
+          </ImageBackground>
+        </>
+      )}
     </>
   );
 };

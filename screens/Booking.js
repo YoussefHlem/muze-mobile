@@ -3,11 +3,17 @@ import React, { useEffect } from "react";
 import ScreenWrapper from "../hoc/ScreenWrapper";
 import { deleteItemAsync } from "expo-secure-store";
 import { reloadAsync } from "expo-updates";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { setAuthToken } from "../store/services/userSlice";
 
 const Booking = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
   const reload = async () => {
     deleteItemAsync("accessToken");
-    await reloadAsync();
+    dispatch(setAuthToken(null));
+    navigation.navigate("Sign In");
   };
   return (
     <View>
