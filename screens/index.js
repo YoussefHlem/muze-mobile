@@ -4,5 +4,5 @@ import Booking from "./Booking";
 import Collab from "./Collab";
 import Explore from "./Explore";
 import Home from "./Home";
-
-export { SignIn, SignUp, Booking, Collab, Explore, Home };
+import Profile from "./Profile";
+export { SignIn, SignUp, Booking, Collab, Explore, Home, Profile };

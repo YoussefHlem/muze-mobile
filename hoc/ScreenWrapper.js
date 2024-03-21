@@ -1,14 +1,28 @@
 import React from "react";
 import { TheNavbar, TheFooter } from "../components";
+import { ImageBackground, View } from "react-native";
 const ScreenWrapper = (WrappedComponent) => {
   const HOC = () => {
     return (
       <React.Fragment>
-        <TheNavbar />
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#171717",
+          }}
+        >
+          <ImageBackground
+            source={require("../assets/Images/background-dark-img.png")}
+            style={{ flex: 1 }}
+            imageStyle={{ resizeMode: "cover" }}
+          >
+            <TheNavbar />
 
-        <WrappedComponent />
+            <WrappedComponent />
 
-        <TheFooter />
+            <TheFooter />
+          </ImageBackground>
+        </View>
       </React.Fragment>
     );
   };

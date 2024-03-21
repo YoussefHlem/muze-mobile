@@ -24,46 +24,16 @@ import { useEffect } from "react";
 import Loading from "./components/common/Loading";
 
 // Screens
-import { Home, Explore, Collab, Booking, SignIn, SignUp } from "./screens";
+import {
+  Home,
+  Explore,
+  Collab,
+  Booking,
+  SignIn,
+  SignUp,
+  Profile,
+} from "./screens";
 import { StatusBar } from "expo-status-bar";
-
-// Main Navigators
-const HomeNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <Stack.Screen name="HomeScreen" component={Home} />
-  </Stack.Navigator>
-);
-const ExploreNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <Stack.Screen name="ExploreScreen" component={Explore} />
-  </Stack.Navigator>
-);
-const CollabNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <Stack.Screen name="CollabScreen" component={Collab} />
-  </Stack.Navigator>
-);
-const BookingNavigator = () => (
-  <Stack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <Stack.Screen name="BookingScreen" component={Booking} />
-  </Stack.Navigator>
-);
 
 export default function App() {
   // Get Authentication Token
@@ -74,41 +44,31 @@ export default function App() {
   };
   useEffect(() => {
     _getAuthToken();
-  }, []);
+  }, [authToken]);
 
   return (
     <React.Fragment>
       <Suspense fallback={<Loading />}>
         <Provider store={store}>
-          <StatusBar style="auto" />
           <NavigationContainer>
-            {authToken ? (
-              <Tab.Navigator
-                initialRouteName="Explore"
-                screenOptions={{
-                  headerShown: false,
-                }}
-              >
-                <Tab.Screen name="Home" component={HomeNavigator} />
-                <Tab.Screen name="Explore" component={ExploreNavigator} />
-                <Tab.Screen name="Collab" component={CollabNavigator} />
-                <Tab.Screen name="Booking" component={BookingNavigator} />
-              </Tab.Navigator>
-            ) : (
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                  tabBarStyle: { display: "none" },
-                }}
-              >
-                <Stack.Screen name="Sign In" component={SignIn} />
-                <Stack.Screen name="Sign Up" component={SignUp} />
-              </Stack.Navigator>
-            )}
+            <StatusBar style="auto" />
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="Sign In" component={SignIn} />
+              <Stack.Screen name="Sign Up" component={SignUp} />
+              <Stack.Screen name="Explore" component={Explore} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Collab" component={Collab} />
+              <Stack.Screen name="Booking" component={Booking} />
+              <Stack.Screen name="Profile" component={Profile} />
+            </Stack.Navigator>
           </NavigationContainer>
         </Provider>
+        <Toast />
       </Suspense>
-      <Toast />
     </React.Fragment>
   );
 }

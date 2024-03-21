@@ -2,25 +2,25 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 // Reducers
-import userSlice from "./services/userSlice";
+import userReducer from "./services/userSlice";
 import usersSlice from "./services/usersSlice";
 import chatSlice from "./services/chatSlice";
 import searchSlice from "./services/searchSlice";
-import themeSlice from "./services/themeSlice";
-import utilsSlice from "./services/utilsSlice";
+import themeReducer from "./services/themeSlice";
+import utilsReducer from "./services/utilsSlice";
 import videoSlice from "./services/videoSlice";
 import bookingSlice from "./services/bookingSlice";
 
 // configuring the redux-store
 const store = configureStore({
   reducer: {
-    user: userSlice,
-    users: usersSlice,
+    user: userReducer,
     chat: chatSlice,
-    search: searchSlice,
-    theme: themeSlice,
+    users: usersSlice,
+    utils: utilsReducer,
+    theme: themeReducer,
     booking: bookingSlice,
-    utils: utilsSlice,
+    search: searchSlice,
     video: videoSlice,
   },
 });

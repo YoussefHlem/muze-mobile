@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "muze-mobile",
+    "name": "Muze Network",
     "slug": "muze-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,11 +10,9 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#1b1b1b"
+      "backgroundColor": "#171717"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.youssefhlemdev.muzemobile"

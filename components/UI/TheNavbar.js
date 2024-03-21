@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, ImageBackground, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Image,
+  SafeAreaView,
+} from "react-native";
 import Search from "./Search";
 
 const TheNavbar = () => {
@@ -36,12 +42,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderRadius: 8,
     zIndex: 99,
-    height: 80,
     paddingVertical: 10,
     paddingHorizontal: 30,
+    marginTop: 35,
   },
   backgroundImage: {
-    resizeMode: "contain",
+    resizeMode: "stretch",
   },
   content: {
     flex: 1,

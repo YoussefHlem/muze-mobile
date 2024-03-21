@@ -21,8 +21,12 @@ import LineWrapper from "../../components/Auth/LineWrapper";
 import { signin } from "../../apis/user";
 
 // Redux
-import { useDispatch } from "react-redux";
-import { setUser, setIsUserSignUpDone } from "../../store/services/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setUser,
+  setIsUserSignUpDone,
+  setAuthToken,
+} from "../../store/services/userSlice";
 import Toast from "react-native-toast-message";
 import { setItemAsync } from "expo-secure-store";
 import { reloadAsync } from "expo-updates";
@@ -69,9 +73,10 @@ const SignInForm = ({ t, navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "momo222222@momo.com",
+    password: "helloworld11",
   });
+  const isSignUpDone = useSelector((state) => state.user.isSignUpDone);
 
   const handleChange = (name, value) => {
     setFormData({
@@ -79,6 +84,7 @@ const SignInForm = ({ t, navigation }) => {
       [name]: value,
     });
     setError(false);
+    console.log(isSignUpDone);
   };
 
   const handleSubmit = () => {
@@ -93,7 +99,9 @@ const SignInForm = ({ t, navigation }) => {
             text1: "Login Successful 👋",
           });
           await setItemAsync("accessToken", res.data.accessToken);
-          await reloadAsync();
+          dispatch(setAuthToken(res.data.accessToken));
+          navigation.navigate("Explore");
+          // await reloadAsync();
         } else {
           setError(true);
           Toast.show({

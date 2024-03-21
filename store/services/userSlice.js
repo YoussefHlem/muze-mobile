@@ -75,6 +75,9 @@ export const userSlice = createSlice({
     setIsUserSignUpDone: (state, action) => {
       state.isSignUpDone = action.payload;
     },
+    setAuthToken: (state, action) => {
+      state.authToken = action.payload;
+    },
   },
 });
 
@@ -98,6 +101,7 @@ export const {
   setUserStudioBookings,
   setIsUserSignUpDone,
   setAnimationKey,
+  setAuthToken,
 } = userSlice.actions;
 
 // exporting reducer for store config

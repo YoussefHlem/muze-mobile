@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import ScreenWrapper from "../hoc/ScreenWrapper";
 
-const Home = () => {
+const Profile = () => {
   return (
     <View>
-      <Text>Home</Text>
+      <Text>Profile</Text>
     </View>
   );
 };
 
-export default ScreenWrapper(Home);
+export default ScreenWrapper(Profile);
 
 const styles = StyleSheet.create({});
