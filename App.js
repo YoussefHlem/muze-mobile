@@ -57,13 +57,13 @@ export default function App() {
                 headerShown: false,
               }}
             >
-              <Stack.Screen name="Sign In" component={SignIn} />
-              <Stack.Screen name="Sign Up" component={SignUp} />
               <Stack.Screen name="Explore" component={Explore} />
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Collab" component={Collab} />
               <Stack.Screen name="Booking" component={Booking} />
               <Stack.Screen name="Profile" component={Profile} />
+              <Stack.Screen name="Sign In" component={SignIn} />
+              <Stack.Screen name="Sign Up" component={SignUp} />
             </Stack.Navigator>
           </NavigationContainer>
         </Provider>
