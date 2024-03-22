@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  SafeAreaView,
-} from "react-native";
+import { View, StyleSheet, ImageBackground, Image, Text } from "react-native";
 import Search from "./Search";
 
 const TheNavbar = () => {
@@ -18,6 +12,20 @@ const TheNavbar = () => {
       <View style={styles.content}>
         <Image
           source={require("../../assets/Images/navbar/navbar-mobile-logo.png")}
+          style={{
+            width: 35,
+            height: 40,
+            opacity: 0,
+          }}
+        />
+        <Image
+          source={require("../../assets/Images/navbar/navbar-mobile-logo.png")}
+          style={{
+            width: 70,
+            height: 70,
+            position: "absolute",
+            left: -20,
+          }}
         />
         <View>
           <Search />
