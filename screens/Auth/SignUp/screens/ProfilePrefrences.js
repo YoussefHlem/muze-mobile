@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 // Components
 import { BoxContainer, MuzeButton } from "../../../../components";
 import MuzeDropdown from "../../../../components/common/MuzeDropdown";
+import * as ImagePicker from "expo-image-picker";
+import { uploadBlob } from "../../../../services/BlobService";
+
 import Toast from "react-native-toast-message";
 import {
   Image,
@@ -21,7 +24,7 @@ import { updateProfile } from "../../../../apis/user";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser } from "../../../../store/services/userSlice";
+import { selectUser, setUserImage } from "../../../../store/services/userSlice";
 import {
   setGenresList,
   setSkillsList,
@@ -70,6 +73,29 @@ const ProfilePrefrences = ({ switchPage }) => {
 
 const TextForm = () => {
   const { user } = useSelector(selectUser);
+  const [image, setImage] = useState(null);
+
+  const handleProfilePhotoSelection = async () => {
+    console.log("Test");
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    const newImageBlob = await uploadBlob(image, "img");
+    if (newImageBlob.blobUrl) {
+      // if image uploaded delete old one if not the default img
+      dispatch(setUserImage(newImageBlob));
+    }
+    console.log(newImageBlob);
+    console.log(result.assets[0].uri);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
   return (
     <>
       <Text style={styles.title}>Tell the world who you are</Text>
@@ -77,7 +103,10 @@ const TextForm = () => {
       <Text style={styles.text}>
         To upload image click on box or drop file here!
       </Text>
-      <Pressable onPress={() => {}} style={{ alignSelf: "center" }}>
+      <Pressable
+        onPress={handleProfilePhotoSelection}
+        style={{ alignSelf: "center" }}
+      >
         <Image
           source={{
             uri: user.userImage.blobUrl

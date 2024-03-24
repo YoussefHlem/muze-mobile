@@ -6,6 +6,8 @@ import MuzeButton from "./common/MuzeButton";
 import MuzeInput from "./common/MuzeInput";
 import BoxContainer from "./Auth/BoxContainer";
 import LineWrapper from "./Auth/LineWrapper";
+import PostCard from "./common/PostCard";
+import PostModal from "./common/PostModal";
 
 export {
   TheNavbar,
@@ -16,4 +18,6 @@ export {
   MuzeInput,
   BoxContainer,
   LineWrapper,
+  PostCard,
+  PostModal,
 };
