@@ -1,18 +1,35 @@
-import React, { useEffect } from "react";
-import { View, Text, Pressable, Image, ImageBackground } from "react-native";
+// Libs
+import { useNavigation } from "@react-navigation/native";
+
+// Components
+import {
+  View,
+  Text,
+  Pressable,
+  Image,
+  ImageBackground,
+  StyleSheet,
+} from "react-native";
+import Toast from "react-native-toast-message";
+
+// Redux
 import { useDispatch, useSelector } from "react-redux";
-import { getSearchedUserDetails, likePost } from "../../apis/user";
 import {
   selectUser,
   setSearchedUserDetails,
 } from "../../store/services/userSlice";
-import { useNavigation } from "@react-navigation/native";
-import Toast from "react-native-toast-message";
+
+// Apis
+import { getSearchedUserDetails, likePost } from "../../apis/user";
+
+// assets
+const likeIcon = require(`../../assets/Images/cards/like.png`);
 
 const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
-  const { user } = useSelector(selectUser);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const { user } = useSelector(selectUser);
 
   const handleClick = () => {
     getSearchedUserDetails({
@@ -36,70 +53,70 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
   };
 
   return (
-    <View
-      style={{
-        width: 180,
-        height: 340,
-        borderColor: "#202020",
-        backgroundColor: "#202020",
-        padding: 10,
-        borderRadius: 10,
-      }}
-    >
+    <View style={styles.container}>
       <ImageBackground
         source={{ uri: cover }}
-        style={{
-          width: "100%",
-          height: "100%",
-          overflow: "hidden",
-          borderRadius: 20,
-        }}
+        style={styles.containerBackground}
       >
         {!isProfile && (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              margin: 5,
-            }}
-          >
+          <View style={styles.profile}>
             <Pressable onPress={handleClick}>
-              <Image
-                source={{ uri: img }}
-                style={{ width: 40, height: 40, borderRadius: 30 }}
-              />
+              <Image source={{ uri: img }} style={styles.profileIcon} />
             </Pressable>
             <View>
-              <Text
-                style={{
-                  marginTop: 5,
-                  marginLeft: 5,
-                  color: "#fff",
-                  fontWeight: "bold",
-                }}
-              >
-                {name}
-              </Text>
+              <Text style={styles.profileText}>{name}</Text>
             </View>
           </View>
         )}
-        <Pressable
-          onPress={handleLikeClick}
-          style={{
-            position: "absolute",
-            bottom: 8,
-            right: 8,
-          }}
-        >
-          <Image
-            source={require(`../../assets/Images/cards/like.png`)}
-            style={{ width: 20, height: 19.5 }}
-          />
+        <Pressable onPress={handleLikeClick} style={styles.likeContainer}>
+          <Image source={likeIcon} style={styles.likeIcon} />
         </Pressable>
       </ImageBackground>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: 180,
+    height: 340,
+    borderColor: "#202020",
+    backgroundColor: "#202020",
+    padding: 10,
+    borderRadius: 10,
+  },
+  containerBackground: {
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+    borderRadius: 20,
+  },
+  profile: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    margin: 5,
+  },
+  profileIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+  },
+  profileText: {
+    marginTop: 5,
+    marginLeft: 5,
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  likeContainer: {
+    position: "absolute",
+    bottom: 8,
+    right: 8,
+  },
+  likeIcon: {
+    width: 20,
+    height: 19.5,
+  },
+});
 
 export default PostCard;

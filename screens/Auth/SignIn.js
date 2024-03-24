@@ -21,7 +21,7 @@ import LineWrapper from "../../components/Auth/LineWrapper";
 import { signin } from "../../apis/user";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setUser,
   setIsUserSignUpDone,
@@ -29,17 +29,18 @@ import {
 } from "../../store/services/userSlice";
 import Toast from "react-native-toast-message";
 import { setItemAsync } from "expo-secure-store";
-import { reloadAsync } from "expo-updates";
+
+// Assests
+const signinBackground = require("../../assets/Images/signin/signin-background.jpg");
+const googleLogo = require("../../assets/Images/common/Google-Logo.png");
+const facebookLogo = require("../../assets/Images/common/FB-Logo.png");
 
 const SignIn = ({ navigation }) => {
   const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require("../../assets/Images/signin/signin-background.jpg")}
-        style={styles.container}
-      >
+      <ImageBackground source={signinBackground} style={styles.container}>
         <View style={styles.wrapper}>
           <BoxContainer>
             <View style={styles.innerContainer}>
@@ -70,13 +71,13 @@ const SignInText = ({ navigation, t }) => {
 
 const SignInForm = ({ t, navigation }) => {
   const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const [formData, setFormData] = useState({
     email: "momo222222@momo.com",
     password: "helloworld11",
   });
-  const isSignUpDone = useSelector((state) => state.user.isSignUpDone);
 
   const handleChange = (name, value) => {
     setFormData({
@@ -84,7 +85,6 @@ const SignInForm = ({ t, navigation }) => {
       [name]: value,
     });
     setError(false);
-    console.log(isSignUpDone);
   };
 
   const handleSubmit = () => {
@@ -101,7 +101,6 @@ const SignInForm = ({ t, navigation }) => {
           await setItemAsync("accessToken", res.data.accessToken);
           dispatch(setAuthToken(res.data.accessToken));
           navigation.navigate("Explore");
-          // await reloadAsync();
         } else {
           setError(true);
           Toast.show({
@@ -155,12 +154,10 @@ const SignInForm = ({ t, navigation }) => {
       </LineWrapper>
       <View style={styles.iconsContainer}>
         <Pressable style={styles.iconWrapper}>
-          <Image
-            source={require("../../assets/Images/common/Google-Logo.png")}
-          />
+          <Image source={googleLogo} />
         </Pressable>
         <Pressable style={styles.iconWrapper}>
-          <Image source={require("../../assets/Images/common/FB-Logo.png")} />
+          <Image source={facebookLogo} />
         </Pressable>
       </View>
     </View>

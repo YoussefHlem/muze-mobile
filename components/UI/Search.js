@@ -1,5 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
+// Libs
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
+// Components
 import {
   View,
   TextInput,
@@ -9,38 +12,39 @@ import {
   FlatList,
   Pressable,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+
+// Apis
 import { searchArtist } from "../../apis/search";
+
+// Redux
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSearchResult,
   setSearchList,
 } from "../../store/services/searchSlice";
 
+// Assets
+const searchIcon = require("../../assets/Images/navbar/SearchIcon.png");
+
 const Search = ({ placeholder }) => {
-  const navigation = useNavigation();
   const [search, setSearch] = useState("");
+
+  const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const data = useSelector((state) => state.search.allArtists);
   const searchList = useSelector((state) => state.search.searchList);
 
-  const dataa = [
-    { text: "Hello", value: "Hello" },
-    { text: "Hello", value: "Hello" },
-    { text: "Hello", value: "Hello" },
-    { text: "Hello", value: "Hello" },
-  ];
   const handleSubmit = () => {
     if (search) {
-      console.log(search);
       searchArtist({ searchQuery: search })
         .then((res) => {
-          console.log("Data:", res.data); // Log the data from the response
           dispatch(setSearchResult(res.data));
           // TODO: Implement SearchList Screen
           // navigation.navigate("/search-list");
         })
         .catch((err) => {
-          console.log("Error:", err); // Log the error
+          console.log("Error:", err);
         });
     }
   };
@@ -60,7 +64,6 @@ const Search = ({ placeholder }) => {
     if (value) {
       searchArtist({ searchQuery: value })
         .then((res) => {
-          console.log("Data:", res.data); // Log the data from the response
           dispatch(setSearchResult(res.data));
           // TODO: Implement SearchList Screen
           // navigation.navigate("/search-list");
@@ -81,10 +84,7 @@ const Search = ({ placeholder }) => {
           onChangeText={(value) => handleChange(value)}
         />
         <Pressable onPress={handleSubmit}>
-          <Image
-            source={require("../../assets/Images/navbar/SearchIcon.png")}
-            style={{ width: 16, height: 16 }}
-          />
+          <Image source={searchIcon} style={{ width: 16, height: 16 }} />
         </Pressable>
         {searchList.length > 0 && search.length > 0 && (
           <FlatList

@@ -1,15 +1,14 @@
+// Libs
 import React, { useState } from "react";
-import { Modal, StyleSheet, View, Text, Pressable, Image } from "react-native";
-import MuzeButton from "./MuzeButton";
 import * as ImagePicker from "expo-image-picker";
 
+// Components
+import { Modal, StyleSheet, View, Text, Pressable, Image } from "react-native";
+import MuzeButton from "./MuzeButton";
+
 const PostModal = ({ show, onHide, setShowModal }) => {
-  const [file, setFile] = useState({
-    src: "",
-  });
-  const [cover, setCover] = useState({
-    src: "",
-  });
+  const [file, setFile] = useState({ src: "" });
+  const [cover, setCover] = useState({ src: "" });
 
   const onHideHandler = () => {
     onHide();
@@ -25,8 +24,6 @@ const PostModal = ({ show, onHide, setShowModal }) => {
       mediaTypes: mediaType,
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       if (type === "video") {

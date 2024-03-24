@@ -1,29 +1,23 @@
+// Libs
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-  FlatList,
-} from "react-native";
-
-import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-
 import { useNavigation } from "@react-navigation/native";
 
+// Components
+import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
 import { MuzeButton, PostCard, PostModal } from "../components";
+import ScreenWrapper from "../hoc/ScreenWrapper";
 
-// import { setVideoData } from "../../redux/services/video/videoSlice";
+// Redux
+import { useDispatch } from "react-redux";
 import { setVideoData } from "../store/services/videoSlice";
 import { popularVideos as getPopularVideos } from "../apis/video";
-import ScreenWrapper from "../hoc/ScreenWrapper";
 
 const Home = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const [showModal, setShowModal] = useState(false);
   const [popularVideos, setPopularVideos] = useState([]);
 
@@ -32,6 +26,11 @@ const Home = () => {
       getPopularVideos().then((res) => setPopularVideos(res.data.posts));
     }
   }, [showModal]);
+
+  const videoNavigationHandler = () => {
+    dispatch(setVideoData(video));
+    navigation.navigate("Video", { state: video });
+  };
 
   return (
     <View style={styles.container}>
@@ -46,21 +45,10 @@ const Home = () => {
           setShowModal={setShowModal}
         />
       </View>
-      <ScrollView
-        contentContainerStyle={styles.posts}
-        style={{
-          flex: 1,
-        }}
-      >
+      <ScrollView contentContainerStyle={styles.posts}>
         {popularVideos.length ? (
           popularVideos.map((video, index) => (
-            <Pressable
-              key={index}
-              onPress={() => {
-                dispatch(setVideoData(video));
-                navigation.navigate("Video", { state: video });
-              }}
-            >
+            <Pressable key={index} onPress={videoNavigationHandler}>
               <PostCard
                 postId={video.id}
                 userId={video.authorDetail.user}
@@ -91,7 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "600",
     fontSize: 22,
-    color: "#fff", // You can set the color according to your design
+    color: "#fff",
   },
   posts: {
     flexDirection: "row",

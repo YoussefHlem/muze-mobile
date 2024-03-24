@@ -1,3 +1,7 @@
+// Libs
+import { useNavigation, useRoute } from "@react-navigation/native";
+
+// Components
 import {
   StyleSheet,
   Text,
@@ -6,16 +10,19 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+
+// Redux
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/services/userSlice";
-import { useNavigation, useRoute } from "@react-navigation/native";
+
 const TheFooter = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { user } = useSelector(selectUser);
   const authToken = useSelector((state) => state.user.authToken);
+
   return (
+    // TODO: Iterate on each screenButton
     <>
       {authToken ? (
         <>

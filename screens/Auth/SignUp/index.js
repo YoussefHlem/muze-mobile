@@ -1,5 +1,8 @@
 // Libs
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+
+// Components
 import {
   StyleSheet,
   Text,
@@ -9,11 +12,8 @@ import {
   Image,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
-import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
-
-// Components
 import {
   BoxContainer,
   MuzeInput,
@@ -24,15 +24,17 @@ import {
 // Apis
 import { signup } from "../../../apis/user";
 
+// Assets
+const signupBackground = require("../../../assets/Images/signup/signup-background.jpg");
+const googleLogo = require("../../../assets/Images/common/Google-Logo.png");
+const facebookLogo = require("../../../assets/Images/common/FB-Logo.png");
+
 const SignUp = ({ navigation }) => {
   const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require("../../../assets/Images/signup/signup-background.jpg")}
-        style={styles.container}
-      >
+      <ImageBackground source={signupBackground} style={styles.container}>
         <View style={styles.wrapper}>
           <BoxContainer>
             <View style={styles.innerContainer}>
@@ -84,11 +86,9 @@ const SignUpForm = ({ t, navigation }) => {
   };
 
   const handleSubmit = () => {
-    console.log(formData);
     signup(formData)
       .then(async (res) => {
         setError(false);
-        console.log(res);
         Toast.show({
           type: "success",
           text1: "Account Created Successfully 👋",
@@ -97,7 +97,6 @@ const SignUpForm = ({ t, navigation }) => {
         navigation.navigate("Sign In");
       })
       .catch((err) => {
-        console.log(err);
         setError(true);
         Toast.show({
           type: "error",
@@ -216,14 +215,10 @@ const SignUpForm = ({ t, navigation }) => {
       </LineWrapper>
       <View style={styles.iconsContainer}>
         <Pressable style={styles.iconWrapper}>
-          <Image
-            source={require("../../../assets/Images/common/Google-Logo.png")}
-          />
+          <Image source={googleLogo} />
         </Pressable>
         <Pressable style={styles.iconWrapper}>
-          <Image
-            source={require("../../../assets/Images/common/FB-Logo.png")}
-          />
+          <Image source={facebookLogo} />
         </Pressable>
       </View>
     </View>

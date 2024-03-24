@@ -76,7 +76,6 @@ const TextForm = () => {
   const [image, setImage] = useState(null);
 
   const handleProfilePhotoSelection = async () => {
-    console.log("Test");
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -85,12 +84,11 @@ const TextForm = () => {
       quality: 1,
     });
     const newImageBlob = await uploadBlob(image, "img");
+
     if (newImageBlob.blobUrl) {
       // if image uploaded delete old one if not the default img
       dispatch(setUserImage(newImageBlob));
     }
-    console.log(newImageBlob);
-    console.log(result.assets[0].uri);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);

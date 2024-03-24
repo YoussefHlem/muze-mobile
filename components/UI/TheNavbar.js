@@ -1,17 +1,23 @@
-import React from "react";
+// Components
 import { View, StyleSheet, ImageBackground, Image, Text } from "react-native";
 import Search from "./Search";
+
+// Assets
+const navbarBackground = require("../../assets/Images/navbar/navbar-dark-background.png");
+const navbarLogo = require("../../assets/Images/navbar/navbar-mobile-logo.png");
+const navbarBellIcon = require("../../assets/Images/navbar/bell.png");
+const navbarNotificationIcon = require("../../assets/Images/navbar/notifications.png");
 
 const TheNavbar = () => {
   return (
     <ImageBackground
-      source={require("../../assets/Images/navbar/navbar-dark-background.png")}
+      source={navbarBackground}
       style={styles.container}
       imageStyle={styles.backgroundImage}
     >
       <View style={styles.content}>
         <Image
-          source={require("../../assets/Images/navbar/navbar-mobile-logo.png")}
+          source={navbarLogo}
           style={{
             width: 35,
             height: 40,
@@ -19,7 +25,7 @@ const TheNavbar = () => {
           }}
         />
         <Image
-          source={require("../../assets/Images/navbar/navbar-mobile-logo.png")}
+          source={navbarLogo}
           style={{
             width: 70,
             height: 70,
@@ -31,10 +37,8 @@ const TheNavbar = () => {
           <Search />
         </View>
         <View style={styles.iconsContainer}>
-          <Image source={require("../../assets/Images/navbar/bell.png")} />
-          <Image
-            source={require("../../assets/Images/navbar/notifications.png")}
-          />
+          <Image source={navbarBellIcon} />
+          <Image source={navbarNotificationIcon} />
         </View>
       </View>
     </ImageBackground>
