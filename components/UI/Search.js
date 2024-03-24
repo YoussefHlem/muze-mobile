@@ -82,6 +82,7 @@ const Search = ({ placeholder }) => {
           placeholder={placeholder || "Search..."}
           value={search}
           onChangeText={(value) => handleChange(value)}
+          placeholderTextColor={"#fff"}
         />
         <Pressable onPress={handleSubmit}>
           <Image source={searchIcon} style={{ width: 16, height: 16 }} />

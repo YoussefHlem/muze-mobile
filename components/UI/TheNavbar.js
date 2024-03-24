@@ -34,7 +34,7 @@ const TheNavbar = () => {
           }}
         />
         <View>
-          <Search />
+          <Search placeholder={"Search for any artist"} />
         </View>
         <View style={styles.iconsContainer}>
           <Image source={navbarBellIcon} />
