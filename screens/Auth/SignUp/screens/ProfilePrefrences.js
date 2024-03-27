@@ -83,8 +83,13 @@ const TextForm = () => {
       aspect: [4, 3],
       quality: 1,
     });
-    const newImageBlob = await uploadBlob(image, "img");
+    const newImageBlob = await uploadBlob({
+      contentType: "image",
+      fileName: "Profile.png",
+      filePath: image,
+    });
 
+    console.log(newImageBlob);
     if (newImageBlob.blobUrl) {
       // if image uploaded delete old one if not the default img
       dispatch(setUserImage(newImageBlob));

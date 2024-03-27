@@ -10,6 +10,7 @@ import {
   ImageBackground,
   Pressable,
   Image,
+  Modal,
 } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,10 +20,12 @@ import {
   MuzeInput,
   MuzeButton,
   LineWrapper,
+  TermsAndConditionsEn,
 } from "../../../components";
 
 // Apis
 import { signup } from "../../../apis/user";
+import TermsAndConditionsAr from "../../../components/common/TermsAndConditionsAr";
 
 // Assets
 const signupBackground = require("../../../assets/Images/signup/signup-background.jpg");
@@ -67,6 +70,8 @@ const SignUpText = ({ navigation, t }) => {
 const SignUpForm = ({ t, navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [language, setLanguage] = useState("en");
+  const [showModel, setShowModel] = useState(false);
   const [error, setError] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -107,6 +112,19 @@ const SignUpForm = ({ t, navigation }) => {
 
   return (
     <View>
+      <Modal animationType="slide" transparent={true} visible={showModel}>
+        {language === "en" ? (
+          <TermsAndConditionsEn
+            changeLang={() => setLanguage("ar")}
+            onHide={() => setShowModel(false)}
+          />
+        ) : (
+          <TermsAndConditionsAr
+            changeLang={() => setLanguage("en")}
+            onHide={() => setShowModel(false)}
+          />
+        )}
+      </Modal>
       <View style={styles.nameContainer}>
         <MuzeInput
           type="name"
@@ -182,7 +200,7 @@ const SignUpForm = ({ t, navigation }) => {
         </Pressable>
       </View>
 
-      <View style={styles.termsAndConditions}>
+      <View style={styles.TermsAndConditionsEn}>
         <CheckBox
           value={formData.acceptTermsConditions}
           checked={formData.acceptTermsConditions}
@@ -196,11 +214,11 @@ const SignUpForm = ({ t, navigation }) => {
         <View style={styles.termsContainer}>
           <Text style={{ color: "#fff" }}>
             I read and accepted the{" "}
-            <Pressable onPress={() => setShowModal(true)}>
+            <Pressable onPress={() => setShowModel(true)}>
               <Text style={styles.link}>Terms</Text>
             </Pressable>{" "}
             and{" "}
-            <Pressable onPress={() => setShowModal(true)}>
+            <Pressable onPress={() => setShowModel(true)}>
               <Text style={styles.link}>Conditions</Text>
             </Pressable>
           </Text>
@@ -300,7 +318,7 @@ const styles = StyleSheet.create({
     width: "45%",
     gap: 25,
   },
-  termsAndConditions: {
+  TermsAndConditionsEn: {
     flexDirection: "row",
     marginTop: 10,
     alignItems: "center",

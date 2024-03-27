@@ -8,6 +8,7 @@ import BoxContainer from "./Auth/BoxContainer";
 import LineWrapper from "./Auth/LineWrapper";
 import PostCard from "./common/PostCard";
 import PostModal from "./common/PostModal";
+import TermsAndConditionsEn from "./common/TermsAndConditionsEn";
 
 export {
   TheNavbar,
@@ -20,4 +21,5 @@ export {
   LineWrapper,
   PostCard,
   PostModal,
+  TermsAndConditionsEn,
 };

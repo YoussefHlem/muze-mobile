@@ -1,40 +1,47 @@
-import { EAzureBlobStorageFile } from "react-native-azure-blob-storage";
+// // Libraries
+// import { BlobServiceClient } from "@azure/storage-blob";
 
-// Container name and connection string
-const containerName = "usercontainer";
-const connectionString = `https://muzefirststorage.blob.core.windows.net/?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-01-10T01:26:04Z&st=2023-09-23T16:26:04Z&spr=https&sig=HakHiNPxZacWDNbvWLKuoPtL%2FEGzq5bij%2Boohv7TBIY%3D`;
+// // container name
+// const containerName = "usercontainer";
 
-// Blob URLs for assets
-export const ContainerURL = `https://muzefirststorage.blob.core.windows.net/${containerName}/Front-End%20Assets/`;
-export const IconsBlobUrl = `${ContainerURL}icons/`;
+// const blobServiceClient = new BlobServiceClient(
+//   `https://muzefirststorage.blob.core.windows.net/?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2024-11-13T05:40:58Z&st=2024-03-25T21:40:58Z&spr=https&sig=ALjuFtRB1aXvARdpTxPYyjuvDF7BnH3IrafwI3lJMvY%3D`
+// );
+// // BlobUrl to access assets from
+// export const ContainerURL = `https://muzefirststorage.blob.core.windows.net/${containerName}/Front-End%20Assets/`;
+// export const IconsBlobUrl = `${ContainerURL}icons/`;
 
-export const uploadBlob = async (file, folderName) => {
-  const azureBlob = new EAzureBlobStorageFile(connectionString);
+// export const uploadBlob = async (file, folderName) => {
+//   // getting the containerBlob
+//   const containerClient = blobServiceClient.getContainerClient(containerName);
+//   // creating random blob name
 
-  try {
-    const blobName =
-      `${folderName}/` + `${folderName}-` + new Date().getTime().toString();
-    const response = await azureBlob.upload_file(blobName, file, containerName);
+//   const blobName =
+//     `${folderName}/` + `${folderName}-` + new Date().getTime().toString();
 
-    return {
-      blobName,
-      blobUrl: `https://muzefirststorage.blob.core.windows.net/${containerName}/${blobName}`,
-    };
-  } catch (error) {
-    console.error("Error uploading blob:", error);
-    throw error;
-  }
-};
+//   // creating and getting the blob
+//   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-export const deleteBlob = async (blobName) => {
-  const azureBlob = new EAzureBlobStorageFile(connectionString);
+//   // converting the file from datauri to blob
+//   const blob = await (await fetch(file)).blob();
+//   await blockBlobClient.uploadData(blob);
 
-  try {
-    await azureBlob.delete_file(blobName, containerName);
-  } catch (error) {
-    console.error("Error deleting blob:", error);
-    throw error;
-  }
-};
+//   return {
+//     blobName,
+//     blobUrl: `https://muzefirststorage.blob.core.windows.net/${containerName}/${blobName}`,
+//   };
+// };
+// export const deleteBlob = async (blobName) => {
+//   // include: Delete the base blob and all of its snapshots.
+//   // only: Delete only the blob's snapshots and not the blob itself.
+//   const options = {
+//     deleteSnapshots: "include",
+//   };
+//   const containerClient = blobServiceClient.getContainerClient(containerName);
+//   // Create blob client from container client
+//   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-export const DefaultImage = require("../assets/Images/common/user.jpg"); // Assuming this is a local image
+//   await blockBlobClient.deleteIfExists(options);
+// };
+
+// export const DefaultImage = `./icons/common/user.jpg`;
