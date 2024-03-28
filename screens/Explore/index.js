@@ -3,18 +3,19 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 
 // Components
-import ScreenWrapper from "../hoc/ScreenWrapper";
+import ScreenWrapper from "../../hoc/ScreenWrapper";
 
 // Apis
-import { getAllArtists } from "../apis/search";
+import { getAllArtists } from "../../apis/search";
 
 // Redux
-import { setAllArtists } from "../store/services/searchSlice";
+import { setAllArtists } from "../../store/services/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 // Screens
-import ProfilePrefrences from "./Auth/SignUp/screens/ProfilePrefrences";
-import AccountDetails from "./Auth/SignUp/screens/AccountDetails";
+import ProfilePrefrences from "../Auth/SignUp/screens/ProfilePrefrences";
+import AccountDetails from "../Auth/SignUp/screens/AccountDetails";
+import Tabs from "./Tabs";
 
 const Explore = () => {
   const dispatch = useDispatch();
@@ -42,17 +43,7 @@ const Explore = () => {
     }
   };
 
-  return (
-    <>
-      {isSignUpDone === false ? (
-        handleSwitchScreen()
-      ) : (
-        <View>
-          <Text>Explore</Text>
-        </View>
-      )}
-    </>
-  );
+  return <>{isSignUpDone === false ? handleSwitchScreen() : <Tabs />}</>;
 };
 
 export default ScreenWrapper(Explore);

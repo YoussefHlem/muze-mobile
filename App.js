@@ -30,6 +30,7 @@ import {
   SignUp,
   Profile,
 } from "./screens";
+import Users from "./screens/Users";
 
 export default function App() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
               <Stack.Screen name="Collab" component={Collab} />
               <Stack.Screen name="Booking" component={Booking} />
               <Stack.Screen name="Profile" component={Profile} />
+              <Stack.Screen name="Users" component={Users} />
               <Stack.Screen name="Sign In" component={SignIn} />
               <Stack.Screen name="Sign Up" component={SignUp} />
             </Stack.Navigator>

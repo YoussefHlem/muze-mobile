@@ -1,5 +1,5 @@
 // Libs
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 // Components
@@ -15,6 +15,7 @@ import {
 
 // Apis
 import { searchArtist } from "../../apis/search";
+import { genres as getGenres, skills as getSkills } from "../../apis/utils";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -28,12 +29,23 @@ const searchIcon = require("../../assets/Images/navbar/SearchIcon.png");
 
 const Search = ({ placeholder }) => {
   const [search, setSearch] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const data = useSelector((state) => state.search.allArtists);
   const searchList = useSelector((state) => state.search.searchList);
+
+  useEffect(() => {
+    getGenres().then((res) => {
+      setGenres(res.data.genres);
+    });
+    getSkills().then((res) => {
+      setSkills(res.data.skills);
+    });
+  }, []);
 
   const handleSubmit = () => {
     if (search) {
@@ -56,7 +68,13 @@ const Search = ({ placeholder }) => {
         let fullName = `${d?.firstName} ${d?.lastName}`;
         return fullName.toLowerCase().includes(value.toLowerCase());
       });
-      dispatch(setSearchList(list));
+      const skillList = skills?.filter((d) => {
+        return d.toLowerCase().includes(value.toLowerCase());
+      });
+      const genresList = genres?.filter((d) => {
+        return d.toLowerCase().includes(value.toLowerCase());
+      });
+      dispatch(setSearchList(list.concat(skillList).concat(genresList)));
     }
   };
 
@@ -98,7 +116,7 @@ const Search = ({ placeholder }) => {
               >
                 <View style={styles.searchResult}>
                   <Text style={styles.searchResultText}>
-                    {item.firstName} {item.lastName}
+                    {item.firstName || item} {item.lastName || ""}
                   </Text>
                 </View>
               </Pressable>
@@ -133,7 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderWidth: 0,
     color: "#fff",
-    fontSize: 16,
+    fontSize: 13,
   },
   searchIcon: {
     padding: 5,
