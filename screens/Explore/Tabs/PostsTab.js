@@ -59,7 +59,7 @@ export default PostsTab;
 const styles = StyleSheet.create({
   posts: {
     flexDirection: "row",
-    gap: 28,
+    gap: 10,
     flexWrap: "wrap",
     justifyContent: "center",
   },

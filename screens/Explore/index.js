@@ -17,6 +17,8 @@ import ProfilePrefrences from "../Auth/SignUp/screens/ProfilePrefrences";
 import AccountDetails from "../Auth/SignUp/screens/AccountDetails";
 import Tabs from "./Tabs";
 
+import { getAuthToken } from "../../utils/AuthToken";
+
 const Explore = () => {
   const dispatch = useDispatch();
   const isSignUpDone = useSelector((state) => state.user.isSignUpDone);
@@ -27,6 +29,11 @@ const Explore = () => {
   const prevPage = () => setActivePage((prevState) => prevState - 1);
 
   useEffect(() => {
+    const _auth = async () => {
+      const authToken = await getAuthToken();
+      console.log(authToken);
+    };
+    _auth();
     getAllArtists().then((res) => {
       dispatch(setAllArtists(res.data));
     });

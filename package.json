@@ -28,7 +28,6 @@
     "react-dom": "18.2.0",
     "react-i18next": "^14.1.0",
     "react-native": "0.73.5",
-    "react-native-azure-blob-storage": "^2.0.3",
     "react-native-date-picker": "^4.4.2",
     "react-native-datepicker": "^1.7.2",
     "react-native-dropdown-select-list": "^2.0.5",

@@ -29,6 +29,7 @@ import {
 } from "../../store/services/userSlice";
 import Toast from "react-native-toast-message";
 import { setItemAsync } from "expo-secure-store";
+import { reloadAsync } from "expo-updates";
 
 // Assests
 const signinBackground = require("../../assets/Images/signin/signin-background.jpg");
@@ -100,6 +101,7 @@ const SignInForm = ({ t, navigation }) => {
           });
           await setItemAsync("accessToken", res.data.accessToken);
           dispatch(setAuthToken(res.data.accessToken));
+          await reloadAsync();
           navigation.navigate("Explore");
         } else {
           setError(true);
