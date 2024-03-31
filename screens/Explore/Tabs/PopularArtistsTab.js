@@ -14,7 +14,7 @@ const PopularArtistsTab = () => {
   return (
     <ScrollView contentContainerStyle={styles.posts}>
       {Artists.map((artist) => (
-        <ArtistCard artist={artist} id={artist.user} key={artist.id} />
+        <ArtistCard artist={artist} id={artist.user} key={artist.user} />
       ))}
     </ScrollView>
   );

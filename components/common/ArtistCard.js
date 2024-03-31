@@ -24,7 +24,7 @@ const ArtistCardBg = `../../assets/Images/cards/artist-card-background.jpg`;
 // Apis
 import { getSearchedUserDetails } from "../../apis/user";
 
-const ArtistCard = ({ id, artist }) => {
+const ArtistCard = ({ id, artist, key }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -51,9 +51,8 @@ const ArtistCard = ({ id, artist }) => {
   };
 
   return (
-    <Pressable onPress={handlePress} style={styles.container}>
+    <Pressable onPress={handlePress} style={styles.container} key={key}>
       <Image
-        // source={{ uri: artist.userImageUrl || DjBg }}
         source={
           artist.userImageUrl ? { uri: artist.userImageUrl } : require(DjBg)
         }
