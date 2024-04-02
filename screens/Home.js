@@ -27,7 +27,7 @@ const Home = () => {
     }
   }, [showModal]);
 
-  const videoNavigationHandler = () => {
+  const videoNavigationHandler = (video) => {
     dispatch(setVideoData(video));
     navigation.navigate("Video", { state: video });
   };
@@ -48,7 +48,10 @@ const Home = () => {
       <ScrollView contentContainerStyle={styles.posts}>
         {popularVideos.length ? (
           popularVideos.map((video, index) => (
-            <Pressable key={index} onPress={videoNavigationHandler}>
+            <Pressable
+              key={index}
+              onPress={() => videoNavigationHandler(video)}
+            >
               <PostCard
                 postId={video.id}
                 userId={video.authorDetail.user}

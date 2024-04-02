@@ -29,8 +29,10 @@ import {
   SignIn,
   SignUp,
   Profile,
+  Users,
+  VideoScreen,
+  SearchList,
 } from "./screens";
-import Users from "./screens/Users";
 
 export default function App() {
   return (
@@ -44,12 +46,19 @@ export default function App() {
                 headerShown: false,
               }}
             >
+              {/* Main Screens */}
               <Stack.Screen name="Explore" component={Explore} />
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Collab" component={Collab} />
               <Stack.Screen name="Booking" component={Booking} />
               <Stack.Screen name="Profile" component={Profile} />
+
+              {/* Nested Screens */}
               <Stack.Screen name="Users" component={Users} />
+              <Stack.Screen name="Video" component={VideoScreen} />
+              <Stack.Screen name="SearchList" component={SearchList} />
+
+              {/* Authentication Screen */}
               <Stack.Screen name="Sign In" component={SignIn} />
               <Stack.Screen name="Sign Up" component={SignUp} />
             </Stack.Navigator>

@@ -83,8 +83,8 @@ const Search = ({ placeholder }) => {
       searchArtist({ searchQuery: value })
         .then((res) => {
           dispatch(setSearchResult(res.data));
-          // TODO: Implement SearchList Screen
-          // navigation.navigate("/search-list");
+          navigation.navigate("SearchList");
+          setSearch("");
         })
         .catch((err) => {
           console.log("Error:", err); // Log the error

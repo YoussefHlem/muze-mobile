@@ -80,3 +80,6 @@ export const getSearchedUserFollowers = (body) => {
 export const submitFeedback = (body) => {
   return service.post("/social/api/feedback/submit", body);
 };
+export const deletePost = (body) => {
+  return service.post("/social/api/post/delete", body);
+};

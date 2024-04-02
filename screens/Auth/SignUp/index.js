@@ -91,12 +91,43 @@ const SignUpForm = ({ t, navigation }) => {
   };
 
   const handleSubmit = () => {
+    const {
+      firstName,
+      lastName,
+      password,
+      email,
+      confirmPassword,
+      acceptTermsConditions,
+    } = formData;
+    // Validation Conditions
+    if (password !== confirmPassword) {
+      Toast.show({
+        type: "error",
+        text1: "Password is not correct ❌",
+        text2: "Please double check it",
+      });
+      return;
+    }
+    if (
+      acceptTermsConditions === false &&
+      firstName &&
+      lastName &&
+      email &&
+      password &&
+      confirmPassword
+    ) {
+      Toast.show({
+        type: "error",
+        text1: "You have to accept our terms and conditions 🤨",
+      });
+      return;
+    }
     signup(formData)
       .then(async (res) => {
         setError(false);
         Toast.show({
           type: "success",
-          text1: "Account Created Successfully 👋",
+          text1: "Account Created Successfully 😎",
           text2: "Activate It",
         });
         navigation.navigate("Sign In");
@@ -210,6 +241,7 @@ const SignUpForm = ({ t, navigation }) => {
               !formData.acceptTermsConditions
             )
           }
+          required={true}
         />
         <View style={styles.termsContainer}>
           <Text style={{ color: "#fff" }}>

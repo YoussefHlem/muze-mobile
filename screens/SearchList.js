@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
-import { getAllArtists } from "../../../apis/search";
-import ArtistCard from "../../../components/common/ArtistCard";
+import { FlatList, StyleSheet, View } from "react-native";
+import ScreenWrapper from "../hoc/ScreenWrapper";
 
-const PopularArtistsTab = () => {
-  const [Artists, setArtists] = useState([]);
+import { getAllArtists } from "../apis/search";
+import ArtistCard from "../components/common/ArtistCard";
+import { useSelector } from "react-redux";
 
-  useEffect(() => {
-    getAllArtists().then((res) => {
-      setArtists(res.data);
-    });
-  }, []);
+const SearchList = () => {
+  const Artists = useSelector((state) => state.search.searchResult);
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -24,11 +22,12 @@ const PopularArtistsTab = () => {
   );
 };
 
-export default PopularArtistsTab;
+export default ScreenWrapper(SearchList);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom: 20,
   },
   flatListContent: {
     flexDirection: "row",
@@ -36,5 +35,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 18,
+    marginTop: 20,
   },
 });

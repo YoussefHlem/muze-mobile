@@ -18,7 +18,7 @@ const PostsTab = () => {
   const navigation = useNavigation();
   const [randomPosts, setRandomPosts] = useState([]);
 
-  const videoNavigationHandler = () => {
+  const videoNavigationHandler = (video) => {
     dispatch(setVideoData(video));
     navigation.navigate("Video", { state: video });
   };
@@ -36,7 +36,10 @@ const PostsTab = () => {
       <ScrollView contentContainerStyle={styles.posts}>
         {randomPosts.length ? (
           randomPosts.map((video, index) => (
-            <Pressable key={index} onPress={videoNavigationHandler}>
+            <Pressable
+              key={index}
+              onPress={() => videoNavigationHandler(video)}
+            >
               <PostCard
                 postId={video.id}
                 userId={video.authorDetail.user}

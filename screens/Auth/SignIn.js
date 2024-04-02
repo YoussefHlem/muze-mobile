@@ -1,13 +1,6 @@
 // Libs
 import { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Pressable,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Pressable, Image } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -22,11 +15,7 @@ import { signin } from "../../apis/user";
 
 // Redux
 import { useDispatch } from "react-redux";
-import {
-  setUser,
-  setIsUserSignUpDone,
-  setAuthToken,
-} from "../../store/services/userSlice";
+import { setUser, setIsUserSignUpDone, setAuthToken } from "../../store/services/userSlice";
 import Toast from "react-native-toast-message";
 import { setItemAsync } from "expo-secure-store";
 import { reloadAsync } from "expo-updates";
@@ -101,7 +90,6 @@ const SignInForm = ({ t, navigation }) => {
           });
           await setItemAsync("accessToken", res.data.accessToken);
           dispatch(setAuthToken(res.data.accessToken));
-          await reloadAsync();
           navigation.navigate("Explore");
         } else {
           setError(true);
@@ -141,18 +129,13 @@ const SignInForm = ({ t, navigation }) => {
             borderColor: error ? "#ff0000" : "#fff",
           }}
         />
-        <Pressable
-          style={styles.icon}
-          onPress={() => setShowPassword(!showPassword)}
-        >
+        <Pressable style={styles.icon} onPress={() => setShowPassword(!showPassword)}>
           <Ionicons name="eye" size={24} color="black" />
         </Pressable>
       </View>
       <MuzeButton onPress={handleSubmit}> {t("signIn")}</MuzeButton>
       <LineWrapper>
-        <Text style={{ color: "#fff", fontWeight: "600" }}>
-          {t("orSigninWith")}
-        </Text>
+        <Text style={{ color: "#fff", fontWeight: "600" }}>{t("orSigninWith")}</Text>
       </LineWrapper>
       <View style={styles.iconsContainer}>
         <Pressable style={styles.iconWrapper}>
