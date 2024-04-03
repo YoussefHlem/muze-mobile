@@ -2,22 +2,12 @@
 import { useNavigation } from "@react-navigation/native";
 
 // Components
-import {
-  View,
-  Text,
-  Pressable,
-  Image,
-  ImageBackground,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Pressable, Image, ImageBackground, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectUser,
-  setSearchedUserDetails,
-} from "../../store/services/userSlice";
+import { selectUser, setSearchedUserDetails } from "../../store/services/userSlice";
 
 // Apis
 import { getSearchedUserDetails, likePost } from "../../apis/user";
@@ -37,7 +27,7 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
     }).then((res) => {
       if (userId !== user?.pk) {
         dispatch(setSearchedUserDetails(res.data["Profile Details"]));
-        navigation.navigate("UserProfile");
+        navigation.navigate("Users");
       } else {
         navigation.navigate("Profile");
       }
@@ -54,10 +44,7 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={{ uri: cover }}
-        style={styles.containerBackground}
-      >
+      <ImageBackground source={{ uri: cover }} style={styles.containerBackground}>
         {!isProfile && (
           <View style={styles.profile}>
             <Pressable onPress={handleClick}>
