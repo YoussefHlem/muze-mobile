@@ -32,6 +32,13 @@ const ProfileCover = () => {
   const [genres, setGenres] = useState([]);
   const { user } = useSelector(selectUser);
 
+  const socialMediaLinks = [
+    { link: myUserDetails.spotifyLink, icon: SpotifyIcon },
+    { link: myUserDetails.soundcloudLink, icon: SoundcloudIcon },
+    { link: myUserDetails.youtubeLink, icon: YoutubeIcon },
+    { link: myUserDetails.instagramLink, icon: InstagramIcon },
+  ];
+
   useEffect(() => {
     getAllDetails().then((res) => {
       setMyUserDetails(res.data["Profile Details"]);
@@ -136,7 +143,7 @@ const styles = StyleSheet.create({
   profileInfoCard: {
     width: "90%",
     padding: 20,
-    backgroundColor: "#016299", // Adjust color as needed
+    backgroundColor: "#016299",
     borderRadius: 20,
     marginBottom: 20,
     marginTop: 60,

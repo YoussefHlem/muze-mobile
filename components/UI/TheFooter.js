@@ -3,14 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 // Components
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View, Image, ImageBackground, Pressable } from "react-native";
 import { getAuthToken } from "../../utils/AuthToken";
 
 // Redux
@@ -43,28 +36,14 @@ const TheFooter = () => {
                 navigation.navigate("Home");
               }}
             >
-              <View
-                style={[
-                  styles.screenButton,
-                  route.name === "Home" && styles.activeScreen,
-                ]}
-              >
-                <Image
-                  source={require("../../assets/Images/side-menu/dark-home.png")}
-                />
+              <View style={[styles.screenButton, route.name === "Home" && styles.activeScreen]}>
+                <Image source={require("../../assets/Images/side-menu/dark-home.png")} />
                 <Text>Home</Text>
               </View>
             </Pressable>
             <Pressable onPress={() => navigation.navigate("Explore")}>
-              <View
-                style={[
-                  styles.screenButton,
-                  route.name === "Explore" && styles.activeScreen,
-                ]}
-              >
-                <Image
-                  source={require("../../assets/Images/side-menu/dark-explore.png")}
-                />
+              <View style={[styles.screenButton, route.name === "Explore" && styles.activeScreen]}>
+                <Image source={require("../../assets/Images/side-menu/dark-explore.png")} />
                 <Text>Explore</Text>
               </View>
             </Pressable>
@@ -73,15 +52,8 @@ const TheFooter = () => {
                 navigation.navigate("Collab");
               }}
             >
-              <View
-                style={[
-                  styles.screenButton,
-                  route.name === "Collab" && styles.activeScreen,
-                ]}
-              >
-                <Image
-                  source={require("../../assets/Images/side-menu/dark-collab.png")}
-                />
+              <View style={[styles.screenButton, route.name === "Collab" && styles.activeScreen]}>
+                <Image source={require("../../assets/Images/side-menu/dark-collab.png")} />
                 <Text>Collab</Text>
               </View>
             </Pressable>
@@ -90,15 +62,8 @@ const TheFooter = () => {
                 navigation.navigate("Booking");
               }}
             >
-              <View
-                style={[
-                  styles.screenButton,
-                  route.name === "Booking" && styles.activeScreen,
-                ]}
-              >
-                <Image
-                  source={require("../../assets/Images/side-menu/dark-booking.png")}
-                />
+              <View style={[styles.screenButton, route.name === "Booking" && styles.activeScreen]}>
+                <Image source={require("../../assets/Images/side-menu/dark-booking.png")} />
                 <Text>Booking</Text>
               </View>
             </Pressable>
@@ -134,28 +99,14 @@ const TheFooter = () => {
                 navigation.navigate("Sign In");
               }}
             >
-              <View
-                style={[
-                  styles.screenButton,
-                  route.name === "Sign In" && styles.activeScreen,
-                ]}
-              >
-                <Image
-                  source={require("../../assets/Images/side-menu/dark-home.png")}
-                />
+              <View style={[styles.screenButton, route.name === "Sign In" && styles.activeScreen]}>
+                <Image source={require("../../assets/Images/side-menu/dark-home.png")} />
                 <Text>Sign In</Text>
               </View>
             </Pressable>
             <Pressable onPress={() => navigation.navigate("Sign Up")}>
-              <View
-                style={[
-                  styles.screenButton,
-                  route.name === "Sign Up" && styles.activeScreen,
-                ]}
-              >
-                <Image
-                  source={require("../../assets/Images/side-menu/dark-explore.png")}
-                />
+              <View style={[styles.screenButton, route.name === "Sign Up" && styles.activeScreen]}>
+                <Image source={require("../../assets/Images/side-menu/dark-explore.png")} />
                 <Text>Sign Up</Text>
               </View>
             </Pressable>
@@ -183,14 +134,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   screenButton: {
-    // padding: 15px;
-    // border-radius: 25px;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    // width: 25%;
-    // height: 100%;
-    // gap: 12px;
     padding: 15,
     borderTopLeftRadius: 22,
     borderTopRightRadius: 23,
@@ -221,7 +164,6 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    // overflow: "hidden",
     padding: 10,
     borderColor: "#000",
     borderWidth: 5,

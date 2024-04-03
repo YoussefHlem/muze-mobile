@@ -3,15 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 
 // Components
-import {
-  View,
-  TextInput,
-  Image,
-  Text,
-  StyleSheet,
-  FlatList,
-  Pressable,
-} from "react-native";
+import { View, TextInput, Image, Text, StyleSheet, FlatList, Pressable } from "react-native";
 
 // Apis
 import { searchArtist } from "../../apis/search";
@@ -19,10 +11,7 @@ import { genres as getGenres, skills as getSkills } from "../../apis/utils";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setSearchResult,
-  setSearchList,
-} from "../../store/services/searchSlice";
+import { setSearchResult, setSearchList } from "../../store/services/searchSlice";
 
 // Assets
 const searchIcon = require("../../assets/Images/navbar/SearchIcon.png");
@@ -52,11 +41,10 @@ const Search = ({ placeholder }) => {
       searchArtist({ searchQuery: search })
         .then((res) => {
           dispatch(setSearchResult(res.data));
-          // TODO: Implement SearchList Screen
-          // navigation.navigate("/search-list");
+          navigation.navigate("SearchList");
         })
         .catch((err) => {
-          console.log("Error:", err);
+          console.error("Error:", err);
         });
     }
   };
@@ -87,7 +75,7 @@ const Search = ({ placeholder }) => {
           setSearch("");
         })
         .catch((err) => {
-          console.log("Error:", err); // Log the error
+          console.error("Error:", err);
         });
     }
   };
@@ -109,11 +97,7 @@ const Search = ({ placeholder }) => {
           <FlatList
             data={searchList.slice(0, 5)}
             renderItem={({ item }) => (
-              <Pressable
-                onPress={() =>
-                  handlePress(`${item.firstName} ${item.lastName}`)
-                }
-              >
+              <Pressable onPress={() => handlePress(`${item.firstName} ${item.lastName}`)}>
                 <View style={styles.searchResult}>
                   <Text style={styles.searchResultText}>
                     {item.firstName || item} {item.lastName || ""}

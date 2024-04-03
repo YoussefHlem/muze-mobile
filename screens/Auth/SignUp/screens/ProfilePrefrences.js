@@ -89,7 +89,6 @@ const TextForm = () => {
       filePath: image,
     });
 
-    console.log(newImageBlob);
     if (newImageBlob.blobUrl) {
       // if image uploaded delete old one if not the default img
       dispatch(setUserImage(newImageBlob));
@@ -103,13 +102,8 @@ const TextForm = () => {
     <>
       <Text style={styles.title}>Tell the world who you are</Text>
       <Text style={styles.subTitle}>Profile Photo</Text>
-      <Text style={styles.text}>
-        To upload image click on box or drop file here!
-      </Text>
-      <Pressable
-        onPress={handleProfilePhotoSelection}
-        style={{ alignSelf: "center" }}
-      >
+      <Text style={styles.text}>To upload image click on box or drop file here!</Text>
+      <Pressable onPress={handleProfilePhotoSelection} style={{ alignSelf: "center" }}>
         <Image
           source={{
             uri: user.userImage.blobUrl
@@ -140,12 +134,7 @@ const ProfileForm = ({ switchPage }) => {
 
   const submitHandler = () => {
     const isValid = () => {
-      if (
-        !genres.length ||
-        !userTypes.length ||
-        !instruments.length ||
-        !skills.length
-      ) {
+      if (!genres.length || !userTypes.length || !instruments.length || !skills.length) {
         return false;
       }
       return true;
@@ -171,7 +160,7 @@ const ProfileForm = ({ switchPage }) => {
       .then(() => {
         switchPage();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
   };
 
   const genresData = useSelector((state) => state.utils.genresList);

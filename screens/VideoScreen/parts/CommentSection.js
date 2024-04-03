@@ -13,7 +13,7 @@ import { getSearchedUserDetails } from "../../../apis/user";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, setSearchedUserDetails } from "../../../store/services/userSlice";
 import { getAuthToken } from "../../../utils/AuthToken";
-import style from "react-native-datepicker/style";
+// import style from "react-native-datepicker/style";
 
 // Assets
 const defaultImage = "../../../assets/Images/common/user.jpg";
@@ -21,7 +21,7 @@ const CommentBtn = "../../../assets/Images/video-screen/comment-btn.png";
 
 const CommentSection = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   const { user } = useSelector(selectUser);
   const { pk } = user;
@@ -62,21 +62,17 @@ const CommentSection = () => {
         profileId: author,
       }).then((res) => {
         console.log(res.data["Profile Details"].user, pk);
+
         if (res.data["Profile Details"].user === pk) {
-          navigation.navigate("Profile");
+          navigate("Profile");
         } else {
           dispatch(setSearchedUserDetails(res.data["Profile Details"]));
-          navigation.navigate("Users");
+          navigate("Users");
         }
       });
     } else {
-      navigation.navigate("Sign In");
+      navigate("Sign In");
     }
-  };
-
-  const handleCommentOnChange = (text) => {
-    console.log(text);
-    setComment(text);
   };
 
   const handleEmojiClick = (emoji) => {
@@ -155,7 +151,9 @@ const CommentSection = () => {
             placeholder="Write Comment Here..."
             placeholderTextColor={"#fff"}
             value={comment}
-            onChangeText={handleCommentOnChange}
+            onChangeText={(text) => {
+              setComment(text);
+            }}
           />
           <Pressable style={styles.emojiButton} onPress={() => setShowPicker(!showPicker)}>
             <Text style={{ fontSize: 20 }}>😀</Text>
@@ -213,7 +211,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flex: 2,
-    marginLeft: 10, // Adjust as needed
+    marginLeft: 10,
   },
   userName: {
     fontWeight: "400",

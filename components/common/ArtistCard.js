@@ -2,20 +2,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import {
-  View,
-  Text,
-  Pressable,
-  Image,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import { View, Text, Pressable, Image, StyleSheet, ImageBackground } from "react-native";
 
 // Redux
-import {
-  selectUser,
-  setSearchedUserDetails,
-} from "../../store/services/userSlice";
+import { selectUser, setSearchedUserDetails } from "../../store/services/userSlice";
 
 // Assets
 const DjBg = `../../assets/Images/cards/dj-bg.png`;
@@ -32,7 +22,6 @@ const ArtistCard = ({ id, artist, key }) => {
   const userId = useSelector(selectUser).user.pk;
 
   const handlePress = () => {
-    console.log(userId);
     if (authToken) {
       getSearchedUserDetails({
         profileId: id,
@@ -53,9 +42,7 @@ const ArtistCard = ({ id, artist, key }) => {
   return (
     <Pressable onPress={handlePress} style={styles.container} key={key}>
       <Image
-        source={
-          artist.userImageUrl ? { uri: artist.userImageUrl } : require(DjBg)
-        }
+        source={artist.userImageUrl ? { uri: artist.userImageUrl } : require(DjBg)}
         style={styles.artistType}
       />
       <ImageBackground style={styles.artistInfo} source={require(ArtistCardBg)}>

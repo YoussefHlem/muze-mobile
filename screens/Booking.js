@@ -4,12 +4,15 @@ import { deleteItemAsync } from "expo-secure-store";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { setAuthToken } from "../store/services/userSlice";
+import { reloadAsync } from "expo-updates";
 
 const Booking = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const logout = async () => {
     await deleteItemAsync("accessToken");
+    await deleteItemAsync("FormData");
+    await reloadAsync();
     dispatch(setAuthToken(null));
     navigation.navigate("Sign In");
   };

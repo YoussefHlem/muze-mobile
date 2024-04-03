@@ -15,12 +15,12 @@ import { PostCard } from "../../../components";
 
 const PostsTab = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
   const [randomPosts, setRandomPosts] = useState([]);
 
   const videoNavigationHandler = (video) => {
     dispatch(setVideoData(video));
-    navigation.navigate("Video", { state: video });
+    navigate("Video", { state: video });
   };
 
   useEffect(() => {
@@ -36,10 +36,7 @@ const PostsTab = () => {
       <ScrollView contentContainerStyle={styles.posts}>
         {randomPosts.length ? (
           randomPosts.map((video, index) => (
-            <Pressable
-              key={index}
-              onPress={() => videoNavigationHandler(video)}
-            >
+            <Pressable key={index} onPress={() => videoNavigationHandler(video)}>
               <PostCard
                 postId={video.id}
                 userId={video.authorDetail.user}

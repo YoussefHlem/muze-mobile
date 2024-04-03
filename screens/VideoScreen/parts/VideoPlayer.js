@@ -20,6 +20,9 @@ import { selectUser } from "../../../store/services/userSlice";
 // Apis
 import { likePost, dislikePost, deletePost, getAllDetails } from "../../../apis/user";
 
+// Assets
+const likeBtnImage = "../../../assets/Images/cards/like.png";
+
 const VideoPlayer = () => {
   const navigation = useNavigation();
   const video = useRef(null);
@@ -96,16 +99,6 @@ const VideoPlayer = () => {
           isLooping
           onPlaybackStatusUpdate={(status) => setStatus(() => status)}
         />
-        {/* <View style={styles.buttons}>
-          <Button
-            title={status.isPlaying ? "Pause" : "Play"}
-            onPress={() =>
-              status.isPlaying
-                ? video.current.pauseAsync()
-                : video.current.playAsync()
-            }
-          />
-        </View> */}
       </ImageBackground>
 
       <View style={styles.actions}>
@@ -129,27 +122,15 @@ const LikeBtn = ({ onPress, likesCount }) => {
   return (
     <Pressable onPress={onPress} style={styles.likeBtnContainer}>
       <Text style={{ color: "#fff", fontSize: 18 }}>{likesCount}</Text>
-      <Image source={require("../../../assets/Images/cards/like.png")} style={styles.likeBtnIcon} />
+      <Image source={require(likeBtnImage)} style={styles.likeBtnIcon} />
     </Pressable>
   );
 };
+
 const DeletePost = ({ onPress }) => {
   return (
     <Pressable onPress={onPress}>
-      <Text
-        style={{
-          color: "#fc6a6a",
-          backgroundColor: "transparent",
-          width: "fit-content",
-          borderWidth: 1,
-          borderColor: "#fc6a6a",
-          paddingVertical: 2,
-          paddingHorizontal: 16,
-          borderRadius: 10,
-        }}
-      >
-        Delete Post
-      </Text>
+      <Text style={styles.deleteBtn}>Delete Post</Text>
     </Pressable>
   );
 };
@@ -200,5 +181,15 @@ const styles = StyleSheet.create({
     height: 30,
     margin: "10px 35px 10px auto",
     resizeMode: "contain",
+  },
+  deleteBtn: {
+    color: "#fc6a6a",
+    backgroundColor: "transparent",
+    width: "fit-content",
+    borderWidth: 1,
+    borderColor: "#fc6a6a",
+    paddingVertical: 2,
+    paddingHorizontal: 16,
+    borderRadius: 10,
   },
 });
