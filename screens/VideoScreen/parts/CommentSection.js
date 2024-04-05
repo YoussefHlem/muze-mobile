@@ -26,8 +26,8 @@ const CommentSection = () => {
   const { user } = useSelector(selectUser);
   const { pk } = user;
 
-  const videoState = useNavigationState((state) => state.routes[1].params.state);
-  const { id } = videoState;
+  const videoSource = useSelector((state) => state.video.video);
+  const { id } = videoSource;
 
   const [showPicker, setShowPicker] = useState(false);
   const [myComments, setMyComments] = useState([]);

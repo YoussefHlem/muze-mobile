@@ -24,26 +24,31 @@ const ProfileTabs = () => {
     { name: "Collaborations", component: <Collaborations /> },
     { name: "Followers", component: <Followers /> },
     { name: "Following", component: <Following /> },
-    { name: "Bookings", component: <Booking /> },
+    // { name: "Bookings", component: <Booking /> },
     { name: "Studios", component: <Studios /> },
   ];
 
   return (
-    <ScrollView horizontal style={{ flex: 1, borderBottomWidth: 2, borderBottomColor: "#fff" }}>
-      {Screens.map((screen, idx) => (
-        <Pressable
-          key={idx}
-          onPress={() => handleIndexChange(idx)}
-          style={[
-            styles.tab,
-            index === idx && styles.activeTab,
-            idx === Screens.length - 1 && { marginRight: 0 }, // Remove right margin for the last tab
-          ]}
-        >
-          <Text style={styles.tabText}>{screen.name}</Text>
-        </Pressable>
-      ))}
-    </ScrollView>
+    <>
+      <ScrollView horizontal style={{ flex: 1, borderBottomWidth: 2, borderBottomColor: "#fff" }}>
+        {Screens.map((screen, idx) => (
+          <Pressable
+            key={idx}
+            onPress={() => handleIndexChange(idx)}
+            style={[
+              styles.tab,
+              index === idx && styles.activeTab,
+              idx === Screens.length - 1 && { marginRight: 0 }, // Remove right margin for the last tab
+            ]}
+          >
+            <Text style={styles.tabText}>{screen.name}</Text>
+          </Pressable>
+        ))}
+      </ScrollView>
+      <View style={{ marginVertical: 50 }}>
+        <ScrollView style={{ flex: 1, marginBottom: 80 }}>{Screens[index].component}</ScrollView>
+      </View>
+    </>
   );
 };
 

@@ -14,6 +14,7 @@ import { getSearchedUserDetails, likePost } from "../../apis/user";
 
 // assets
 const likeIcon = require(`../../assets/Images/cards/like.png`);
+const PostImg = require("../../assets/Images/common/post-card-img.jpg");
 
 const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
   const dispatch = useDispatch();
@@ -44,11 +45,11 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={{ uri: cover }} style={styles.containerBackground}>
+      <ImageBackground source={cover ? { uri: cover } : PostImg} style={styles.containerBackground}>
         {!isProfile && (
           <View style={styles.profile}>
             <Pressable onPress={handleClick}>
-              <Image source={{ uri: img }} style={styles.profileIcon} />
+              <Image source={img ? { uri: img } : PostImg} style={styles.profileIcon} />
             </Pressable>
             <View>
               <Text style={styles.profileText}>{name}</Text>

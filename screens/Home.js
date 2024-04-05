@@ -36,9 +36,7 @@ const Home = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>{t("homePage")}</Text>
-        <MuzeButton onPress={() => setShowModal(true)}>
-          Create a new post
-        </MuzeButton>
+        <MuzeButton onPress={() => setShowModal(true)}>Create a new post</MuzeButton>
         <PostModal
           show={showModal}
           onHide={() => setShowModal(false)}
@@ -48,15 +46,12 @@ const Home = () => {
       <ScrollView contentContainerStyle={styles.posts}>
         {popularVideos.length ? (
           popularVideos.map((video, index) => (
-            <Pressable
-              key={index}
-              onPress={() => videoNavigationHandler(video)}
-            >
+            <Pressable key={index} onPress={() => videoNavigationHandler(video)}>
               <PostCard
                 postId={video.id}
                 userId={video.authorDetail.user}
-                img={video.authorDetail.userImageUrl || PostImg}
-                cover={video.postCoverUrl || PostImg}
+                img={video.authorDetail.userImageUrl}
+                cover={video.postCoverUrl}
                 name={video.authorDetail.firstName}
               />
             </Pressable>

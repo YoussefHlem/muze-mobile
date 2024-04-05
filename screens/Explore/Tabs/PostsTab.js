@@ -40,8 +40,8 @@ const PostsTab = () => {
               <PostCard
                 postId={video.id}
                 userId={video.authorDetail.user}
-                img={video.authorDetail.userImageUrl || PostImg}
-                cover={video.postCoverUrl || PostImg}
+                img={video.authorDetail.userImageUrl}
+                cover={video.postCoverUrl}
                 name={video.authorDetail.firstName}
               />
             </Pressable>

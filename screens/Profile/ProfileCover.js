@@ -106,7 +106,7 @@ const ProfileCover = () => {
         </View>
       </ImageBackground>
       <View
-        style={{ marginTop: 20, marginBottom: 20, justifyContent: "center", alignItems: "center" }}
+        style={{ marginTop: 40, marginBottom: 20, justifyContent: "center", alignItems: "center" }}
       >
         <LinearGradient
           colors={["#016299", "#f77599"]}

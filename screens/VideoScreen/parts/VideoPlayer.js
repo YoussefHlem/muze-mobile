@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Video, ResizeMode } from "expo-av";
 import Toast from "react-native-toast-message";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 // Redux
 import { useSelector } from "react-redux";
@@ -35,11 +35,8 @@ const VideoPlayer = () => {
   const [userCoverPhoto, setUserCoverPhoto] = useState();
   const [status, setStatus] = useState({});
 
-  const videoState = useNavigationState((state) => state.routes[1].params.state);
-  const { likes, id, author, description } = videoState;
-
   const videoSource = useSelector((state) => state.video.video);
-  const { body } = videoSource;
+  const { likes, id, author, description, body } = videoSource;
   const vidoeURL = videoSource.videoUrl[0].url;
 
   useEffect(() => {
