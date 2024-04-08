@@ -9,14 +9,14 @@ const genreCardsImages = [
   require("../../assets/Images/collaborations/matthew-ball-Pr1e8z1ZocI-unsplash.jpg"),
 ];
 
-const genreBackgroundColors = ["#e8125b ", "#55a891 ", " #f038a5", "#509bf5"];
+const genreBackgroundColors = ["#e8125b", "#55a891", "#f038a5", "#509bf5"];
 
-const GenreCard = ({ genre, onClick }) => {
+const GenreCard = ({ genre, onPress }) => {
   const { t } = useTranslation();
 
   return (
     <Pressable
-      onPress={onClick}
+      onPress={onPress}
       style={{
         backgroundColor: genreBackgroundColors[Math.floor(Math.random() * 4)],
         borderRadius: 20,

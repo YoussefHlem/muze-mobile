@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import ScreenWrapper from "../hoc/ScreenWrapper";
 
-const Collab = () => {
+const CollabTab = () => {
   return (
     <View>
-      <Text>Collab</Text>
+      <Text>CollabTab</Text>
     </View>
   );
 };
 
-export default ScreenWrapper(Collab);
+export default CollabTab;
 
 const styles = StyleSheet.create({});
