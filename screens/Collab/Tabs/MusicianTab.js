@@ -1,11 +1,7 @@
-// Libs
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
+import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
 
-// Apis
 import { useDispatch } from "react-redux";
-
-// Redux
 import { useNavigation } from "@react-navigation/core";
 import { skills } from "../../../apis/utils";
 import { setSkillsList } from "../../../store/services/utilsSlice";
@@ -16,7 +12,7 @@ const MusicianTab = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const [musicians, setMusicians] = useState([]);
-  const [filterdMusicians, setFilteredMusicians] = useState([]);
+  const [filteredMusicians, setFilteredMusicians] = useState([]);
 
   const handleMusicianChange = (arr) => {
     setFilteredMusicians(arr);
@@ -29,36 +25,41 @@ const MusicianTab = () => {
       setFilteredMusicians(res.data.skills);
     });
   }, []);
+
+  const renderMusician = ({ item }) => (
+    <Pressable onPress={() => navigate("CollaborationMusician", { state: item })}>
+      <MusicianCard type={item} />
+    </Pressable>
+  );
+
   return (
     <View>
       <Filter
         original={musicians}
-        input={filterdMusicians}
+        input={filteredMusicians}
         handleInputChange={handleMusicianChange}
       />
-      <ScrollView contentContainerStyle={styles.posts}>
-        {filterdMusicians.length ? (
-          filterdMusicians.map((musician, index) => (
-            <MusicianCard
-              type={musician}
-              onPress={() => navigate("CollaborationMusican", { state: musician })}
-            />
-          ))
-        ) : (
-          <Text style={{ color: "#fff" }}>No Musicians</Text>
-        )}
-      </ScrollView>
+      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>Musicians</Text>
+      <FlatList
+        horizontal
+        data={filteredMusicians}
+        renderItem={renderMusician}
+        keyExtractor={(item, index) => index.toString()}
+        ListEmptyComponent={() => <Text style={{ color: "#fff" }}>No Musicians</Text>}
+        contentContainerStyle={styles.scrollViewContainer}
+      />
     </View>
   );
 };
 
-export default MusicianTab;
-
 const styles = StyleSheet.create({
-  posts: {
-    flexDirection: "row",
-    gap: 10,
-    flexWrap: "wrap",
+  scrollViewContainer: {
     justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
+    marginBottom: 20,
+    paddingHorizontal: 15,
   },
 });
+
+export default MusicianTab;

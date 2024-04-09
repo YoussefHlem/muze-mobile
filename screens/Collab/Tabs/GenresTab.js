@@ -1,8 +1,8 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, Text, View, Pressable } from "react-native";
 import { genres as getGenres } from "../../../apis/utils";
-import GenreCard from "../../../components/common/GenreCard";
 import { useNavigation } from "@react-navigation/native";
+import GenreCard from "../../../components/common/GenreCard";
 import Filter from "../../../components/common/Filter";
 
 const GenresTab = () => {
@@ -20,35 +20,41 @@ const GenresTab = () => {
       setFilteredGenres(res.data.genres);
     });
   }, []);
+
+  const renderGenre = ({ item }) => (
+    <Pressable onPress={() => navigation.navigate("CollaborationGenre", { state: item })}>
+      <GenreCard genre={item} />
+    </Pressable>
+  );
+
   return (
     <>
       <Filter original={genres} input={filteredGenres} handleInputChange={handleGenresChange} />
-      <ScrollView contentContainerStyle={styles.container}>
-        {filteredGenres.length ? (
-          filteredGenres.map((genre) => (
-            <GenreCard
-              genre={genre}
-              onPress={() => {
-                navigation.navigate("CollaborationGenre", { state: genre });
-              }}
-            />
-          ))
-        ) : (
-          <Text>No Genres</Text>
-        )}
-      </ScrollView>
+      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>Musicians</Text>
+      <FlatList
+        horizontal
+        data={filteredGenres}
+        renderItem={renderGenre}
+        keyExtractor={(item, index) => index.toString()}
+        ListEmptyComponent={<Text>No Genres</Text>}
+        contentContainerStyle={styles.container}
+      />
     </>
   );
 };
 
-export default GenresTab;
-
 const styles = StyleSheet.create({
   container: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 5,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: 'center",',
     gap: 20,
+    marginBottom: 20,
+    paddingHorizontal: 15,
   },
 });
+
+export default GenresTab;

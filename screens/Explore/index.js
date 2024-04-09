@@ -46,7 +46,6 @@ const Explore = () => {
   useEffect(() => {
     signin(formData)
       .then((res) => {
-        console.log(res.data);
         if (!res.data.Error) {
           dispatch(setUser(res.data));
           dispatch(setIsUserSignUpDone(res.data.signUpDone));

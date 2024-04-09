@@ -61,8 +61,6 @@ const CommentSection = () => {
       getSearchedUserDetails({
         profileId: author,
       }).then((res) => {
-        console.log(res.data["Profile Details"].user, pk);
-
         if (res.data["Profile Details"].user === pk) {
           navigate("Profile");
         } else {
