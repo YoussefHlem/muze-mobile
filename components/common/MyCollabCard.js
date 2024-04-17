@@ -3,25 +3,48 @@ import { View, Text, Pressable, Image, StyleSheet, useWindowDimensions } from "r
 import { useNavigation } from "@react-navigation/native";
 import MuzeButton from "./MuzeButton";
 import { LinearGradient } from "expo-linear-gradient";
+import { collaborationAR } from "../../apis/collaboration";
+import Toast from "react-native-toast-message";
 
 const locationPin = require("../../assets/Images/collaborations/location-pin.png");
 const UserBg = require("../../assets/Images/collaborations/collab-user-circle.png");
+const Accept = require("../../assets/Images/common/accept.png");
+const Reject = require("../../assets/Images/common/rejected.png");
 
-const CollabCard = ({ item, firstName, lastName, title, location, profileImage }) => {
+const MyCollabCard = ({
+  item,
+  firstName,
+  lastName,
+  title,
+  location,
+  profileImage,
+  setCollabRequestData,
+}) => {
   const navigation = useNavigation();
   const { width } = useWindowDimensions();
+
+  const handleAcceptReject = (collabId, userId, acceptReject) => {
+    collaborationAR({
+      collaborationId: collabId,
+      userId,
+      responseType: acceptReject,
+    }).then((response) => {
+      Toast.show({ type: "success", text1: acceptReject === "Accept" ? "Accepted" : "Rejected" });
+      setCollabRequestData(response?.data["Received requests (own's requests filtered)"]);
+    });
+  };
   return (
     <Pressable
       onPress={() => {
         navigation.navigate("/collaboration/view", { state: item });
       }}
-      style={[styles.container, { width: width }]}
+      style={[styles.container, { minWidth: width }]}
     >
       <LinearGradient
         colors={["#0d0d0d80", "#0d0d0d80"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        style={[styles.gradient, { width: width - 50 }]}
+        style={[styles.gradient, { minWidth: width - 50 }]}
       >
         <View style={styles.collabContent}>
           <View style={styles.collabUser}>
@@ -48,12 +71,21 @@ const CollabCard = ({ item, firstName, lastName, title, location, profileImage }
               <Text style={styles.location}>{location}</Text>
             </View>
           </View>
+          <View style={[styles.actionButtonsContainer, { gap: 15 }]}>
+            <Pressable
+              onClick={() => handleAcceptReject(item.pk, item.joiningUserInscreen[0]?.id, "Accept")}
+            >
+              <Image source={Accept} style={{ width: 35, height: 35 }} />
+            </Pressable>
+            <Pressable
+              onClick={() => handleAcceptReject(item.pk, item.joiningUserInscreen[0]?.id, "Reject")}
+            >
+              <Image source={Reject} style={{ width: 35, height: 35 }} />
+            </Pressable>
+          </View>
           <View style={styles.actionButtonsContainer}>
             <MuzeButton style={styles.actionButton} onPress={() => handleViewDetails(collab)}>
               View Details
-            </MuzeButton>
-            <MuzeButton style={styles.actionButton} onPress={() => handleDeleteCollab(collab)}>
-              Delete Post
             </MuzeButton>
           </View>
         </View>
@@ -98,7 +130,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     flexDirection: "row",
     justifyContent: "center",
-    right: "6.5%",
+    right: "4.5%",
     top: "4%",
   },
   collabDetails: {
@@ -116,9 +148,8 @@ const styles = StyleSheet.create({
   },
   collabDesc: {
     fontWeight: "600",
-    fontSize: 23,
+    fontSize: 25,
     color: "#fff",
-    textAlign: "center",
   },
   locationWrapper: {
     flexDirection: "row",
@@ -146,7 +177,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 18,
     textAlign: "center",
-    width: "auto",
   },
   gradient: {
     borderRadius: 10,
@@ -155,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CollabCard;
+export default MyCollabCard;
