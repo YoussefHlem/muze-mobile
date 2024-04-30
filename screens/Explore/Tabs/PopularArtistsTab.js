@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { getAllArtists } from "../../../apis/search";
 import ArtistCard from "../../../components/common/ArtistCard";
@@ -24,7 +24,11 @@ const PopularArtistsTab = () => {
     <View style={styles.container}>
       <FlatList
         data={Artists}
-        renderItem={({ item }) => <ArtistCard artist={item} id={item.user} key={item.user} />}
+        renderItem={({ item }) => (
+          <React.Fragment key={item.user.id}>
+            <ArtistCard artist={item} id={item.user.id} />
+          </React.Fragment>
+        )}
         contentContainerStyle={styles.flatListContent}
       />
     </View>

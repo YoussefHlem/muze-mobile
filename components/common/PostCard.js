@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 // Components
 import { View, Text, Pressable, Image, ImageBackground, StyleSheet } from "react-native";
 import Toast from "react-native-toast-message";
+import ReactTimeAgo from "react-time-ago";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +17,13 @@ import { getSearchedUserDetails, likePost } from "../../apis/user";
 const likeIcon = require(`../../assets/Images/cards/like.png`);
 const PostImg = require("../../assets/Images/common/post-card-img.jpg");
 
-const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
+function Time({ children }) {
+  return <Text style={styles.timeStamp}>{children}</Text>;
+}
+function TimeAgo(props) {
+  return <ReactTimeAgo {...props} component={Time} />;
+}
+const PostCard = ({ img, postId, userId, cover, name, isProfile, date }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -51,8 +58,9 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile }) => {
             <Pressable onPress={handleClick}>
               <Image source={img ? { uri: img } : PostImg} style={styles.profileIcon} />
             </Pressable>
-            <View>
+            <View style={styles.infoContainer}>
               <Text style={styles.profileText}>{name}</Text>
+              <TimeAgo date={date} locale="en-US" />
             </View>
           </View>
         )}
@@ -95,6 +103,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     color: "#fff",
     fontWeight: "bold",
+    fontSize: 12,
   },
   likeContainer: {
     position: "absolute",
@@ -104,6 +113,14 @@ const styles = StyleSheet.create({
   likeIcon: {
     width: 20,
     height: 19.5,
+  },
+  infoContainer: {
+    marginLeft: 10,
+  },
+  timeStamp: {
+    fontSize: 10,
+    marginLeft: 5,
+    color: "#FFFFFF3B",
   },
 });
 

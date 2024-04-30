@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { View, TextInput, Pressable, Image, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 
-// Assuming you have the SearchIconLogo imported correctly
 const SearchIconLogo = require("../../assets/Images/navbar/SearchIcon.png");
 
 const Filter = ({ original, input, handleInputChange, searchKeyWord }) => {
@@ -14,8 +13,8 @@ const Filter = ({ original, input, handleInputChange, searchKeyWord }) => {
     const searchKey = searchKeyWord;
     const filteredData = input?.filter((ele) => {
       return searchKey
-        ? ele[`${searchKey}`].toLowerCase().includes(text.toLowerCase()) ||
-            (ele[`${searchKey}`] === null && text.length === 0)
+        ? ele[searchKey].toLowerCase().includes(text.toLowerCase()) ||
+            (ele[searchKey] === null && text.length === 0)
         : ele.toLowerCase().includes(text.toLowerCase()) || (ele === null && text.length === 0);
     });
     handleInputChange(filteredData);

@@ -25,7 +25,7 @@ const PostsTab = () => {
 
   useEffect(() => {
     getRandomPosts({
-      noWantedPosts: 10,
+      noWantedPosts: 9,
     }).then((res) => {
       setRandomPosts(res.data.posts);
     });
@@ -34,7 +34,7 @@ const PostsTab = () => {
   return (
     <View>
       <ScrollView contentContainerStyle={styles.posts}>
-        {randomPosts.length ? (
+        {randomPosts?.length ? (
           randomPosts.map((video, index) => (
             <Pressable key={index} onPress={() => videoNavigationHandler(video)}>
               <PostCard
@@ -42,7 +42,8 @@ const PostsTab = () => {
                 userId={video.authorDetail.user}
                 img={video.authorDetail.userImageUrl}
                 cover={video.postCoverUrl}
-                name={video.authorDetail.firstName}
+                name={`${video.authorDetail.firstName} ${video.authorDetail.lastName}`}
+                date={video.createdOn}
               />
             </Pressable>
           ))

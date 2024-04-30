@@ -14,7 +14,9 @@ const CollabTab = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {genres.map((genre) => (
-        <CollabGenreCard genre={genre} />
+        <React.Fragment key={genre}>
+          <CollabGenreCard genre={genre} />
+        </React.Fragment>
       ))}
     </ScrollView>
   );

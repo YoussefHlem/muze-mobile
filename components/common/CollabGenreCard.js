@@ -1,30 +1,22 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import PropTypes from "prop-types";
-import {
-  View,
-  Text,
-  Pressable,
-  ImageBackground,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, Pressable, ImageBackground, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 const CollaborationBg = require("../../assets/Images/cards/collaboration-bg.png");
 const Collaboration = require("../../assets/Images/cards/collaboration.jpg");
 
-const CollabGenreCard = ({ genre }) => {
+const CollabGenreCard = ({ genre, theKey }) => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
   const authToken = useSelector((state) => state.user.authToken);
 
   const handleClick = () => {
     if (!authToken) {
-      navigation.navigate("Signin");
+      navigate("Signin");
     }
-    navigation.navigate("CollaborationsGenre", { genre });
+    navigate("CollaborationsGenre", { genre });
   };
 
   return (
@@ -39,10 +31,6 @@ const CollabGenreCard = ({ genre }) => {
       </ImageBackground>
     </Pressable>
   );
-};
-
-CollabGenreCard.propTypes = {
-  genre: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

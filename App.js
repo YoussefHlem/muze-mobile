@@ -13,6 +13,8 @@ const Stack = createNativeStackNavigator();
 // Libs
 import Toast from "react-native-toast-message";
 import i18next from "./services/i18next";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 // Utils
 
@@ -33,6 +35,8 @@ import {
   VideoScreen,
   SearchList,
 } from "./screens";
+
+TimeAgo.addDefaultLocale(en);
 
 export default function App() {
   return (

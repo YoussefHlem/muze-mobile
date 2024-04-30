@@ -14,33 +14,29 @@ const ArtistCardBg = `../../assets/Images/cards/artist-card-background.jpg`;
 // Apis
 import { getSearchedUserDetails } from "../../apis/user";
 
-const ArtistCard = ({ id, artist, key }) => {
+const ArtistCard = ({ id, artist }) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   const authToken = useSelector((state) => state.user.authToken);
   const userId = useSelector(selectUser).user.pk;
 
   const handlePress = () => {
-    if (authToken) {
-      getSearchedUserDetails({
-        profileId: id,
-      }).then((res) => {
-        if (res.data["Profile Details"].user === userId) {
-          navigation.navigate("Profile");
-        } else {
-          dispatch(setSearchedUserDetails(res.data["Profile Details"]));
-          navigation.navigate("Users");
-          dispatch(setSearchedUserDetails(res.data["Profile Details"]));
-        }
-      });
-    } else {
-      navigation.navigate("Sign In");
+    if (!authToken) {
+      navigate("Sign In");
     }
+    getSearchedUserDetails({ profileId: id }).then((res) => {
+      if (res.data["Profile Details"].user.id === userId) {
+        navigate("Profile");
+      } else {
+        dispatch(setSearchedUserDetails(res.data["Profile Details"]));
+        navigate("Users");
+      }
+    });
   };
 
   return (
-    <Pressable onPress={handlePress} style={styles.container} key={key}>
+    <Pressable onPress={handlePress} style={styles.container}>
       <Image
         source={artist.userImageUrl ? { uri: artist.userImageUrl } : require(DjBg)}
         style={styles.artistType}

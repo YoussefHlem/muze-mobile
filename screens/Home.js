@@ -52,7 +52,8 @@ const Home = () => {
                 userId={video.authorDetail.user}
                 img={video.authorDetail.userImageUrl}
                 cover={video.postCoverUrl}
-                name={video.authorDetail.firstName}
+                name={`${video.authorDetail.firstName} ${video.authorDetail.lastName}`}
+                date={video.createdOn}
               />
             </Pressable>
           ))

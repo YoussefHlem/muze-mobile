@@ -8,13 +8,12 @@ const locationPin = require("../../assets/Images/collaborations/location-pin.png
 const UserBg = require("../../assets/Images/collaborations/collab-user-circle.png");
 
 const CollabCard = ({ item, firstName, lastName, title, location, profileImage }) => {
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
   const { width } = useWindowDimensions();
+
   return (
     <Pressable
-      onPress={() => {
-        navigation.navigate("/collaboration/view", { state: item });
-      }}
+      onPress={() => navigate("/collaboration/view", { state: item })}
       style={[styles.container, { width: width }]}
     >
       <LinearGradient
