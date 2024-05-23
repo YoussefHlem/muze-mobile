@@ -16,8 +16,6 @@ import i18next from "./services/i18next";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 
-// Utils
-
 // Components
 import Loading from "./components/common/Loading";
 import { StatusBar } from "expo-status-bar";
@@ -35,6 +33,9 @@ import {
   VideoScreen,
   SearchList,
 } from "./screens";
+import HireArtist from "./screens/HireArtist";
+import GigDetails from "./screens/HireArtist/GigDetails";
+import CreateGig from "./components/HireArtist/CreateGig";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -51,6 +52,7 @@ export default function App() {
               }}
             >
               {/* Main Screens */}
+              <Stack.Screen name="HireArtist" component={HireArtist} />
               <Stack.Screen name="Explore" component={Explore} />
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Collab" component={Collab} />
@@ -61,6 +63,8 @@ export default function App() {
               <Stack.Screen name="Users" component={Users} />
               <Stack.Screen name="Video" component={VideoScreen} />
               <Stack.Screen name="SearchList" component={SearchList} />
+              <Stack.Screen name="GigDetail" component={GigDetails} />
+              <Stack.Screen name="CreateGig" component={CreateGig} />
 
               {/* Authentication Screen */}
               <Stack.Screen name="Sign In" component={SignIn} />
