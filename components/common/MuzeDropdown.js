@@ -1,8 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import {
-  SelectList,
-  MultipleSelectList,
-} from "react-native-dropdown-select-list";
+import { SelectList, MultipleSelectList } from "react-native-dropdown-select-list";
 
 const MuzeDropdown = ({ label, data, setSelected, isMulti, onSelect }) => {
   return (

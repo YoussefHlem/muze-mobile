@@ -1,31 +1,44 @@
 // Libs
-import React from "react";
-import { View, Text, StyleSheet, ImageBackground, Pressable, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, ImageBackground, ScrollView } from "react-native";
 
 // Screens
 import ScreenWrapper from "../../hoc/ScreenWrapper";
-import GenresTab from "./Tabs/GenresTab";
-import MusicianTab from "./Tabs/MusicianTab";
-import CollabTab from "./Tabs/CollabTab";
+import GenresTab from "./components/GenresTab";
+import MusicianTab from "./components/MusicianTab";
+import CollabTab from "./components/CollabTab";
 import { MuzeButton } from "../../components";
-import { useNavigation } from "@react-navigation/native";
+
+// Components
+import PostCollabModal from "./components/PostCollabModal";
 
 // Assets
 const HeaderBackground = require("../../assets/Images/collaborations/collaborations-background.jpg");
 
 const Collab = () => {
-  const navigation = useNavigation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <ScrollView style={{ marginBottom: 80 }}>
-      <CollabHeader navigation={navigation} />
+      <PostCollabModal isVisible={isModalVisible} onClose={handleCloseModal} />
+      <CollabHeader onOpenModal={handleOpenModal} />
       <MusicianTab />
       <GenresTab />
       <CollabTab />
     </ScrollView>
   );
 };
+
 // Mini Components
-const CollabHeader = ({ navigation }) => {
+const CollabHeader = ({ onOpenModal }) => {
   return (
     <>
       <ImageBackground source={HeaderBackground} style={styles.headerBackground}>
@@ -37,12 +50,7 @@ const CollabHeader = ({ navigation }) => {
             </Text>
           </View>
           <View style={[styles.headerSection]}>
-            <MuzeButton
-              onPress={() => {
-                navigation.navigate("CollaborationPost");
-              }}
-              style={{ marginLeft: -25 }}
-            >
+            <MuzeButton onPress={onOpenModal} style={{ marginLeft: -25 }}>
               Submit a collab
             </MuzeButton>
           </View>

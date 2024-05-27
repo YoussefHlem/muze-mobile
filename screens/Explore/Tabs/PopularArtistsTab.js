@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text } from "react-native";
 import { getAllArtists } from "../../../apis/search";
 import ArtistCard from "../../../components/common/ArtistCard";
 import { getAuthToken } from "../../../utils/AuthToken";
@@ -14,11 +14,9 @@ const PopularArtistsTab = () => {
       setAuthToken(authToken);
     })();
 
-    if (authToken) {
-      getAllArtists().then((res) => {
-        setArtists(res.data);
-      });
-    }
+    getAllArtists().then((res) => {
+      setArtists(res.data);
+    });
   }, []);
   return (
     <View style={styles.container}>
