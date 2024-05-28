@@ -11,9 +11,13 @@ const CollabCard = ({ item, firstName, lastName, title, location, profileImage }
   const { navigate } = useNavigation();
   const { width } = useWindowDimensions();
 
+  const handleViewDetails = (item) => {
+    navigate("CollaborationDetails", { state: item });
+  };
+
   return (
     <Pressable
-      onPress={() => navigate("/collaboration/view", { state: item })}
+      onPress={() => navigate("CollaborationDetails", { state: item })}
       style={[styles.container, { width: width }]}
     >
       <LinearGradient

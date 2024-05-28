@@ -36,7 +36,7 @@ const MyCollabCard = ({
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("/collaboration/view", { state: item });
+        navigation.navigate("CollaborationDetails", { state: item });
       }}
       style={[styles.container, { minWidth: width }]}
     >

@@ -38,6 +38,7 @@ import GigDetails from "./screens/HireArtist/GigDetails";
 import CreateGig from "./components/HireArtist/CreateGig";
 import CollabOnMusicians from "./screens/CollabOnMusicians";
 import CollabOnGeners from "./screens/CollabOnGeners";
+import CollaborationDetails from "./screens/CollaborationDetails";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -69,6 +70,7 @@ export default function App() {
               <Stack.Screen name="CreateGig" component={CreateGig} />
               <Stack.Screen name="CollabOnMusicans" component={CollabOnMusicians} />
               <Stack.Screen name="CollabOnGeners" component={CollabOnGeners} />
+              <Stack.Screen name="CollaborationDetails" component={CollaborationDetails} />
 
               {/* Authentication Screen */}
               <Stack.Screen name="Sign In" component={SignIn} />
