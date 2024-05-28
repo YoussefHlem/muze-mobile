@@ -7,7 +7,6 @@ import Collaborations from "./Collaborations";
 import Followers from "./Followers";
 import Following from "./Following";
 import Booking from "./Bookings";
-import Studios from "./Studios";
 
 const ProfileTabs = () => {
   const layout = useWindowDimensions();
@@ -25,7 +24,6 @@ const ProfileTabs = () => {
     { name: "Followers", component: <Followers /> },
     { name: "Following", component: <Following /> },
     // { name: "Bookings", component: <Booking /> },
-    { name: "Studios", component: <Studios /> },
   ];
 
   return (

@@ -8,11 +8,13 @@ import {
   useWindowDimensions,
   Image,
 } from "react-native";
-import { getAllDetails, getGenres } from "../../apis/user";
-import { useDispatch, useSelector } from "react-redux";
-import { selectUser, setUserDetails, setUserStudios } from "../../store/services/userSlice";
 import { MuzeButton, PostModal } from "../../components";
 import { LinearGradient } from "expo-linear-gradient";
+
+import { getSearchedUserDetails, getGenres } from "../../apis/user";
+
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, setUserDetails, setUserStudios } from "../../store/services/userSlice";
 
 // Assets
 const CoverImagePlaceholder = "../../assets/Images/profile-background-cover.png";
@@ -23,11 +25,11 @@ const SoundcloudIcon = "../../assets/Images/profile/soundcloud.png";
 const YoutubeIcon = "../../assets/Images/profile/youtube.png";
 const SpotifyIcon = "../../assets/Images/profile/spotify.png";
 
-const UserCover = () => {
+const UserCover = ({ id }) => {
   const dispatch = useDispatch();
+  const UserDetails = useSelector((state) => state.user.searchedUser);
   const { width, height } = useWindowDimensions();
 
-  const [UserDetails, setUserDetails] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [genres, setGenres] = useState([]);
   const { user } = useSelector(selectUser);
@@ -40,11 +42,11 @@ const UserCover = () => {
   ];
 
   useEffect(() => {
-    getAllDetails().then((res) => {
-      setUserDetails(res.data["Profile Details"]);
-      dispatch(setUserDetails(res.data["Profile Details"]));
-      dispatch(setUserStudios(res.data["Owned Studio Rooms"]));
-    });
+    // getSearchedUserDetails({ profileId: id }).then((res) => {
+    //   setUserDetails(res.data["Profile Details"]);
+    //   dispatch(setUserDetails(res.data["Profile Details"]));
+    //   dispatch(setUserStudios(res.data["Owned Studio Rooms"]));
+    // });
     getGenres().then((res) => dispatch(setGenres(res.data)));
   }, []);
   return (

@@ -1,10 +1,11 @@
 // Libs
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 // Apis
-import { myPosts } from "../../../apis/post";
+import { userPosts } from "../../../apis/users";
 
 // Components
 import PostCard from "../../../components/common/PostCard";
@@ -14,11 +15,15 @@ import { setVideoData } from "../../../store/services/videoSlice";
 // Assets
 const Portfolio = () => {
   const [Posts, setPosts] = useState([]);
+
+  const { user } = useSelector((state) => state.user.searchedUser);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    myPosts().then((res) => {
+    userPosts({
+      userId: user.id,
+    }).then((res) => {
       setPosts(res.data.posts);
     });
   }, []);
@@ -37,7 +42,7 @@ const Portfolio = () => {
                 key={index}
                 cover={post.postCoverUrl}
                 isProfile={true}
-                date={video.createdOn}
+                date={post.createdOn}
               />
             </Pressable>
           ))

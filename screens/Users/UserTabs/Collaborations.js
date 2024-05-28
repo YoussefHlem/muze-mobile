@@ -2,20 +2,24 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 // Components
 import CollabCard from "../../../components/common/CollabCard";
-import { MuzeButton } from "../../../components";
 
 // Apis
-import { getMyCollabs } from "../../../apis/user";
+import { searchedUserCollaborations } from "../../../apis/users";
 
 const MyCollaborations = () => {
   const [myCollabs, setMyCollabs] = useState([]);
+  const { user } = useSelector((state) => state.user.searchedUser);
+
   const navigation = useNavigation();
 
   useEffect(() => {
-    getMyCollabs().then((res) => setMyCollabs(res.data["own collaborations"]));
+    searchedUserCollaborations({
+      userId: user.id,
+    }).then((res) => setMyCollabs(res.data["User Collaborations"]));
   }, []);
 
   const handleViewDetails = (collab) => {

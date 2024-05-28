@@ -1,13 +1,13 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import ArtistCard from "../../../components/common/ArtistCard";
-import { getFollowing } from "../../../apis/user";
+import { getSearchedUserFollowings } from "../../../apis/user";
 import { useEffect, useState } from "react";
 
 const Following = () => {
   const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
-    getFollowing().then((res) => {
+    getSearchedUserFollowings().then((res) => {
       setFollowers(res.data);
     });
   }, []);

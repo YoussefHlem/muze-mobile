@@ -1,13 +1,18 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { FlatList, StyleSheet, View } from "react-native";
 import ArtistCard from "../../../components/common/ArtistCard";
-import { getFollowers } from "../../../apis/user";
-import { useEffect, useState } from "react";
+import { getSearchedUserFollowers } from "../../../apis/user";
 
 const Followers = () => {
+  const { user } = useSelector((state) => state.user.searchedUser);
+
   const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
-    getFollowers().then((res) => {
+    getSearchedUserFollowers({
+      profileId: user.id,
+    }).then((res) => {
       setFollowers(res.data);
     });
   }, []);
