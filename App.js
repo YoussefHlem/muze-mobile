@@ -36,6 +36,8 @@ import {
 import HireArtist from "./screens/HireArtist";
 import GigDetails from "./screens/HireArtist/GigDetails";
 import CreateGig from "./components/HireArtist/CreateGig";
+import CollabOnMusicians from "./screens/CollabOnMusicians";
+import CollabOnGeners from "./screens/CollabOnGeners";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -58,13 +60,15 @@ export default function App() {
               <Stack.Screen name="Collab" component={Collab} />
               <Stack.Screen name="Booking" component={Booking} />
               <Stack.Screen name="Profile" component={Profile} />
+              <Stack.Screen name="Users" component={Users} />
 
               {/* Nested Screens */}
-              <Stack.Screen name="Users" component={Users} />
               <Stack.Screen name="Video" component={VideoScreen} />
               <Stack.Screen name="SearchList" component={SearchList} />
               <Stack.Screen name="GigDetail" component={GigDetails} />
               <Stack.Screen name="CreateGig" component={CreateGig} />
+              <Stack.Screen name="CollabOnMusicans" component={CollabOnMusicians} />
+              <Stack.Screen name="CollabOnGeners" component={CollabOnGeners} />
 
               {/* Authentication Screen */}
               <Stack.Screen name="Sign In" component={SignIn} />

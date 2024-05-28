@@ -22,15 +22,16 @@ const GenresTab = () => {
   }, []);
 
   const renderGenre = ({ item }) => (
-    <Pressable onPress={() => navigation.navigate("CollaborationGenre", { state: item })}>
-      <GenreCard genre={item} />
-    </Pressable>
+    <GenreCard
+      genre={item}
+      onPress={() => navigation.navigate("CollabOnGeners", { state: item })}
+    />
   );
 
   return (
     <>
       <Filter original={genres} input={filteredGenres} handleInputChange={handleGenresChange} />
-      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>Musicians</Text>
+      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>Genres</Text>
       <FlatList
         horizontal
         data={filteredGenres}

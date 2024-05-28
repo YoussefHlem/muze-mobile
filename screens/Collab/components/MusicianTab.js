@@ -27,9 +27,12 @@ const MusicianTab = () => {
   }, []);
 
   const renderMusician = ({ item }) => (
-    <Pressable onPress={() => navigate("CollaborationMusician", { state: item })}>
-      <MusicianCard type={item} />
-    </Pressable>
+    <MusicianCard
+      type={item}
+      onPress={() => {
+        navigate("CollabOnMusicans", { state: item });
+      }}
+    />
   );
 
   return (
