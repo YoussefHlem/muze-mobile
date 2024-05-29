@@ -83,3 +83,13 @@ export const submitFeedback = (body) => {
 export const deletePost = (body) => {
   return service.post("/social/api/post/delete", body);
 };
+
+export const passwordLinkActivation = (body) => {
+  return service.post("social/password-reset", body);
+};
+export const passwordCheckToken = (body) => {
+  return service.post("social/check-password-tokens", body);
+};
+export const passwordReset = (body) => {
+  return service.post("social/password-reset-final", body);
+};

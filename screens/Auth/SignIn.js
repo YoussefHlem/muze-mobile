@@ -9,6 +9,7 @@ import BoxContainer from "../../components/Auth/BoxContainer";
 import MuzeInput from "../../components/common/MuzeInput";
 import MuzeButton from "../../components/common/MuzeButton";
 import LineWrapper from "../../components/Auth/LineWrapper";
+import ForgetPasswordModal from "../../components/Auth/ForgetPasswordModal";
 
 // Apis
 import { signin } from "../../apis/user";
@@ -18,13 +19,14 @@ import Toast from "react-native-toast-message";
 import { setItemAsync } from "expo-secure-store";
 import { reloadAsync } from "expo-updates";
 
-// Assests
+// Assets
 const signinBackground = require("../../assets/Images/signin/signin-background.jpg");
 const googleLogo = require("../../assets/Images/common/Google-Logo.png");
 const facebookLogo = require("../../assets/Images/common/FB-Logo.png");
 
 const SignIn = ({ navigation }) => {
   const { t } = useTranslation();
+  const [showModal, setShowModal] = useState(false); // State to handle the modal visibility
 
   return (
     <View style={styles.container}>
@@ -33,11 +35,12 @@ const SignIn = ({ navigation }) => {
           <BoxContainer>
             <View style={styles.innerContainer}>
               <SignInText navigation={navigation} t={t} />
-              <SignInForm t={t} />
+              <SignInForm t={t} onForgetPassword={() => setShowModal(true)} />
             </View>
           </BoxContainer>
         </View>
       </ImageBackground>
+      <ForgetPasswordModal visible={showModal} onClose={() => setShowModal(false)} />
     </View>
   );
 };
@@ -57,7 +60,7 @@ const SignInText = ({ navigation, t }) => {
   );
 };
 
-const SignInForm = ({ t }) => {
+const SignInForm = ({ t, onForgetPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
   const [formData, setFormData] = useState({
@@ -125,6 +128,12 @@ const SignInForm = ({ t }) => {
         />
         <Pressable style={styles.icon} onPress={() => setShowPassword(!showPassword)}>
           <Ionicons name="eye" size={24} color="black" />
+        </Pressable>
+      </View>
+      <View>
+        <Pressable onPress={onForgetPassword}>
+          {/* Use the passed function to show modal */}
+          <Text style={styles.anchor}>Did You Forget Password?</Text>
         </Pressable>
       </View>
       <MuzeButton onPress={handleSubmit}> {t("signIn")}</MuzeButton>
