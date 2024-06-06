@@ -40,6 +40,7 @@ import CollabOnMusicians from "./screens/CollabOnMusicians";
 import CollabOnGeners from "./screens/CollabOnGeners";
 import CollaborationDetails from "./screens/CollaborationDetails";
 import ForgetPassword from "./screens/ForgetPassword";
+import Settings from "./screens/Settings";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -56,9 +57,10 @@ export default function App() {
               }}
             >
               {/* Main Screens */}
+              <Stack.Screen name="Settings" component={Settings} />
+              <Stack.Screen name="Explore" component={Explore} />
               <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
               <Stack.Screen name="HireArtist" component={HireArtist} />
-              <Stack.Screen name="Explore" component={Explore} />
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Collab" component={Collab} />
               <Stack.Screen name="Booking" component={Booking} />

@@ -8,6 +8,7 @@ import {
   useWindowDimensions,
   Image,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { getAllDetails, getGenres } from "../../apis/user";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setUserDetails, setUserStudios } from "../../store/services/userSlice";
@@ -22,8 +23,10 @@ const InstagramIcon = `../../assets/Images/profile/instagram.png`;
 const SoundcloudIcon = "../../assets/Images/profile/soundcloud.png";
 const YoutubeIcon = "../../assets/Images/profile/youtube.png";
 const SpotifyIcon = "../../assets/Images/profile/spotify.png";
+const SettingsIcon = "../../assets/Images/ri_user-settings-fill.png";
 
 const ProfileCover = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const { width, height } = useWindowDimensions();
 
@@ -65,6 +68,14 @@ const ProfileCover = () => {
             style={styles.profileInfoCard}
           >
             <View style={styles.userDescription}>
+              <Pressable
+                style={{ alignSelf: "flex-end", position: "absolute", zIndex: 1000 }}
+                onPress={() => {
+                  navigation.navigate("Settings");
+                }}
+              >
+                <Image source={require(SettingsIcon)} />
+              </Pressable>
               <View>
                 <Text style={styles.text}>
                   I am {myUserDetails ? myUserDetails.firstName : user.firstName}.

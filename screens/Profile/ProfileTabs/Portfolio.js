@@ -37,7 +37,7 @@ const Portfolio = () => {
                 key={index}
                 cover={post.postCoverUrl}
                 isProfile={true}
-                date={video.createdOn}
+                date={post.createdOn}
               />
             </Pressable>
           ))
