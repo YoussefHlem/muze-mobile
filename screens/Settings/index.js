@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,17 +15,23 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/services/userSlice";
 import { getAllDetails } from "../../apis/user";
+import EditProfile from "./screens/EditProfile";
 
 const Settings = () => {
   const { width, height } = useWindowDimensions();
   const { user } = useSelector(selectUser);
   const myUserDetails = useSelector((state) => state.user.userDetails);
   const ProfileImagePlaceholder = "../../assets/Images/common/user.jpg";
+  const [EditProfileVisible, setEditProfileVisible] = useState(false);
+
   return (
     <LinearGradient
       colors={["rgba(56, 54, 54, 0)", "rgb(56,54,54)", "rgb(56,54,54)", "rgb(56,54,54)"]}
       style={[{ height: "100%", width: "100%" }]}
     >
+      {/* Screens */}
+      <EditProfile visible={EditProfileVisible} setVisible={setEditProfileVisible} />
+      {/* Screens */}
       <ImageBackground
         style={[styles.profileImage, { height: height / 3, width: width }]}
         source={
@@ -50,7 +56,7 @@ const Settings = () => {
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.section}>
           <View style={styles.cardContainer}>
-            <Pressable containerStyle={styles.card}>
+            <Pressable containerStyle={styles.card} onPress={() => setEditProfileVisible(true)}>
               <View style={styles.cardContent}>
                 <Icon name="edit" type="material" color="#fff" style={styles.icon} />
                 <Text style={styles.cardText}>Edit profile information</Text>
