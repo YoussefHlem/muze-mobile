@@ -36,7 +36,7 @@ const Home = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>{t("homePage")}</Text>
-        <MuzeButton onPress={() => setShowModal(true)}>Create a new post</MuzeButton>
+        <MuzeButton onPress={() => setShowModal(true)}>{t("Create a new post")}</MuzeButton>
         <PostModal
           show={showModal}
           onHide={() => setShowModal(false)}
@@ -58,7 +58,7 @@ const Home = () => {
             </Pressable>
           ))
         ) : (
-          <Text>No popular videos at the moment!</Text>
+          <Text>{t("No popular videos at the moment!")}</Text>
         )}
       </ScrollView>
     </View>

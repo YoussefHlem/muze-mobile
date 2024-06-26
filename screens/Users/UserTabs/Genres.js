@@ -38,7 +38,7 @@ const Genres = () => {
             marginTop: 20,
           }}
         >
-          No Genres yet
+          {t("No Genres yet")}
         </Text>
       )}
     </ScrollView>

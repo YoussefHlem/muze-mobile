@@ -47,7 +47,7 @@ const Portfolio = () => {
             </Pressable>
           ))
         ) : (
-          <Text>No Posts yet</Text>
+          <Text>{t("No Posts yet")}</Text>
         )}
       </View>
     </ScrollView>

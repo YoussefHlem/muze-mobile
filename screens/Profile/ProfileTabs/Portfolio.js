@@ -10,12 +10,14 @@ import { myPosts } from "../../../apis/post";
 import PostCard from "../../../components/common/PostCard";
 import { useDispatch } from "react-redux";
 import { setVideoData } from "../../../store/services/videoSlice";
+import { useTranslation } from "react-i18next";
 
 // Assets
 const Portfolio = () => {
   const [Posts, setPosts] = useState([]);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     myPosts().then((res) => {
@@ -42,7 +44,7 @@ const Portfolio = () => {
             </Pressable>
           ))
         ) : (
-          <Text>No Posts yet</Text>
+          <Text>{t("No Posts yet")}</Text>
         )}
       </View>
     </ScrollView>

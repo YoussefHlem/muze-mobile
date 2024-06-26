@@ -9,10 +9,12 @@ import { MuzeButton } from "../../../components";
 
 // Apis
 import { getMyCollabs } from "../../../apis/user";
+import { useTranslation } from "react-i18next";
 
 const MyCollaborations = () => {
   const [myCollabs, setMyCollabs] = useState([]);
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     getMyCollabs().then((res) => setMyCollabs(res.data["own collaborations"]));
@@ -42,7 +44,7 @@ const MyCollaborations = () => {
             />
           ))
         ) : (
-          <Text>No collaborations yet</Text>
+          <Text>{t("No collaborations yet")}</Text>
         )}
       </ScrollView>
     </View>

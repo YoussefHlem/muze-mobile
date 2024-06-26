@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { genres as getGenres } from "../../../apis/utils";
 import CollabGenreCard from "../../../components/common/CollabGenreCard";
@@ -11,6 +11,7 @@ const CollabTab = () => {
       setGenres(res.data.genres);
     });
   }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {genres.map((genre) => (

@@ -13,6 +13,7 @@ import { getSearchedUserDetails } from "../../../apis/user";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, setSearchedUserDetails } from "../../../store/services/userSlice";
 import { getAuthToken } from "../../../utils/AuthToken";
+import { useTranslation } from "react-i18next";
 // import style from "react-native-datepicker/style";
 
 // Assets
@@ -22,6 +23,7 @@ const CommentBtn = "../../../assets/Images/video-screen/comment-btn.png";
 const CommentSection = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
+  const { t } = useTranslation();
 
   const { user } = useSelector(selectUser);
   const { pk } = user;
@@ -106,7 +108,7 @@ const CommentSection = () => {
   return (
     <>
       <View style={styles.commentsSection}>
-        <Text style={styles.commentsHeader}>Comments</Text>
+        <Text style={styles.commentsHeader}>{t("Comments")}</Text>
         <ScrollView contentContainerStyle={styles.commentsWrapper}>
           {myComments.length ? (
             myComments.map((commentData) => (
@@ -132,14 +134,16 @@ const CommentSection = () => {
                   </View>
                   {user.pk === commentData.author && (
                     <Pressable onPress={() => deleteCommentHandler(commentData.id)}>
-                      <Text style={styles.deleteButton}>Delete</Text>
+                      <Text style={styles.deleteButton}>{t("Delete")}</Text>
                     </Pressable>
                   )}
                 </View>
               </View>
             ))
           ) : (
-            <Text style={{ fontSize: 18, color: " #fff", marginLeft: 15 }}>No Comment Yet</Text>
+            <Text style={{ fontSize: 18, color: " #fff", marginLeft: 15 }}>
+              {t("No Comment Yet")}
+            </Text>
           )}
         </ScrollView>
 

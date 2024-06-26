@@ -100,7 +100,7 @@ const UserCover = ({ id }) => {
             </View>
           </LinearGradient>
           <View style={styles.buttonContainer}>
-            <MuzeButton onPress={() => setShowModal(true)}>Create New post</MuzeButton>
+            <MuzeButton onPress={() => setShowModal(true)}>{t("Create New post")}</MuzeButton>
           </View>
           <PostModal show={showModal} onHide={() => setShowModal(false)} />
         </View>

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { StyleSheet, useWindowDimensions } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
 import PostsTab from "./PostsTab";
 import PopularArtistsTab from "./PopularArtistsTab";
 import CollabTab from "./CollabTab";
+import { useTranslation } from "react-i18next";
 
 const renderScene = SceneMap({
   Posts: PostsTab,
@@ -14,12 +15,12 @@ const renderScene = SceneMap({
 
 const Tabs = () => {
   const layout = useWindowDimensions();
-
+  const { t } = useTranslation();
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: "Posts", title: "Posts" },
-    { key: "PopularArtists", title: "Artists" },
-    { key: "Collab", title: "Collab" },
+    { key: "Posts", title: t("Posts") },
+    { key: "PopularArtists", title: t("Artists") },
+    { key: "Collab", title: t("Collab") },
   ]);
 
   return (

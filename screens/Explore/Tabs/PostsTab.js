@@ -12,10 +12,12 @@ import { useNavigation } from "@react-navigation/core";
 
 // Components
 import { PostCard } from "../../../components";
+import { useTranslation } from "react-i18next";
 
 const PostsTab = () => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
+  const { t } = useTranslation();
   const [randomPosts, setRandomPosts] = useState([]);
 
   const videoNavigationHandler = (video) => {
@@ -48,7 +50,7 @@ const PostsTab = () => {
             </Pressable>
           ))
         ) : (
-          <Text>No popular videos at the moment!</Text>
+          <Text>{t("No popular videos at the moment!")}</Text>
         )}
       </ScrollView>
     </View>

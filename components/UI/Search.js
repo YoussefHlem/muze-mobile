@@ -12,11 +12,13 @@ import { genres as getGenres, skills as getSkills } from "../../apis/utils";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchResult, setSearchList } from "../../store/services/searchSlice";
+import { useTranslation } from "react-i18next";
 
 // Assets
 const searchIcon = require("../../assets/Images/navbar/SearchIcon.png");
 
 const Search = ({ placeholder }) => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [skills, setSkills] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -85,13 +87,13 @@ const Search = ({ placeholder }) => {
       <View style={styles.searchBox}>
         <TextInput
           style={styles.searchInput}
-          placeholder={placeholder || "Search..."}
+          placeholder={placeholder || t("search")}
           value={search}
           onChangeText={(value) => handleChange(value)}
           placeholderTextColor={"#fff"}
         />
         <Pressable onPress={handleSubmit}>
-          <Image source={searchIcon} style={{ width: 16, height: 16 }} />
+          <Image source={searchIcon} style={{ width: 16, height: 16, marginHorizontal: 5 }} />
         </Pressable>
         {searchList.length > 0 && search.length > 0 && (
           <FlatList

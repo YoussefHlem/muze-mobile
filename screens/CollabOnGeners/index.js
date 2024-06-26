@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, ScrollView, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 // Components
 import CollabCard from "../../components/common/CollabCard";
@@ -11,6 +12,7 @@ import ScreenWrapper from "../../hoc/ScreenWrapper";
 import { listCollaborationOnGenres } from "../../apis/collaboration";
 
 const CollabOnMusicians = () => {
+  const { t } = useTranslation();
   const route = useRoute();
   const { state } = route.params;
 
@@ -27,7 +29,7 @@ const CollabOnMusicians = () => {
   return (
     <>
       <View>
-        <Text style={styles.heading}>LISTED COLLABORATIONS</Text>
+        <Text style={styles.heading}>{t("LISTED COLLABORATIONS")}</Text>
         <ScrollView style={{ marginBottom: 200 }}>
           {collabs?.map((collab) => (
             <CollabCard

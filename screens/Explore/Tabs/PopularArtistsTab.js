@@ -2,18 +2,11 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, FlatList, Text } from "react-native";
 import { getAllArtists } from "../../../apis/search";
 import ArtistCard from "../../../components/common/ArtistCard";
-import { getAuthToken } from "../../../utils/AuthToken";
 
 const PopularArtistsTab = () => {
   const [Artists, setArtists] = useState([]);
-  const [authToken, setAuthToken] = useState(null);
 
   useEffect(() => {
-    (async () => {
-      const authToken = await getAuthToken();
-      setAuthToken(authToken);
-    })();
-
     getAllArtists().then((res) => {
       setArtists(res.data);
     });

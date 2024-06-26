@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, FlatList, Pressable } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
@@ -9,6 +10,7 @@ import MusicianCard from "../../../components/common/MusicianCard";
 import Filter from "../../../components/common/Filter";
 
 const MusicianTab = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const [musicians, setMusicians] = useState([]);
@@ -42,13 +44,13 @@ const MusicianTab = () => {
         input={filteredMusicians}
         handleInputChange={handleMusicianChange}
       />
-      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>Musicians</Text>
+      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>{t("Musicians")}</Text>
       <FlatList
         horizontal
         data={filteredMusicians}
         renderItem={renderMusician}
         keyExtractor={(item, index) => index.toString()}
-        ListEmptyComponent={() => <Text style={{ color: "#fff" }}>No Musicians</Text>}
+        ListEmptyComponent={() => <Text style={{ color: "#fff" }}>{t("No Musicians")}</Text>}
         contentContainerStyle={styles.scrollViewContainer}
       />
     </View>

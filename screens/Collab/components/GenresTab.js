@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View, Pressable } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { genres as getGenres } from "../../../apis/utils";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 import GenreCard from "../../../components/common/GenreCard";
 import Filter from "../../../components/common/Filter";
 
 const GenresTab = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const [genres, setGenres] = useState([]);
   const [filteredGenres, setFilteredGenres] = useState([]);
@@ -31,13 +33,13 @@ const GenresTab = () => {
   return (
     <>
       <Filter original={genres} input={filteredGenres} handleInputChange={handleGenresChange} />
-      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>Genres</Text>
+      <Text style={{ color: "#fff", fontSize: 18, marginLeft: 18 }}>{t("Genres")}</Text>
       <FlatList
         horizontal
         data={filteredGenres}
         renderItem={renderGenre}
         keyExtractor={(item, index) => index.toString()}
-        ListEmptyComponent={<Text>No Genres</Text>}
+        ListEmptyComponent={<Text>{t("No Genres")}</Text>}
         contentContainerStyle={styles.container}
       />
     </>

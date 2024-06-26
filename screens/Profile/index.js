@@ -3,9 +3,9 @@ import ScreenWrapper from "../../hoc/ScreenWrapper";
 import ProfileCover from "./ProfileCover";
 import ProfileTabs from "./ProfileTabs";
 import { useEffect } from "react";
-import { getGenres, getMyStudios } from "../../apis/user";
+import { getAllDetails, getGenres, getMyStudios } from "../../apis/user";
 import { useDispatch } from "react-redux";
-import { setGenres, setUserStudios } from "../../store/services/userSlice";
+import { setGenres, setUserStudios, setUserDetails } from "../../store/services/userSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,10 @@ const Profile = () => {
     });
     getMyStudios().then((res) => {
       dispatch(setUserStudios(res.data));
+    });
+    getAllDetails().then((res) => {
+      console.log(res.data["Profile Details"]);
+      dispatch(setUserDetails(res.data["Profile Details"]));
     });
   }, []);
   return (

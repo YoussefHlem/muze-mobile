@@ -9,9 +9,11 @@ import { getAuthToken } from "../../utils/AuthToken";
 // Redux
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/services/userSlice";
+import { useTranslation } from "react-i18next";
 
 const TheFooter = () => {
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const route = useRoute();
   const { user } = useSelector(selectUser);
   const [authToken, setAuthToken] = useState(null);
@@ -38,13 +40,13 @@ const TheFooter = () => {
             >
               <View style={[styles.screenButton, route.name === "Home" && styles.activeScreen]}>
                 <Image source={require("../../assets/Images/side-menu/dark-home.png")} />
-                <Text>Home</Text>
+                <Text>{t("Home")}</Text>
               </View>
             </Pressable>
             <Pressable onPress={() => navigation.navigate("Explore")}>
               <View style={[styles.screenButton, route.name === "Explore" && styles.activeScreen]}>
                 <Image source={require("../../assets/Images/side-menu/dark-explore.png")} />
-                <Text>Explore</Text>
+                <Text>{t("Explore")}</Text>
               </View>
             </Pressable>
             <Pressable
@@ -54,7 +56,7 @@ const TheFooter = () => {
             >
               <View style={[styles.screenButton, route.name === "Collab" && styles.activeScreen]}>
                 <Image source={require("../../assets/Images/side-menu/dark-collab.png")} />
-                <Text>Collab</Text>
+                <Text>{t("Collab")}</Text>
               </View>
             </Pressable>
             <Pressable
@@ -64,7 +66,7 @@ const TheFooter = () => {
             >
               <View style={[styles.screenButton, route.name === "Booking" && styles.activeScreen]}>
                 <Image source={require("../../assets/Images/side-menu/dark-booking.png")} />
-                <Text>Booking</Text>
+                <Text>{t("Booking")}</Text>
               </View>
             </Pressable>
           </ImageBackground>

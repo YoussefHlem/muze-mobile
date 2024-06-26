@@ -19,6 +19,7 @@ import { selectUser } from "../../../store/services/userSlice";
 
 // Apis
 import { likePost, dislikePost, deletePost, getAllDetails } from "../../../apis/user";
+import { useTranslation } from "react-i18next";
 
 // Assets
 const likeBtnImage = "../../../assets/Images/cards/like.png";
@@ -26,6 +27,7 @@ const likeBtnImage = "../../../assets/Images/cards/like.png";
 const VideoPlayer = () => {
   const navigation = useNavigation();
   const video = useRef(null);
+  const { t } = useTranslation();
 
   const { user } = useSelector(selectUser);
   const { width } = useWindowDimensions();
@@ -107,7 +109,7 @@ const VideoPlayer = () => {
         />
       </View>
       <View>
-        <Text style={styles.title}>Description:</Text>
+        <Text style={styles.title}>{t("Description")}:</Text>
         <Text style={styles.title}>{description}</Text>
       </View>
     </View>
@@ -127,7 +129,7 @@ const LikeBtn = ({ onPress, likesCount }) => {
 const DeletePost = ({ onPress }) => {
   return (
     <Pressable onPress={onPress}>
-      <Text style={styles.deleteBtn}>Delete Post</Text>
+      <Text style={styles.deleteBtn}>{t("Delete Post")}</Text>
     </Pressable>
   );
 };

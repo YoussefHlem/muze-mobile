@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   ImageBackground,
   useWindowDimensions,
   ScrollView,
@@ -14,15 +13,20 @@ import ScreenWrapper from "../../hoc/ScreenWrapper";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/services/userSlice";
-import { getAllDetails } from "../../apis/user";
 import EditProfile from "./screens/EditProfile";
+import Notifications from "./screens/Notifications";
+import Language from "./screens/Language";
+import { useTranslation } from "react-i18next";
 
 const Settings = () => {
+  const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
   const { user } = useSelector(selectUser);
   const myUserDetails = useSelector((state) => state.user.userDetails);
   const ProfileImagePlaceholder = "../../assets/Images/common/user.jpg";
-  const [EditProfileVisible, setEditProfileVisible] = useState(false);
+  const [editProfileVisible, setEditProfileVisible] = useState(false);
+  const [notificationsVisible, setNotificationsVisible] = useState(false);
+  const [languageVisible, setLanguageVisible] = useState(false);
 
   return (
     <LinearGradient
@@ -30,7 +34,9 @@ const Settings = () => {
       style={[{ height: "100%", width: "100%" }]}
     >
       {/* Screens */}
-      <EditProfile visible={EditProfileVisible} setVisible={setEditProfileVisible} />
+      <EditProfile visible={editProfileVisible} setVisible={setEditProfileVisible} />
+      <Notifications visible={notificationsVisible} setVisible={setNotificationsVisible} />
+      <Language visible={languageVisible} setVisible={setLanguageVisible} />
       {/* Screens */}
       <ImageBackground
         style={[styles.profileImage, { height: height / 3, width: width }]}
@@ -59,24 +65,24 @@ const Settings = () => {
             <Pressable containerStyle={styles.card} onPress={() => setEditProfileVisible(true)}>
               <View style={styles.cardContent}>
                 <Icon name="edit" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Edit profile information</Text>
+                <Text style={styles.cardText}>{t("Edit profile information")}</Text>
               </View>
             </Pressable>
-            <Pressable containerStyle={styles.card}>
+            <Pressable containerStyle={styles.card} onPress={() => setNotificationsVisible(true)}>
               <View style={styles.cardContent}>
                 <Icon name="notifications" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Notifications</Text>
+                <Text style={styles.cardText}>{t("Notifications")}</Text>
                 <Pressable>
-                  <Text style={styles.cardTextRight}>ON</Text>
+                  <Text style={styles.cardTextRight}>{t("ON")}</Text>
                 </Pressable>
               </View>
             </Pressable>
-            <Pressable containerStyle={styles.card}>
+            <Pressable containerStyle={styles.card} onPress={() => setLanguageVisible(true)}>
               <View style={styles.cardContent}>
                 <Icon name="language" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Language</Text>
+                <Text style={styles.cardText}>{t("Language")}</Text>
                 <Pressable>
-                  <Text style={styles.cardTextRight}>English</Text>
+                  <Text style={styles.cardTextRight}>{t("English")}</Text>
                 </Pressable>
               </View>
             </Pressable>
@@ -85,15 +91,15 @@ const Settings = () => {
             <Pressable containerStyle={styles.card}>
               <View style={styles.cardContent}>
                 <Icon name="lock" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Security</Text>
+                <Text style={styles.cardText}>{t("Security")}</Text>
               </View>
             </Pressable>
             <Pressable containerStyle={styles.card}>
               <View style={styles.cardContent}>
                 <Icon name="brightness-4" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Theme</Text>
+                <Text style={styles.cardText}>{t("Theme")}</Text>
                 <Pressable>
-                  <Text style={styles.cardTextRight}>Light mode</Text>
+                  <Text style={styles.cardTextRight}>{t("Light mode")}</Text>
                 </Pressable>
               </View>
             </Pressable>
@@ -102,19 +108,19 @@ const Settings = () => {
             <Pressable containerStyle={styles.card}>
               <View style={styles.cardContent}>
                 <Icon name="mail" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Help & Support</Text>
+                <Text style={styles.cardText}>{t("Help & Support")}</Text>
               </View>
             </Pressable>
             <Pressable containerStyle={styles.card}>
               <View style={styles.cardContent}>
                 <Icon name="phone" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Contact Us</Text>
+                <Text style={styles.cardText}>{t("Contact Us")}</Text>
               </View>
             </Pressable>
             <Pressable containerStyle={styles.card}>
               <View style={styles.cardContent}>
                 <Icon name="lock" type="material" color="#fff" style={styles.icon} />
-                <Text style={styles.cardText}>Privacy Policy</Text>
+                <Text style={styles.cardText}>{t("Privacy Policy")}</Text>
               </View>
             </Pressable>
           </View>
@@ -167,6 +173,7 @@ const styles = StyleSheet.create({
   cardTextRight: {
     fontSize: 16,
     color: "rgba(0, 119, 255, 1)",
+    marginLeft: 10,
   },
   icon: {
     marginRight: 16,

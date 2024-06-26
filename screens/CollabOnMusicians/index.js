@@ -9,8 +9,10 @@ import ScreenWrapper from "../../hoc/ScreenWrapper";
 
 // APIs
 import { listCollaborationOnSkills } from "../../apis/collaboration";
+import { useTranslation } from "react-i18next";
 
 const CollabOnMusicians = () => {
+  const { t } = useTranslation();
   const route = useRoute();
   const { state } = route.params;
 
@@ -25,7 +27,7 @@ const CollabOnMusicians = () => {
   return (
     <>
       <View>
-        <Text style={styles.heading}>LISTED COLLABORATIONS</Text>
+        <Text style={styles.heading}>{t("LISTED COLLABORATIONS")}</Text>
         <ScrollView style={{ marginBottom: 200 }}>
           {collabs?.map((collab) => (
             <CollabCard

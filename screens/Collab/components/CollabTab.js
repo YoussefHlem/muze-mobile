@@ -1,6 +1,7 @@
 // Libs
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 // Components
 import CollabCard from "../../../components/common/CollabCard";
@@ -12,6 +13,7 @@ import MyCollabCard from "../../../components/common/MyCollabCard";
 import { collaborationListAll, collaborationRequests } from "../../../apis/collaboration";
 
 const CollabTab = () => {
+  const { t } = useTranslation();
   const [allCollab, setAllCollab] = useState([]);
   const [myCollab, setMyCollab] = useState([]);
 
@@ -21,10 +23,11 @@ const CollabTab = () => {
       setMyCollab(res?.data["received requests (own's requests filtered)"])
     );
   }, []);
+
   return (
     <>
       <View>
-        <Text style={styles.heading}>LISTED COLLABORATIONS</Text>
+        <Text style={styles.heading}>{t("LISTED COLLABORATIONS")}</Text>
         <View>
           {allCollab.map((collab) => (
             <CollabCard
@@ -39,7 +42,7 @@ const CollabTab = () => {
         </View>
       </View>
       <View>
-        <Text style={styles.heading}>MY COLLABORATION REQUESTS</Text>
+        <Text style={styles.heading}>{t("MY COLLABORATION REQUESTS")}</Text>
         <View>
           {myCollab.map((collab) => (
             <MyCollabCard

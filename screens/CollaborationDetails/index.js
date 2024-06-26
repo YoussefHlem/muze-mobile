@@ -20,6 +20,7 @@ import { getSearchedUserDetails } from "../../apis/user";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setSearchedUserDetails } from "../../store/services/userSlice";
+import { useTranslation } from "react-i18next";
 
 const CollaborationDetails = () => {
   const route = useRoute();
@@ -27,6 +28,7 @@ const CollaborationDetails = () => {
   const { user } = useSelector(selectUser);
   const { requestingUser } = state;
   const { pk } = state;
+  const { t } = useTranslation();
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -79,23 +81,24 @@ const CollaborationDetails = () => {
       <View style={styles.buttonContainer}>
         {!isMyCollab ? (
           <>
-            <MuzeButton onPress={handleViewProfile}>View Profile</MuzeButton>
-            <MuzeButton onPress={onCollabClick}>Collab</MuzeButton>
+            <MuzeButton onPress={handleViewProfile}>{t("View Profile")}</MuzeButton>
+            <MuzeButton onPress={onCollabClick}>{t("Collab")}</MuzeButton>
           </>
         ) : (
           <Text style={styles.ownerText}>
-            You are the owner of this collaboration, you can't join it, but you can view the users
-            who joined it!
+            {t(
+              "You are the owner of this collaboration, you can't join it, but you can view the users who joined it!"
+            )}
           </Text>
         )}
       </View>
       <View style={styles.content}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Experience Level:</Text>
+          <Text style={styles.sectionTitle}>{t("Experience Level")}:</Text>
           <Text style={styles.sectionText}>{collabData?.experienceLevel}</Text>
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Contact Email:</Text>
+          <Text style={styles.sectionTitle}>{t("Contact Email")}:</Text>
           <Text style={styles.sectionText}>
             {collabData.requestingUser && (
               <Pressable
@@ -107,19 +110,19 @@ const CollaborationDetails = () => {
           </Text>
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Location:</Text>
+          <Text style={styles.sectionTitle}>{t("Location")}:</Text>
           <Text style={styles.sectionText}>{collabData?.location}</Text>
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Application Deadline:</Text>
+          <Text style={styles.sectionTitle}>{t("Application Deadline")}:</Text>
           <Text style={styles.sectionText}>{collabData?.applicationDeadline}</Text>
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Collab Description:</Text>
+          <Text style={styles.sectionTitle}>{t("Collab Description")}:</Text>
           <Text style={styles.collabDescription}>{collabData?.description}</Text>
         </View>
         <View style={styles.sectionFullWidth}>
-          <Text style={styles.sectionTitle}>Joined Users:</Text>
+          <Text style={styles.sectionTitle}>{t("Joined Users")}:</Text>
           <View style={styles.cardContainer}>
             {joiningUsers.length ? (
               joiningUsers.map((search) => (
@@ -131,7 +134,7 @@ const CollaborationDetails = () => {
                 />
               ))
             ) : (
-              <Text style={styles.noUsersText}>No users yet</Text>
+              <Text style={styles.noUsersText}>{t("No users yet")}</Text>
             )}
           </View>
         </View>

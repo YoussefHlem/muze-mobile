@@ -46,7 +46,7 @@ const MyCollaborations = () => {
             />
           ))
         ) : (
-          <Text>No collaborations yet</Text>
+          <Text>{t("No collaborations yet")}</Text>
         )}
       </ScrollView>
     </View>
