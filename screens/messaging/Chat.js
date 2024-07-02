@@ -21,99 +21,6 @@ const defaultProfile =
 
 const ITEM_HEIGHT = 100;
 
-const Container = styled.View`
-  flex: 1;
-  background-color: #0d0d0d;
-  padding-bottom: 80px;
-`;
-
-const Header = styled.View`
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-  background-color: #333;
-`;
-
-const ProfileImageContainer = styled.View`
-  position: relative;
-`;
-
-const ProfileImage = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  margin-right: 10px;
-`;
-
-const StatusIndicator = styled.View`
-  position: absolute;
-  top: -5px;
-  right: 10px;
-  width: 15px;
-  height: 15px;
-  border-radius: 7.5px;
-  background-color: ${(props) => (props.online ? "#1e90ff" : "#ff1e1e")};
-`;
-
-const UserInfo = styled.View`
-  flex: 1;
-`;
-
-const UserName = styled.Text`
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-`;
-
-const LastSeen = styled.Text`
-  color: #aaa;
-  font-size: 12px;
-`;
-
-const ChatBubble = styled.View`
-  background-color: ${(props) => (props.isSender ? "#1e1e1e" : "#333")};
-  padding: 10px;
-  border-radius: 10px;
-  margin: 5px 0;
-  max-width: 80%;
-  align-self: ${(props) => (props.isSender ? "flex-end" : "flex-start")};
-`;
-
-const MessageText = styled.Text`
-  color: #fff;
-`;
-
-const TimeText = styled.Text`
-  color: #aaa;
-  font-size: 10px;
-  align-self: ${(props) => (props.isSender ? "flex-end" : "flex-start")};
-  margin-top: 2px;
-`;
-
-const InputContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-  background-color: #333;
-  border-radius: 25px;
-  margin: 10px;
-`;
-
-const MessageInput = styled.TextInput`
-  flex: 1;
-  color: #fff;
-  padding: 10px;
-  background-color: #1e1e1e;
-  border-radius: 25px;
-  margin-right: 10px;
-`;
-
-const Typing = styled.Text`
-  color: #fff;
-  font-size: 16px;
-  margin-left: 10px;
-`;
-
 const Chat = () => {
   const route = useRoute();
   const { navigate } = useNavigation();
@@ -124,7 +31,10 @@ const Chat = () => {
   const profileData = useSelector((state) => state.chat.profileData);
   const userId = useSelector((state) => state.chat.userChatId);
   const { user } = useSelector(selectUser);
-  const chatData = useSelector((state) => state.chat.chatData);
+  const allData = useSelector((state) => state.chat.chatData);
+  const chatData = useSelector((state) => state.chat.chatData)?.filter(
+    (message) => message.msg_type === 3 || message.text
+  );
   const usersStatus = useSelector((state) => state.chat.chatData)?.filter(
     (message) => message.msg_type === 1 || message.msg_type === 2 || message.msg_type === 11
   );
@@ -246,5 +156,98 @@ const Chat = () => {
     </Container>
   );
 };
+
+const Container = styled.View`
+  flex: 1;
+  background-color: #0d0d0d;
+  padding-bottom: 80px;
+`;
+
+const Header = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  background-color: #333;
+`;
+
+const ProfileImageContainer = styled.View`
+  position: relative;
+`;
+
+const ProfileImage = styled.Image`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  margin-right: 10px;
+`;
+
+const StatusIndicator = styled.View`
+  position: absolute;
+  top: -5px;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 7.5px;
+  background-color: ${(props) => (props.online ? "#1e90ff" : "#ff1e1e")};
+`;
+
+const UserInfo = styled.View`
+  flex: 1;
+`;
+
+const UserName = styled.Text`
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const LastSeen = styled.Text`
+  color: #aaa;
+  font-size: 12px;
+`;
+
+const ChatBubble = styled.View`
+  background-color: ${(props) => (props.isSender ? "#1e1e1e" : "#333")};
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+  max-width: 80%;
+  align-self: ${(props) => (props.isSender ? "flex-end" : "flex-start")};
+`;
+
+const MessageText = styled.Text`
+  color: #fff;
+`;
+
+const TimeText = styled.Text`
+  color: #aaa;
+  font-size: 10px;
+  align-self: ${(props) => (props.isSender ? "flex-end" : "flex-start")};
+  margin-top: 2px;
+`;
+
+const InputContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 25px;
+  margin: 10px;
+`;
+
+const MessageInput = styled.TextInput`
+  flex: 1;
+  color: #fff;
+  padding: 10px;
+  background-color: #1e1e1e;
+  border-radius: 25px;
+  margin-right: 10px;
+`;
+
+const Typing = styled.Text`
+  color: #fff;
+  font-size: 16px;
+  margin-left: 10px;
+`;
 
 export default ScreenWrapper(Chat);

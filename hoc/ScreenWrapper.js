@@ -1,6 +1,6 @@
 import React from "react";
-import { TheNavbar, TheFooter } from "../components";
 import { ImageBackground, View } from "react-native";
+import { TheNavbar, TheFooter } from "../components";
 const ScreenWrapper = (WrappedComponent) => {
   const HOC = () => {
     return (
