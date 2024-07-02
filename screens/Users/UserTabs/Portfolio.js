@@ -11,12 +11,14 @@ import { userPosts } from "../../../apis/users";
 import PostCard from "../../../components/common/PostCard";
 import { useDispatch } from "react-redux";
 import { setVideoData } from "../../../store/services/videoSlice";
+import { useTranslation } from "react-i18next";
 
 // Assets
 const Portfolio = () => {
   const [Posts, setPosts] = useState([]);
 
   const { user } = useSelector((state) => state.user.searchedUser);
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 

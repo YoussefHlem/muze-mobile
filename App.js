@@ -1,24 +1,15 @@
-// React Native Libs
+// App.js
 import React, { Suspense } from "react";
-
-// Redux Libs
-import { Provider } from "react-redux";
-import store from "./store/store";
-
-// Navigation Libs
+import { Provider as ReduxProvider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-const Stack = createNativeStackNavigator();
-
-// Libs
+import { ThemeProvider, useTheme } from "./ThemeContext";
+import store from "./store/store";
 import Toast from "react-native-toast-message";
-import i18next from "./services/i18next";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
-
-// Components
 import Loading from "./components/common/Loading";
 import { StatusBar } from "expo-status-bar";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 // Screens
 import {
@@ -41,49 +32,68 @@ import CollabOnGeners from "./screens/CollabOnGeners";
 import CollaborationDetails from "./screens/CollaborationDetails";
 import ForgetPassword from "./screens/ForgetPassword";
 import Settings from "./screens/Settings";
+import ChatsScreen from "./screens/messaging";
+import Chat from "./screens/messaging/Chat";
+import { useWebSocket } from "./hooks/useWebSocket";
 
 TimeAgo.addDefaultLocale(en);
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const App = () => {
   return (
-    <React.Fragment>
-      <Suspense fallback={<Loading />}>
-        <Provider store={store}>
-          <NavigationContainer>
-            <StatusBar style="auto" />
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}
-            >
-              {/* Main Screens */}
-              <Stack.Screen name="Settings" component={Settings} />
-              <Stack.Screen name="Explore" component={Explore} />
-              <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-              <Stack.Screen name="HireArtist" component={HireArtist} />
-              <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Collab" component={Collab} />
-              <Stack.Screen name="Booking" component={Booking} />
-              <Stack.Screen name="Profile" component={Profile} />
-              <Stack.Screen name="Users" component={Users} />
-
-              {/* Nested Screens */}
-              <Stack.Screen name="Video" component={VideoScreen} />
-              <Stack.Screen name="SearchList" component={SearchList} />
-              <Stack.Screen name="GigDetail" component={GigDetails} />
-              <Stack.Screen name="CreateGig" component={CreateGig} />
-              <Stack.Screen name="CollabOnMusicans" component={CollabOnMusicians} />
-              <Stack.Screen name="CollabOnGeners" component={CollabOnGeners} />
-              <Stack.Screen name="CollaborationDetails" component={CollaborationDetails} />
-
-              {/* Authentication Screen */}
-              <Stack.Screen name="Sign In" component={SignIn} />
-              <Stack.Screen name="Sign Up" component={SignUp} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </Provider>
-        <Toast />
-      </Suspense>
-    </React.Fragment>
+    <Suspense fallback={<Loading />}>
+      <ReduxProvider store={store}>
+        <ThemeProvider>
+          <ThemedApp />
+        </ThemeProvider>
+      </ReduxProvider>
+      <Toast />
+    </Suspense>
   );
-}
+};
+
+const ThemedApp = () => {
+  const { theme } = useTheme();
+  useWebSocket();
+  return (
+    <NavigationContainer>
+      <StatusBar style="auto" />
+      <ThemeProvider theme={theme}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          {/* Main Screens */}
+          <Stack.Screen name="Explore" component={Explore} />
+          <Stack.Screen name="Messaging" component={ChatsScreen} />
+          <Stack.Screen name="Conversation" component={Chat} />
+          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Collab" component={Collab} />
+          <Stack.Screen name="Booking" component={Booking} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="HireArtist" component={HireArtist} />
+          <Stack.Screen name="Users" component={Users} />
+          <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+
+          {/* Nested Screens */}
+          <Stack.Screen name="Video" component={VideoScreen} />
+          <Stack.Screen name="SearchList" component={SearchList} />
+          <Stack.Screen name="GigDetail" component={GigDetails} />
+          <Stack.Screen name="CreateGig" component={CreateGig} />
+          <Stack.Screen name="CollabOnMusicans" component={CollabOnMusicians} />
+          <Stack.Screen name="CollabOnGeners" component={CollabOnGeners} />
+          <Stack.Screen name="CollaborationDetails" component={CollaborationDetails} />
+
+          {/* Authentication Screen */}
+          <Stack.Screen name="Sign In" component={SignIn} />
+          <Stack.Screen name="Sign Up" component={SignUp} />
+        </Stack.Navigator>
+      </ThemeProvider>
+    </NavigationContainer>
+  );
+};
+
+export default App;

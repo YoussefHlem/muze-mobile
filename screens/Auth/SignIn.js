@@ -85,7 +85,9 @@ const SignInForm = ({ t, onForgetPassword }) => {
             type: "success",
             text1: "Login Successful 👋",
           });
+          console.log(res.data);
           await setItemAsync("accessToken", res.data.accessToken);
+          await setItemAsync("refreshToken", res.data.refreshToken);
           await setItemAsync("FormData", JSON.stringify(formData));
           await reloadAsync();
         } else {

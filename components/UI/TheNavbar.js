@@ -1,6 +1,7 @@
 // Components
-import { View, StyleSheet, ImageBackground, Image, Text } from "react-native";
+import { View, StyleSheet, ImageBackground, Image, Text, Pressable } from "react-native";
 import Search from "./Search";
+import { useNavigation } from "@react-navigation/native";
 
 // Assets
 const navbarBackground = require("../../assets/Images/navbar/navbar-dark-background.png");
@@ -9,6 +10,7 @@ const navbarBellIcon = require("../../assets/Images/navbar/bell.png");
 const navbarNotificationIcon = require("../../assets/Images/navbar/notifications.png");
 
 const TheNavbar = () => {
+  const { navigate } = useNavigation();
   return (
     <ImageBackground
       source={navbarBackground}
@@ -38,7 +40,9 @@ const TheNavbar = () => {
         </View>
         <View style={styles.iconsContainer}>
           <Image source={navbarBellIcon} />
-          <Image source={navbarNotificationIcon} />
+          <Pressable onPress={() => navigate("Messaging")}>
+            <Image source={navbarNotificationIcon} />
+          </Pressable>
         </View>
       </View>
     </ImageBackground>

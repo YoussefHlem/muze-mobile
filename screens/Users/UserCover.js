@@ -15,6 +15,7 @@ import { getSearchedUserDetails, getGenres } from "../../apis/user";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setUserDetails, setUserStudios } from "../../store/services/userSlice";
+import { useTranslation } from "react-i18next";
 
 // Assets
 const CoverImagePlaceholder = "../../assets/Images/profile-background-cover.png";
@@ -26,6 +27,7 @@ const YoutubeIcon = "../../assets/Images/profile/youtube.png";
 const SpotifyIcon = "../../assets/Images/profile/spotify.png";
 
 const UserCover = ({ id }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const UserDetails = useSelector((state) => state.user.searchedUser);
   const { width, height } = useWindowDimensions();

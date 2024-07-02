@@ -10,7 +10,7 @@ const removeItem = async (key) => {
 };
 
 const axiosIns = axios.create({
-  baseURL: "https://muzenetwork.azurewebsites.net",
+  baseURL: "https://muzenetworktest.azurewebsites.net",
 });
 
 axiosIns.interceptors.request.use(async (config) => {
