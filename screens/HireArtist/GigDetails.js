@@ -8,7 +8,6 @@ import {
   Button,
   useWindowDimensions,
 } from "react-native";
-import Carousel, { Pagination } from "react-native-snap-carousel";
 import ScreenWrapper from "../../hoc/ScreenWrapper";
 
 // Apis
@@ -118,22 +117,7 @@ function GigDetails() {
           </View>
         </View>
         {/* Carousel */}
-        <Carousel
-          data={[1, 2, 3]}
-          renderItem={renderCarouselItem}
-          sliderWidth={width}
-          itemWidth={300}
-          hasParallaxImages={true}
-          inactiveSlideScale={0.94}
-          inactiveSlideOpacity={0.7}
-          containerCustomStyle={styles.slider}
-          contentContainerCustomStyle={styles.sliderContentContainer}
-          loop={true}
-          loopClonesPerSide={2}
-          autoplay={true}
-          autoplayDelay={500}
-          autoplayInterval={3000}
-        />
+
         {/* Gig description */}
         <Text style={styles.sectionTitle}>About This Gig</Text>
         <Text style={styles.description}>

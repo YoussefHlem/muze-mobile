@@ -34,7 +34,6 @@ import ForgetPassword from "./screens/ForgetPassword";
 import Settings from "./screens/Settings";
 import ChatsScreen from "./screens/messaging";
 import Chat from "./screens/messaging/Chat";
-import { useWebSocket } from "./hooks/useWebSocket";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -55,7 +54,6 @@ const App = () => {
 
 const ThemedApp = () => {
   const { theme } = useTheme();
-  useWebSocket();
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
