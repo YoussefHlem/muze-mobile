@@ -37,6 +37,9 @@ const CollabTab = () => {
               lastName={collab?.requestingUser?.lastName}
               title={collab?.title}
               location={collab?.location}
+              reFetch={() =>
+                collaborationListAll().then((res) => setAllCollab(res?.data["All Collaborations"]))
+              }
             />
           ))}
         </View>

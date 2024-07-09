@@ -1,7 +1,8 @@
 // Libs
-import React, { useEffect, useState } from "react";
+
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, ScrollView, View } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
 // Components
@@ -18,13 +19,16 @@ const CollabOnMusicians = () => {
 
   const [collabs, setCollabs] = useState([]);
 
-  useEffect(() => {
-    listCollaborationOnGenres({
-      genre: [state],
-    }).then((res) =>
-      setCollabs(res.data["matching collaborations on genres (own's requests filtered)"])
-    );
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      listCollaborationOnGenres({
+        genre: [state],
+      }).then((res) => {
+        setCollabs(res.data["matching collaborations on genres (own's requests filtered)"]);
+        console.log(res.data["matching collaborations on genres (own's requests filtered)"]);
+      });
+    }, [])
+  );
 
   return (
     <>

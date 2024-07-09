@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   artistType: {
-    width: "37%",
+    width: "33%",
     aspectRatio: 1,
     resizeMode: "cover",
     borderTopLeftRadius: 20,

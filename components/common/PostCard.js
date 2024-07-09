@@ -2,7 +2,15 @@
 import { useNavigation } from "@react-navigation/native";
 
 // Components
-import { View, Text, Pressable, Image, ImageBackground, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 import Toast from "react-native-toast-message";
 import ReactTimeAgo from "react-time-ago";
 
@@ -74,7 +82,7 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile, date }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 180,
+    width: 160,
     height: 340,
     borderColor: "#202020",
     backgroundColor: "#202020",

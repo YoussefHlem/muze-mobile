@@ -112,15 +112,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    marginTop: 22,
-    padding: 40,
+    padding: 20,
   },
   headerContainer: {
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    gap: 135,
     marginBottom: 50,
   },
   // headerContainer: {

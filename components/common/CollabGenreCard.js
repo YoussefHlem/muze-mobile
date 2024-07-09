@@ -16,7 +16,7 @@ const CollabGenreCard = ({ genre, theKey }) => {
     if (!authToken) {
       navigate("Signin");
     }
-    navigate("CollaborationsGenre", { genre });
+    navigate("CollabOnGeners", { genre });
   };
 
   return (

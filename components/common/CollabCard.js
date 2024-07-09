@@ -3,16 +3,27 @@ import { View, Text, Pressable, Image, StyleSheet, useWindowDimensions } from "r
 import { useNavigation } from "@react-navigation/native";
 import MuzeButton from "./MuzeButton";
 import { LinearGradient } from "expo-linear-gradient";
+import { deleteCollab } from "../../apis/collaboration";
+import Toast from "react-native-toast-message";
 
 const locationPin = require("../../assets/Images/collaborations/location-pin.png");
 const UserBg = require("../../assets/Images/collaborations/collab-user-circle.png");
 
-const CollabCard = ({ item, firstName, lastName, title, location, profileImage }) => {
+const CollabCard = ({ item, firstName, lastName, title, location, profileImage, reFetch }) => {
   const { navigate } = useNavigation();
   const { width } = useWindowDimensions();
 
   const handleViewDetails = (item) => {
     navigate("CollaborationDetails", { state: item });
+  };
+
+  const handleDeleteCollab = (item) => {
+    console.log("object");
+    deleteCollab({ collaborationId: item.pk }).then((res) => {
+      console.log(res);
+      Toast.show({ text1: "Deleted Successfully", type: "success" });
+      reFetch();
+    });
   };
 
   return (
@@ -52,12 +63,12 @@ const CollabCard = ({ item, firstName, lastName, title, location, profileImage }
             </View>
           </View>
           <View style={styles.actionButtonsContainer}>
-            <MuzeButton style={styles.actionButton} onPress={() => handleViewDetails(collab)}>
+            <MuzeButton style={styles.actionButton} onPress={() => handleViewDetails(item)}>
               View Details
             </MuzeButton>
-            <MuzeButton style={styles.actionButton} onPress={() => handleDeleteCollab(collab)}>
-              Delete Post
-            </MuzeButton>
+            {/* <MuzeButton style={styles.actionButton} onPress={() => handleDeleteCollab(item)}>
+              Delete
+            </MuzeButton> */}
           </View>
         </View>
       </LinearGradient>
@@ -149,7 +160,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 18,
     textAlign: "center",
-    width: "auto",
   },
   gradient: {
     borderRadius: 10,

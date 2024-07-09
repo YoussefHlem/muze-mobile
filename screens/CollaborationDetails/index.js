@@ -63,6 +63,7 @@ const CollaborationDetails = () => {
   };
 
   useEffect(() => {
+    console.log(state);
     setIsLoading(true);
     collaborationDetail({ collaborationId: pk }).then((res) => {
       setCollabData(res.data);

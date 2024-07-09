@@ -44,3 +44,7 @@ export const listCollaborationOnGenres = (body) => {
 export const listCollaborationOnSkills = (body) => {
   return service.post("/social/api/collaboration/list_on_skills", body);
 };
+
+export const deleteCollab = (body) => {
+  return service.post("/social/api/collaboration/delete_collab", body);
+};

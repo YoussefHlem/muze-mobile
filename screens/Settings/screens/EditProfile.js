@@ -250,7 +250,7 @@ const EditProfile = ({ visible, setVisible }) => {
             gradientStyle={{ width: width / 2 - 80, backgroundColor: "red" }}
             onPress={handleDeleteAccount}
           >
-            {t("Delete Account")}
+            Delete
           </MuzeButton>
         </View>
       </ScrollView>
@@ -270,8 +270,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    marginTop: 22,
-    padding: 40,
+    // marginTop: 22,
+    padding: 20,
   },
   headerContainer: {
     flexDirection: "row",
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "100%",
-    marginBottom: 24,
+    marginBottom: 15,
     backgroundColor: "#1c2839",
     borderColor: "#ccc",
     borderWidth: 1,

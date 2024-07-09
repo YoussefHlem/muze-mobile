@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Modal, View, Text, TextInput, StyleSheet, ImageBackground } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  ImageBackground,
+  ScrollView,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { collaborationCreate } from "../../../apis/collaboration";
@@ -64,7 +72,7 @@ const PostCollabModal = ({ isVisible, onClose }) => {
       });
       onClose();
     } else {
-      toast.show({ type: "error", text1: t("Please fill in all fields") });
+      Toast.show({ type: "error", text1: t("Please fill in all fields") });
     }
   };
 
@@ -86,74 +94,76 @@ const PostCollabModal = ({ isVisible, onClose }) => {
         style={styles.container}
         imageStyle={{ resizeMode: "cover" }}
       >
-        <View style={styles.content}>
-          <View style={styles.formSection}>
-            <Text style={styles.label}>{t("Title")}:</Text>
-            <TextInput
-              style={styles.input}
-              value={inputsData.title}
-              onChangeText={(text) => onChange("title", text)}
-              placeholder={t("Max 45 characters")}
-            />
-          </View>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <View style={styles.content}>
+            <View style={styles.formSection}>
+              <Text style={styles.label}>{t("Title")}:</Text>
+              <TextInput
+                style={styles.input}
+                value={inputsData.title}
+                onChangeText={(text) => onChange("title", text)}
+                placeholder={t("Max 45 characters")}
+              />
+            </View>
 
-          <View style={styles.formSection}>
-            <Text style={styles.label}>{t("Experience Level")}:</Text>
-            <TextInput
-              style={styles.input}
-              value={inputsData.experienceLevel}
-              onChangeText={(text) => onChange("experienceLevel", text)}
-            />
-          </View>
+            <View style={styles.formSection}>
+              <Text style={styles.label}>{t("Experience Level")}:</Text>
+              <TextInput
+                style={styles.input}
+                value={inputsData.experienceLevel}
+                onChangeText={(text) => onChange("experienceLevel", text)}
+              />
+            </View>
 
-          <View style={styles.formSection}>
-            <Text style={styles.label}>{t("Location")}:</Text>
-            <TextInput
-              style={styles.input}
-              value={inputsData.location}
-              onChangeText={(text) => onChange("location", text)}
-            />
-          </View>
+            <View style={styles.formSection}>
+              <Text style={styles.label}>{t("Location")}:</Text>
+              <TextInput
+                style={styles.input}
+                value={inputsData.location}
+                onChangeText={(text) => onChange("location", text)}
+              />
+            </View>
 
-          <View style={styles.formSection}>
-            <MuzeDropdown
-              label={t("Looking For")}
-              data={skillsArr.map((item) => ({ key: item, value: item }))}
-              isMulti
-              setSelected={(value) => setSkillsInput(value)}
-            />
-          </View>
+            <View style={styles.formSection}>
+              <MuzeDropdown
+                label={t("Looking For")}
+                data={skillsArr.map((item) => ({ key: item, value: item }))}
+                isMulti
+                setSelected={(value) => setSkillsInput(value)}
+              />
+            </View>
 
-          <View style={styles.formSection}>
-            <MuzeDropdown
-              label={t("Genres")}
-              data={genresArr.map((item) => ({ key: item, value: item }))}
-              isMulti
-              setSelected={(value) => setGenresInput(value)}
-            />
-          </View>
+            <View style={styles.formSection}>
+              <MuzeDropdown
+                label={t("Genres")}
+                data={genresArr.map((item) => ({ key: item, value: item }))}
+                isMulti
+                setSelected={(value) => setGenresInput(value)}
+              />
+            </View>
 
-          <View style={styles.formSection}>
-            <Text style={styles.label}>{t("Application Deadline")}:</Text>
-            <TextInput
-              style={styles.input}
-              value={inputsData.applicationDeadline}
-              onChangeText={(text) => onChange("applicationDeadline", text)}
-              placeholder="YYYY-MM-DD"
-            />
-          </View>
+            <View style={styles.formSection}>
+              <Text style={styles.label}>{t("Application Deadline")}:</Text>
+              <TextInput
+                style={styles.input}
+                value={inputsData.applicationDeadline}
+                onChangeText={(text) => onChange("applicationDeadline", text)}
+                placeholder="YYYY-MM-DD"
+              />
+            </View>
 
-          <View style={styles.formSection}>
-            <Text style={styles.label}>{t("Description")}:</Text>
-            <TextInput
-              style={styles.descriptionInput}
-              value={inputsData.description}
-              onChangeText={(text) => onChange("description", text)}
-              multiline
-            />
+            <View style={styles.formSection}>
+              <Text style={styles.label}>{t("Description")}:</Text>
+              <TextInput
+                style={styles.descriptionInput}
+                value={inputsData.description}
+                onChangeText={(text) => onChange("description", text)}
+                multiline
+              />
+            </View>
+            <MuzeButton onPress={onSubmit}>{t("Submit")}</MuzeButton>
           </View>
-          <MuzeButton onPress={onSubmit}>{t("Submit")}</MuzeButton>
-        </View>
+        </ScrollView>
       </ImageBackground>
     </Modal>
   );
@@ -166,10 +176,9 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#171717",
   },
-  loadingContainer: {
-    flex: 1,
+  contentContainer: {
+    flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center",
   },
   content: {
     alignItems: "center",

@@ -73,18 +73,23 @@ const MyCollabCard = ({
           </View>
           <View style={[styles.actionButtonsContainer, { gap: 15 }]}>
             <Pressable
-              onClick={() => handleAcceptReject(item.pk, item.joiningUserInscreen[0]?.id, "Accept")}
+              onPress={() => handleAcceptReject(item.pk, item.joiningUserInscreen[0]?.id, "Accept")}
             >
               <Image source={Accept} style={{ width: 35, height: 35 }} />
             </Pressable>
             <Pressable
-              onClick={() => handleAcceptReject(item.pk, item.joiningUserInscreen[0]?.id, "Reject")}
+              onPress={() => handleAcceptReject(item.pk, item.joiningUserInscreen[0]?.id, "Reject")}
             >
               <Image source={Reject} style={{ width: 35, height: 35 }} />
             </Pressable>
           </View>
           <View style={styles.actionButtonsContainer}>
-            <MuzeButton style={styles.actionButton} onPress={() => handleViewDetails(collab)}>
+            <MuzeButton
+              style={styles.actionButton}
+              onPress={() => {
+                navigation.navigate("CollaborationDetails", { state: item });
+              }}
+            >
               View Details
             </MuzeButton>
           </View>
