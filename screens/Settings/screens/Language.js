@@ -3,6 +3,7 @@ import { Modal, View, Text, StyleSheet, Pressable } from "react-native";
 import { BlurView } from "expo-blur";
 import i18next from "../../../services/i18next";
 import { useTranslation } from "react-i18next";
+import { MuzeButton } from "../../../components";
 
 const LanguageOption = ({ text, selected, onPress }) => {
   const { t } = useTranslation();
@@ -18,6 +19,7 @@ const LanguageOption = ({ text, selected, onPress }) => {
 
 const Language = ({ visible, setVisible }) => {
   const [selectedLanguage, setSelectedLanguage] = useState("English (UK)");
+  const [tempSelectedLanguage, setTempSelectedLanguage] = useState("English (UK)");
 
   const suggestedLanguages = ["Arabic", "English (UK)"];
   const otherLanguages = [
@@ -32,12 +34,17 @@ const Language = ({ visible, setVisible }) => {
   ];
 
   const handleLanguageSelect = (language) => {
-    if (language === "Arabic") {
+    setTempSelectedLanguage(language);
+  };
+
+  const handleSave = () => {
+    if (tempSelectedLanguage === "Arabic") {
       i18next.changeLanguage("ar");
-    } else if (language === "English (UK)") {
+    } else if (tempSelectedLanguage === "English (UK)") {
       i18next.changeLanguage("en");
     }
-    setSelectedLanguage(language);
+    setSelectedLanguage(tempSelectedLanguage);
+    setVisible(false);
   };
 
   return (
@@ -69,7 +76,7 @@ const Language = ({ visible, setVisible }) => {
             <LanguageOption
               key={language}
               text={language}
-              selected={selectedLanguage === language}
+              selected={tempSelectedLanguage === language}
               onPress={() => handleLanguageSelect(language)}
             />
           ))}
@@ -90,11 +97,13 @@ const Language = ({ visible, setVisible }) => {
             <LanguageOption
               key={language}
               text={language}
-              selected={selectedLanguage === language}
+              selected={tempSelectedLanguage === language}
               onPress={() => handleLanguageSelect(language)}
             />
           ))}
         </View>
+
+        <MuzeButton onPress={handleSave}>Save</MuzeButton>
       </View>
     </Modal>
   );
@@ -121,12 +130,6 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 50,
   },
-  // headerContainer: {
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   width: "100%",
-  //   marginBottom: 20,
-  // },
   modalTitle: {
     fontSize: 24,
     fontWeight: "bold",

@@ -6,6 +6,7 @@ import {
   useWindowDimensions,
   Pressable,
   useColorScheme,
+  Alert,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import ScreenWrapper from "../../hoc/ScreenWrapper";
@@ -13,11 +14,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../store/services/userSlice";
 import EditProfile from "./screens/EditProfile";
-import Notifications from "./screens/Notifications";
 import Language from "./screens/Language";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../../ThemeContext";
 import styled from "styled-components/native";
+import * as Notifications from "expo-notifications";
+import Toast from "react-native-toast-message";
+import ChangePassword from "./screens/ChangePassword";
 
 const Container = styled.View`
   flex-grow: 1;
@@ -94,12 +97,34 @@ const Settings = () => {
   const myUserDetails = useSelector((state) => state.user.userDetails);
   const ProfileImagePlaceholder = "../../assets/Images/common/user.jpg";
   const [editProfileVisible, setEditProfileVisible] = useState(false);
-  const [notificationsVisible, setNotificationsVisible] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false); // New state for notifications
   const [languageVisible, setLanguageVisible] = useState(false);
+  const [changePasswordVisible, setChangePasswordVisible] = useState(false);
 
   useEffect(() => {
-    console.log(theme);
-  }, [theme]);
+    checkNotificationPermissions();
+  }, []);
+
+  const checkNotificationPermissions = async () => {
+    const { status } = await Notifications.getPermissionsAsync();
+    setNotificationsEnabled(status === "granted");
+  };
+
+  const toggleNotifications = async () => {
+    if (!notificationsEnabled) {
+      const { status } = await Notifications.getPermissionsAsync();
+      if (status !== "granted") {
+        const { status: newStatus } = await Notifications.requestPermissionsAsync();
+        if (newStatus !== "granted") {
+          Alert.alert(t("Permission denied"), t("Please enable notifications in settings."));
+          return;
+        }
+      } else {
+        Toast.show({ type: "success", text1: "Notifications Enabled" });
+      }
+    }
+    setNotificationsEnabled(!notificationsEnabled);
+  };
 
   return (
     <LinearGradient
@@ -107,8 +132,8 @@ const Settings = () => {
       style={{ height: "100%", width: "100%" }}
     >
       <EditProfile visible={editProfileVisible} setVisible={setEditProfileVisible} />
-      <Notifications visible={notificationsVisible} setVisible={setNotificationsVisible} />
       <Language visible={languageVisible} setVisible={setLanguageVisible} />
+      <ChangePassword visible={changePasswordVisible} setVisible={setChangePasswordVisible} />
 
       <ProfileImage
         style={{ height: height / 3, width: width }}
@@ -141,13 +166,11 @@ const Settings = () => {
                 <CardText>{t("Edit profile information")}</CardText>
               </CardContent>
             </Card>
-            <Card onPress={() => setNotificationsVisible(true)}>
+            <Card onPress={toggleNotifications}>
               <CardContent>
                 <IconStyled name="notifications" type="material" color="#fff" />
                 <CardText>{t("Notifications")}</CardText>
-                <Pressable>
-                  <CardTextRight>{t("ON")}</CardTextRight>
-                </Pressable>
+                <CardTextRight>{notificationsEnabled ? t("ON") : t("OFF")}</CardTextRight>
               </CardContent>
             </Card>
             <Card onPress={() => setLanguageVisible(true)}>
@@ -163,10 +186,12 @@ const Settings = () => {
 
           <CardContainer>
             <Card>
-              <CardContent>
-                <IconStyled name="lock" type="material" color="#fff" />
-                <CardText>{t("Security")}</CardText>
-              </CardContent>
+              <Pressable onPress={() => setChangePasswordVisible(true)}>
+                <CardContent>
+                  <IconStyled name="lock" type="material" color="#fff" />
+                  <CardText>{t("Security")}</CardText>
+                </CardContent>
+              </Pressable>
             </Card>
             <Card>
               <CardContent>
