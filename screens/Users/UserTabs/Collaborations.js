@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 // Components
 import CollabCard from "../../../components/common/CollabCard";
@@ -13,6 +14,7 @@ import { searchedUserCollaborations } from "../../../apis/users";
 const MyCollaborations = () => {
   const [myCollabs, setMyCollabs] = useState([]);
   const { user } = useSelector((state) => state.user.searchedUser);
+  const { t } = useTranslation();
 
   const navigation = useNavigation();
 
