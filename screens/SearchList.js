@@ -1,6 +1,6 @@
+import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import ScreenWrapper from "../hoc/ScreenWrapper";
-
 import ArtistCard from "../components/common/ArtistCard";
 import { useSelector } from "react-redux";
 
@@ -11,7 +11,11 @@ const SearchList = () => {
     <View style={styles.container}>
       <FlatList
         data={Artists}
-        renderItem={({ item }) => <ArtistCard artist={item} id={item.user} key={item.user} />}
+        renderItem={({ item }) => (
+          <React.Fragment key={item.user.id}>
+            <ArtistCard artist={item} id={item.user.id} />
+          </React.Fragment>
+        )}
         contentContainerStyle={styles.flatListContent}
       />
     </View>

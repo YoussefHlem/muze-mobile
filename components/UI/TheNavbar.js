@@ -1,51 +1,49 @@
-// Components
-import { View, StyleSheet, ImageBackground, Image, Text, Pressable } from "react-native";
-import Search from "./Search";
+import React, { useState } from "react";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import SearchModal from "./SearchModal"; // Adjust the path as necessary
 
 // Assets
-const navbarBackground = require("../../assets/Images/navbar/navbar-dark-background.png");
 const navbarLogo = require("../../assets/Images/navbar/navbar-mobile-logo.png");
-const navbarBellIcon = require("../../assets/Images/navbar/bell.png");
-const navbarNotificationIcon = require("../../assets/Images/navbar/notifications.png");
+const searchIcon = require("../../assets/Images/navbar/SearchIcon.png");
+const bellIcon = require("../../assets/Images/navbar/bell.png");
+const notificationIcon = require("../../assets/Images/navbar/notifications.png");
 
 const TheNavbar = () => {
   const { navigate } = useNavigation();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
-    <ImageBackground
-      source={navbarBackground}
-      style={styles.container}
-      imageStyle={styles.backgroundImage}
-    >
-      <View style={styles.content}>
-        <Image
-          source={navbarLogo}
-          style={{
-            width: 35,
-            height: 40,
-            opacity: 0,
-          }}
-        />
-        <Image
-          source={navbarLogo}
-          style={{
-            width: 70,
-            height: 70,
-            position: "absolute",
-            left: -20,
-          }}
-        />
-        <View>
-          <Search />
-        </View>
-        <View style={styles.iconsContainer}>
-          <Image source={navbarBellIcon} />
-          <Pressable onPress={() => navigate("Messaging")}>
-            <Image source={navbarNotificationIcon} />
-          </Pressable>
-        </View>
+    <View style={styles.container}>
+      <Image
+        source={navbarLogo}
+        style={{
+          width: 35,
+          height: 40,
+          opacity: 0,
+        }}
+      />
+      <Image
+        source={navbarLogo}
+        style={{
+          width: 125,
+          height: 125,
+          position: "absolute",
+          left: 10,
+        }}
+      />
+      <View style={styles.iconsContainer}>
+        <Pressable onPress={() => setIsModalVisible(true)}>
+          <Image source={searchIcon} style={styles.icon} />
+        </Pressable>
+        <Image source={bellIcon} style={styles.icon} />
+        <Pressable onPress={() => navigate("Messaging")}>
+          <Image source={notificationIcon} style={styles.icon} />
+        </Pressable>
       </View>
-    </ImageBackground>
+
+      <SearchModal visible={isModalVisible} setVisible={setIsModalVisible} />
+    </View>
   );
 };
 
@@ -59,11 +57,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     zIndex: 99,
     paddingVertical: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     marginTop: 35,
-  },
-  backgroundImage: {
-    resizeMode: "stretch",
+    backgroundColor: "transparent", // Adding a background color for better visibility
   },
   content: {
     flex: 1,
@@ -74,5 +70,10 @@ const styles = StyleSheet.create({
   iconsContainer: {
     flexDirection: "row",
     gap: 20,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: "#fff", // Assuming you want white icons to fit the dark background
   },
 });
