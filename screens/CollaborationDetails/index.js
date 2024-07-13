@@ -21,6 +21,7 @@ import { getSearchedUserDetails } from "../../apis/user";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, setSearchedUserDetails } from "../../store/services/userSlice";
 import { useTranslation } from "react-i18next";
+import TwoButtons from "../../components/common/TwoButtons";
 
 const CollaborationDetails = () => {
   const route = useRoute();
@@ -82,8 +83,12 @@ const CollaborationDetails = () => {
       <View style={styles.buttonContainer}>
         {!isMyCollab ? (
           <>
-            <MuzeButton onPress={handleViewProfile}>{t("View Profile")}</MuzeButton>
-            <MuzeButton onPress={onCollabClick}>{t("Collab")}</MuzeButton>
+            <TwoButtons
+              onePress1={handleViewProfile}
+              text1={t("View Profile")}
+              onPress2={onCollabClick}
+              text2={t("Collab")}
+            />
           </>
         ) : (
           <Text style={styles.ownerText}>

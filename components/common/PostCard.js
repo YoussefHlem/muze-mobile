@@ -36,6 +36,7 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile, date }) => {
   const navigation = useNavigation();
 
   const { user } = useSelector(selectUser);
+  const { width, height } = useWindowDimensions();
 
   const handleClick = () => {
     getSearchedUserDetails({
@@ -59,7 +60,7 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile, date }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: width - 20, height: height - 220 }]}>
       <ImageBackground source={cover ? { uri: cover } : PostImg} style={styles.containerBackground}>
         {!isProfile && (
           <View style={styles.profile}>
@@ -82,8 +83,6 @@ const PostCard = ({ img, postId, userId, cover, name, isProfile, date }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 160,
-    height: 340,
     borderColor: "#202020",
     backgroundColor: "#202020",
     padding: 10,
