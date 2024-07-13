@@ -15,8 +15,8 @@ const defaultProfile =
 
 const Container = styled.View`
   flex: 1;
-  background-color: #0d0d0d;
-  padding: 45px;
+  background-color: "transparent";
+  padding: 20px;
   padding-bottom: 80px;
 `;
 
@@ -55,7 +55,7 @@ const ChatItem = styled.View`
   margin-bottom: 18px;
   background-color: #1a1a1a;
   border-radius: 10px;
-  min-height: 7px;
+  min-height: 70px;
 `;
 
 const ProfileImageContainer = styled.View`
@@ -63,8 +63,8 @@ const ProfileImageContainer = styled.View`
 `;
 
 const ProfileImage = styled.Image`
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border-radius: 25px;
   margin-right: 10px;
 `;
@@ -76,7 +76,7 @@ const StatusIndicator = styled.View`
   width: 15px;
   height: 15px;
   border-radius: 7.5px;
-  background-color: ${(props) => (props.online ? "#1e90ff" : "#ff1e1e")};
+  background-color: ${(props) => (props.online ? "#1e90ff" : "transparent")};
 `;
 
 const ChatInfo = styled.View`
@@ -165,7 +165,6 @@ const ChatsScreen = () => {
       <Header>
         <Icon name="arrow-back" size={24} color="#fff" />
         <Title>Chats</Title>
-        <Icon name="settings" size={24} color="#fff" />
       </Header>
       <SearchContainer>
         <SearchInput placeholder="Search..." placeholderTextColor="#aaa" />

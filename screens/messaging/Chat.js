@@ -83,7 +83,7 @@ const Chat = () => {
     return (
       <>
         {item.text && (
-          <View>
+          <View style={{ paddingHorizontal: 20, paddingVertical: 5 }}>
             <ChatBubble isSender={+item.sender === +user.pk}>
               <MessageText>{item.text}</MessageText>
             </ChatBubble>
@@ -159,7 +159,8 @@ const Chat = () => {
 
 const Container = styled.View`
   flex: 1;
-  background-color: #0d0d0d;
+  background-color: #171717;
+
   padding-bottom: 80px;
 `;
 
@@ -175,9 +176,9 @@ const ProfileImageContainer = styled.View`
 `;
 
 const ProfileImage = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
   margin-right: 10px;
 `;
 

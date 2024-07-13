@@ -21,8 +21,8 @@ const GenreCard = ({ genre, onPress }) => {
         backgroundColor: genreBackgroundColors[Math.floor(Math.random() * 4)],
         borderRadius: 20,
         justifyContent: "space-between",
-        width: 130,
-        height: 100,
+        width: 135,
+        height: 135,
         padding: 10,
         overflow: "hidden",
       }}
@@ -30,7 +30,7 @@ const GenreCard = ({ genre, onPress }) => {
       <Text
         style={{
           fontWeight: "bold",
-          fontSize: 20,
+          fontSize: 24,
           color: "#ffffff",
           marginLeft: "5%",
         }}
@@ -40,13 +40,14 @@ const GenreCard = ({ genre, onPress }) => {
       <Image
         source={genreCardsImages[Math.floor(Math.random() * 4)]}
         style={{
-          height: 70,
-          width: 70,
+          height: 100,
+          width: 100,
           alignSelf: "flex-end",
           position: "absolute",
-          right: "-15%",
-          bottom: "2%",
+          right: "-25%",
+          bottom: "-25%",
           zIndex: -1,
+          transform: "rotate(40deg)",
         }}
       />
     </Pressable>

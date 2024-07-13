@@ -17,6 +17,7 @@ const Genres = () => {
             flexWrap: "wrap",
             justifyContent: "center",
             alignItems: "center",
+            gap: 15,
           }}
         >
           {genres.map((genre) => (

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { View, TextInput, Pressable, Image, StyleSheet } from "react-native";
+import { View, TextInput, Pressable, Image, StyleSheet, useWindowDimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 
 const SearchIconLogo = require("../../assets/Images/navbar/SearchIcon.png");
@@ -7,6 +7,7 @@ const SearchIconLogo = require("../../assets/Images/navbar/SearchIcon.png");
 const Filter = ({ original, input, handleInputChange, searchKeyWord }) => {
   const nameRef = useRef();
   const { t } = useTranslation();
+  const { width } = useWindowDimensions();
 
   const handleChange = (text) => {
     input = original;
@@ -22,7 +23,7 @@ const Filter = ({ original, input, handleInputChange, searchKeyWord }) => {
 
   return (
     <View style={styles.mainSearchContainer}>
-      <View style={styles.searchBox}>
+      <View style={[styles.searchBox, { minWidth: width - 50 }]}>
         <TextInput
           style={styles.searchBar}
           placeholder={`${t("search by keyword")}...`}
@@ -42,18 +43,17 @@ const styles = StyleSheet.create({
   mainSearchContainer: {
     alignItems: "center",
     marginBottom: 20,
-    marginLeft: -20,
+    alignSelf: "flex-start",
+    marginLeft: 20,
   },
   searchBox: {
     flexDirection: "row",
-    alignItems: "center",
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#737b8f",
     backgroundColor: "transparent",
     paddingLeft: "1%",
     height: 50,
-    minWidth: 350,
   },
   searchBar: {
     flex: 1,

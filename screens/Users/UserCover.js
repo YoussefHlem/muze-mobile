@@ -7,15 +7,14 @@ import {
   View,
   useWindowDimensions,
   Image,
+  Linking,
 } from "react-native";
-import { MuzeButton, PostModal } from "../../components";
+import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-
-import { getSearchedUserDetails, getGenres } from "../../apis/user";
-
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, setUserDetails, setUserStudios } from "../../store/services/userSlice";
+import { isFollowing, requestFollow } from "../../apis/users";
 import { useTranslation } from "react-i18next";
+import TwoButtons from "../../components/common/TwoButtons";
 
 // Assets
 const CoverImagePlaceholder = "../../assets/Images/profile-background-cover.png";
@@ -31,26 +30,36 @@ const UserCover = ({ id }) => {
   const dispatch = useDispatch();
   const UserDetails = useSelector((state) => state.user.searchedUser);
   const { width, height } = useWindowDimensions();
-
-  const [showModal, setShowModal] = useState(false);
-  const [genres, setGenres] = useState([]);
-  const { user } = useSelector(selectUser);
-
-  const socialMediaLinks = [
-    { link: UserDetails.spotifyLink, icon: SpotifyIcon },
-    { link: UserDetails.soundcloudLink, icon: SoundcloudIcon },
-    { link: UserDetails.youtubeLink, icon: YoutubeIcon },
-    { link: UserDetails.instagramLink, icon: InstagramIcon },
-  ];
+  const [isFollowingState, setIsFollowing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { navigate } = useNavigation();
 
   useEffect(() => {
-    // getSearchedUserDetails({ profileId: id }).then((res) => {
-    //   setUserDetails(res.data["Profile Details"]);
-    //   dispatch(setUserDetails(res.data["Profile Details"]));
-    //   dispatch(setUserStudios(res.data["Owned Studio Rooms"]));
-    // });
-    getGenres().then((res) => dispatch(setGenres(res.data)));
-  }, []);
+    if (UserDetails) {
+      isFollowing({ profileId: UserDetails.user.id })
+        .then((res) => {
+          setIsFollowing(res?.data?.isFollowing);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [UserDetails]);
+
+  const handleFollowRequest = () => {
+    requestFollow({ profileId: UserDetails.user.id })
+      .then((res) => {
+        if (res.data?.Response === "Profile Followed") {
+          setIsFollowing(true);
+        } else {
+          setIsFollowing(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <View>
       <ImageBackground
@@ -59,7 +68,7 @@ const UserCover = ({ id }) => {
             ? { uri: UserDetails?.userCoverImageUrl }
             : require(CoverImagePlaceholder)
         }
-        style={{ width: width, height: height / 3 }}
+        style={{ width: width, height: height / 3 + 40 }}
       >
         <View style={styles.container}>
           <LinearGradient
@@ -79,34 +88,37 @@ const UserCover = ({ id }) => {
               </View>
               <View style={styles.socialMediaSection}>
                 {UserDetails?.spotifyLink && (
-                  <Pressable onPress={() => window.open(UserDetails.spotifyLink)}>
+                  <Pressable onPress={() => Linking.openURL(UserDetails.spotifyLink)}>
                     <Image source={require(SpotifyIcon)} style={styles.socialMediaIcon} />
                   </Pressable>
                 )}
                 {UserDetails?.soundcloudLink && (
-                  <Pressable onPress={() => window.open(UserDetails.soundcloudLink)}>
+                  <Pressable onPress={() => Linking.openURL(UserDetails.soundcloudLink)}>
                     <Image source={require(SoundcloudIcon)} style={styles.socialMediaIcon} />
                   </Pressable>
                 )}
                 {UserDetails?.youtubeLink && (
-                  <Pressable onPress={() => window.open(UserDetails.youtubeLink)}>
+                  <Pressable onPress={() => Linking.openURL(UserDetails.youtubeLink)}>
                     <Image source={require(YoutubeIcon)} style={styles.socialMediaIcon} />
                   </Pressable>
                 )}
                 {UserDetails?.instagramLink && (
-                  <Pressable onPress={() => window.open(UserDetails.instagramLink)}>
+                  <Pressable onPress={() => Linking.openURL(UserDetails.instagramLink)}>
                     <Image source={require(InstagramIcon)} style={styles.socialMediaIcon} />
                   </Pressable>
                 )}
               </View>
             </View>
           </LinearGradient>
-          <View style={styles.buttonContainer}>
-            <MuzeButton onPress={() => setShowModal(true)}>{t("Create New post")}</MuzeButton>
-          </View>
-          <PostModal show={showModal} onHide={() => setShowModal(false)} />
         </View>
       </ImageBackground>
+
+      <TwoButtons
+        onePress1={() => navigate("Messaging")}
+        text1={"Message"}
+        onPress2={handleFollowRequest}
+        text2={isFollowingState ? "Unfollow" : "Follow"}
+      />
       <View
         style={{ marginTop: 40, marginBottom: 20, justifyContent: "center", alignItems: "center" }}
       >
@@ -165,8 +177,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   socialMediaSection: {
+    marginTop: 10,
     flexDirection: "row",
-    marginBottom: -30,
   },
   socialMediaIcon: {
     width: 30,
@@ -174,15 +186,19 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   buttonContainer: {
-    width: "100%",
-    alignItems: "flex-start",
-    marginTop: 20,
-    paddingHorizontal: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 20,
   },
   button: {
     backgroundColor: "#f77599",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 25,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 16,
   },
 });
