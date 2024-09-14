@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "android_build": "eas build -p android --profile preview"
+    "android_build": "eas build -p android --profile preview",
+    "apple_build": "eas build -p ios --auto-submit"
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.1",

@@ -9,13 +9,11 @@ export const languageResources = {
   ar: { translation: ar },
 };
 
-i18next
-  .use(initReactI18next) // Use React-i18next for React Native
-  .init({
-    compatibilityJSON: "v3",
-    lng: "en",
-    fallbackLng: "en",
-    resources: languageResources,
-  });
+i18next.use(initReactI18next).init({
+  compatibilityJSON: "v3",
+  lng: "en",
+  fallbackLng: "en",
+  resources: languageResources,
+});
 
 export default i18next;
