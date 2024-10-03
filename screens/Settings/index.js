@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import {
-  Text,
-  View,
-  ImageBackground,
-  useWindowDimensions,
-  Pressable,
-  useColorScheme,
   Alert,
+  ImageBackground,
+  Linking,
+  Pressable,
+  Text,
+  useColorScheme,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import ScreenWrapper from "../../hoc/ScreenWrapper";
@@ -21,17 +22,14 @@ import styled from "styled-components/native";
 import * as Notifications from "expo-notifications";
 import Toast from "react-native-toast-message";
 import ChangePassword from "./screens/ChangePassword";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useNavigation } from "@react-navigation/native";
 
 const Container = styled.View`
   flex-grow: 1;
   align-items: center;
   padding: 16px;
   padding-top: 0;
-`;
-
-const ScrollContainer = styled.ScrollView`
-  flex: 1;
-  width: 100%;
 `;
 
 const ProfileImage = styled(ImageBackground)`
@@ -50,7 +48,8 @@ const ProfileName = styled(Text)`
 const Section = styled(View)`
   margin-top: 0;
   width: 100%;
-  margin-bottom: 200px;
+  margin-bottom: 20px;
+  padding-bottom: 150px;
 `;
 
 const Card = styled(Pressable)`
@@ -94,12 +93,21 @@ const Settings = () => {
   const { t } = useTranslation();
   const { width, height } = useWindowDimensions();
   const { user } = useSelector(selectUser);
+  const { navigate } = useNavigation();
   const myUserDetails = useSelector((state) => state.user.userDetails);
   const ProfileImagePlaceholder = "../../assets/Images/common/user.jpg";
   const [editProfileVisible, setEditProfileVisible] = useState(false);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false); // New state for notifications
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageVisible, setLanguageVisible] = useState(false);
   const [changePasswordVisible, setChangePasswordVisible] = useState(false);
+
+  // Bottom Sheet configuration
+  const snapPoints = useMemo(() => ["60%", "60%", "85%", "100%"], []);
+  const bottomSheetRef = React.useRef(null);
+
+  const handleSheetChanges = useCallback((index) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   useEffect(() => {
     checkNotificationPermissions();
@@ -114,9 +122,13 @@ const Settings = () => {
     if (!notificationsEnabled) {
       const { status } = await Notifications.getPermissionsAsync();
       if (status !== "granted") {
-        const { status: newStatus } = await Notifications.requestPermissionsAsync();
+        const { status: newStatus } =
+          await Notifications.requestPermissionsAsync();
         if (newStatus !== "granted") {
-          Alert.alert(t("Permission denied"), t("Please enable notifications in settings."));
+          Alert.alert(
+            t("Permission denied"),
+            t("Please enable notifications in settings."),
+          );
           return;
         }
       } else {
@@ -128,12 +140,23 @@ const Settings = () => {
 
   return (
     <LinearGradient
-      colors={["rgba(56, 54, 54, 0)", "rgb(56,54,54)", "rgb(56,54,54)", "rgb(56,54,54)"]}
+      colors={[
+        "rgba(56, 54, 54, 0)",
+        "rgb(56,54,54)",
+        "rgb(56,54,54)",
+        "rgb(56,54,54)",
+      ]}
       style={{ height: "100%", width: "100%" }}
     >
-      <EditProfile visible={editProfileVisible} setVisible={setEditProfileVisible} />
+      <EditProfile
+        visible={editProfileVisible}
+        setVisible={setEditProfileVisible}
+      />
       <Language visible={languageVisible} setVisible={setLanguageVisible} />
-      <ChangePassword visible={changePasswordVisible} setVisible={setChangePasswordVisible} />
+      <ChangePassword
+        visible={changePasswordVisible}
+        setVisible={setChangePasswordVisible}
+      />
 
       <ProfileImage
         style={{ height: height / 3, width: width }}
@@ -151,81 +174,104 @@ const Settings = () => {
             "rgb(56,54,54)",
           ]}
           style={{ height: "100%", width: "100%" }}
-        ></LinearGradient>
-        <ProfileName>
-          {user.firstName} {user.lastName}
-        </ProfileName>
+        >
+          <ProfileName>
+            {user.firstName} {user.lastName}
+          </ProfileName>
+        </LinearGradient>
       </ProfileImage>
 
-      <ScrollContainer>
-        <Section>
-          <CardContainer>
-            <Card onPress={() => setEditProfileVisible(true)}>
-              <CardContent>
-                <IconStyled name="edit" type="material" color="#fff" />
-                <CardText>{t("Edit profile information")}</CardText>
-              </CardContent>
-            </Card>
-            <Card onPress={toggleNotifications}>
-              <CardContent>
-                <IconStyled name="notifications" type="material" color="#fff" />
-                <CardText>{t("Notifications")}</CardText>
-                <CardTextRight>{notificationsEnabled ? t("ON") : t("OFF")}</CardTextRight>
-              </CardContent>
-            </Card>
-            <Card onPress={() => setLanguageVisible(true)}>
-              <CardContent>
-                <IconStyled name="language" type="material" color="#fff" />
-                <CardText>{t("Language")}</CardText>
-                <Pressable>
-                  <CardTextRight>{t("English")}</CardTextRight>
-                </Pressable>
-              </CardContent>
-            </Card>
-          </CardContainer>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        backgroundStyle={{
+          backgroundColor: "rgb(56,54,54)",
+        }}
+      >
+        <BottomSheetScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <Section>
+            <CardContainer>
+              <Card onPress={() => setEditProfileVisible(true)}>
+                <CardContent>
+                  <IconStyled name="edit" type="material" color="#fff" />
+                  <CardText>{t("Edit profile information")}</CardText>
+                </CardContent>
+              </Card>
+              <Card onPress={toggleNotifications}>
+                <CardContent>
+                  <IconStyled
+                    name="notifications"
+                    type="material"
+                    color="#fff"
+                  />
+                  <CardText>{t("Notifications")}</CardText>
+                  <CardTextRight>
+                    {notificationsEnabled ? t("ON") : t("OFF")}
+                  </CardTextRight>
+                </CardContent>
+              </Card>
+              <Card onPress={() => setLanguageVisible(true)}>
+                <CardContent>
+                  <IconStyled name="language" type="material" color="#fff" />
+                  <CardText>{t("Language")}</CardText>
+                  <Pressable>
+                    <CardTextRight>{t("English")}</CardTextRight>
+                  </Pressable>
+                </CardContent>
+              </Card>
+            </CardContainer>
 
-          <CardContainer>
-            <Card>
-              <Pressable onPress={() => setChangePasswordVisible(true)}>
+            <CardContainer>
+              <Card>
+                <Pressable onPress={() => setChangePasswordVisible(true)}>
+                  <CardContent>
+                    <IconStyled name="lock" type="material" color="#fff" />
+                    <CardText>{t("Security")}</CardText>
+                  </CardContent>
+                </Pressable>
+              </Card>
+              <Card>
+                <CardContent>
+                  <IconStyled
+                    name="brightness-4"
+                    type="material"
+                    color="#fff"
+                  />
+                  <CardText>{t("Theme")}</CardText>
+                  <Pressable onPress={toggleTheme}>
+                    <CardTextRight>{t("Light mode")}</CardTextRight>
+                  </Pressable>
+                </CardContent>
+              </Card>
+            </CardContainer>
+
+            <CardContainer>
+              <Card onPress={() => navigate("HelpSupport")}>
+                <CardContent>
+                  <IconStyled name="mail" type="material" color="#fff" />
+                  <CardText>{t("Help & Support")}</CardText>
+                </CardContent>
+              </Card>
+              <Card
+                onPress={() => Linking.openURL("mailto:info@muze-network.com")}
+              >
+                <CardContent>
+                  <IconStyled name="phone" type="material" color="#fff" />
+                  <CardText>{t("Contact Us")}</CardText>
+                </CardContent>
+              </Card>
+              <Card onPress={() => navigate("PrivacyPolicy")}>
                 <CardContent>
                   <IconStyled name="lock" type="material" color="#fff" />
-                  <CardText>{t("Security")}</CardText>
+                  <CardText>{t("Privacy Policy")}</CardText>
                 </CardContent>
-              </Pressable>
-            </Card>
-            <Card>
-              <CardContent>
-                <IconStyled name="brightness-4" type="material" color="#fff" />
-                <CardText>{t("Theme")}</CardText>
-                <Pressable onPress={toggleTheme}>
-                  <CardTextRight>{t("Light mode")}</CardTextRight>
-                </Pressable>
-              </CardContent>
-            </Card>
-          </CardContainer>
-
-          <CardContainer>
-            <Card>
-              <CardContent>
-                <IconStyled name="mail" type="material" color="#fff" />
-                <CardText>{t("Help & Support")}</CardText>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent>
-                <IconStyled name="phone" type="material" color="#fff" />
-                <CardText>{t("Contact Us")}</CardText>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent>
-                <IconStyled name="lock" type="material" color="#fff" />
-                <CardText>{t("Privacy Policy")}</CardText>
-              </CardContent>
-            </Card>
-          </CardContainer>
-        </Section>
-      </ScrollContainer>
+              </Card>
+            </CardContainer>
+          </Section>
+        </BottomSheetScrollView>
+      </BottomSheet>
     </LinearGradient>
   );
 };

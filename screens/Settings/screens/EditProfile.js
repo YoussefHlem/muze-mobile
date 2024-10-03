@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import {
   Modal,
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  ScrollView,
   Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
   useWindowDimensions,
+  View,
 } from "react-native";
-import { BlurView } from "expo-blur";
 import { MuzeButton } from "../../../components";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import { updateProfile } from "../../../apis/user";
@@ -17,15 +16,28 @@ import { userTypes as userTypesApi } from "../../../apis/utils";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../store/services/userSlice";
 import { useTranslation } from "react-i18next";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const MuzeInput = ({ label, value, onChangeText, error, style }) => (
   <View style={[styles.inputContainer, style, error && { borderColor: "red" }]}>
     <Text style={styles.inputLabel}>{label}</Text>
-    <TextInput style={styles.input} value={value} onChangeText={onChangeText} />
+    <TextInput
+      style={styles.input}
+      value={value}
+      onChangeText={onChangeText}
+      placeholderTextColor="#666"
+    />
   </View>
 );
 
-const MuzeDropdown = ({ label, data, setSelected, onSelect, error, defaultOption }) => (
+const MuzeDropdown = ({
+  label,
+  data,
+  setSelected,
+  onSelect,
+  error,
+  defaultOption,
+}) => (
   <View style={[styles.dropDownContainer, error && { borderColor: "red" }]}>
     <Text style={styles.dropDownLabel}>{label}</Text>
     <MultipleSelectList
@@ -34,9 +46,14 @@ const MuzeDropdown = ({ label, data, setSelected, onSelect, error, defaultOption
       search={false}
       setSelected={setSelected}
       onSelect={onSelect}
+      badgeTextStyles={{ color: "#000" }}
+      dropdownTextStyles={{ color: "#000" }}
+      inputStyles={{ color: "#000" }}
     />
   </View>
 );
+
+// ... rest of the component logic remains the same ...
 
 const EditProfile = ({ visible, setVisible }) => {
   const { t } = useTranslation();
@@ -84,10 +101,6 @@ const EditProfile = ({ visible, setVisible }) => {
       errors.firstName = t("First name is required");
       valid = false;
     }
-    if (!lastName) {
-      errors.lastName = t("Last name is required");
-      valid = false;
-    }
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       errors.email = t("A valid email is required");
       valid = false;
@@ -125,7 +138,6 @@ const EditProfile = ({ visible, setVisible }) => {
   const handleDeleteAccount = () => {
     // Add the function to handle account deletion here
   };
-
   return (
     <Modal
       animationType="fade"
@@ -135,143 +147,147 @@ const EditProfile = ({ visible, setVisible }) => {
         setVisible(!visible);
       }}
     >
-      <BlurView
-        intensity={50}
-        style={styles.absolute}
-        tint="dark"
-        experimentalBlurMethod="dimezisBlurView"
-      />
-      <ScrollView contentContainerStyle={styles.centeredView}>
-        <View style={styles.headerContainer}>
-          <Pressable onPress={() => setVisible(!visible)}>
-            <Text style={styles.modalTitle}>{t("Back")}</Text>
-          </Pressable>
-          <Text style={styles.modalTitle}>{t("Edit Profile")}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: 30,
-          }}
-        >
-          <MuzeInput
-            label={t("First Name")}
-            value={firstName}
-            onChangeText={setFirstName}
-            error={errors.firstName}
-            style={{ width: "47%" }}
-          />
-          <MuzeInput
-            label={t("Last Name")}
-            value={lastName}
-            onChangeText={setLastName}
-            error={errors.lastName}
-            style={{ width: "47%" }}
-          />
-        </View>
-
-        <MuzeInput label={t("Email")} value={email} onChangeText={setEmail} error={errors.email} />
-
-        <MuzeDropdown
-          label={t("User Type")}
-          data={userTypes}
-          setSelected={(value) => setUserType(value)}
-          onSelect={(value) => console.log(value)}
-          error={errors.userType}
-          // defaultOption={userType[0]}
-        />
-        <MuzeInput
-          label={t("Bio")}
-          value={bio}
-          onChangeText={setBio}
-          error={errors.bio}
-          style={{ marginTop: 25, minHeight: 100 }}
-        />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: 30,
-          }}
-        >
-          <MuzeInput
-            label={t("Spotify")}
-            value={spotify}
-            onChangeText={setSpotify}
-            error={errors.spotify}
-            style={{ width: "47%" }}
-          />
-          <MuzeInput
-            label={t("SoundCloud")}
-            value={soundCloud}
-            onChangeText={setSoundCloud}
-            error={errors.soundCloud}
-            style={{ width: "47%" }}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: 30,
-          }}
-        >
-          <MuzeInput
-            label={t("YouTube")}
-            value={youtube}
-            onChangeText={setYoutube}
-            error={errors.youtube}
-            style={{ width: "47%" }}
-          />
-          <MuzeInput
-            label={t("Instagram")}
-            value={instagram}
-            onChangeText={setInstagram}
-            error={errors.instagram}
-            style={{ width: "47%" }}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            gap: 30,
-          }}
-        >
-          <MuzeButton gradientStyle={{ width: width / 2 - 80 }} onPress={handleSubmit}>
-            {t("Submit")}
-          </MuzeButton>
-          <MuzeButton
-            gradientStyle={{ width: width / 2 - 80, backgroundColor: "red" }}
-            onPress={handleDeleteAccount}
+      <View style={styles.modalBackground}>
+        <ScrollView contentContainerStyle={styles.centeredView}>
+          <View style={styles.headerContainer}>
+            <Pressable onPress={() => setVisible(!visible)}>
+              <Text style={styles.modalTitle}>{t("Back")}</Text>
+            </Pressable>
+            <Text style={styles.modalTitle}>{t("Edit Profile")}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: 20,
+            }}
           >
-            Delete
-          </MuzeButton>
-        </View>
-      </ScrollView>
+            <MuzeInput
+              label={t("First Name")}
+              value={firstName}
+              onChangeText={setFirstName}
+              error={errors.firstName}
+              style={{ width: "47%" }}
+            />
+            <MuzeInput
+              label={t("Last Name")}
+              value={lastName}
+              onChangeText={setLastName}
+              error={errors.lastName}
+              style={{ width: "47%" }}
+            />
+          </View>
+
+          <MuzeInput
+            label={t("Email")}
+            value={email}
+            onChangeText={setEmail}
+            error={errors.email}
+          />
+
+          <MuzeDropdown
+            label={t("User Type")}
+            data={userTypes}
+            setSelected={(value) => setUserType(value)}
+            onSelect={(value) => console.log(value)}
+            error={errors.userType}
+            // defaultOption={userType[0]}
+          />
+          <MuzeInput
+            label={t("Bio")}
+            value={bio}
+            onChangeText={setBio}
+            error={errors.bio}
+            style={{ marginTop: 25, minHeight: 100 }}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: 20,
+            }}
+          >
+            <MuzeInput
+              label={t("Spotify")}
+              value={spotify}
+              onChangeText={setSpotify}
+              error={errors.spotify}
+              style={{ width: "47%" }}
+            />
+            <MuzeInput
+              label={t("SoundCloud")}
+              value={soundCloud}
+              onChangeText={setSoundCloud}
+              error={errors.soundCloud}
+              style={{ width: "47%" }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: 20,
+            }}
+          >
+            <MuzeInput
+              label={t("YouTube")}
+              value={youtube}
+              onChangeText={setYoutube}
+              error={errors.youtube}
+              style={{ width: "47%" }}
+            />
+            <MuzeInput
+              label={t("Instagram")}
+              value={instagram}
+              onChangeText={setInstagram}
+              error={errors.instagram}
+              style={{ width: "47%" }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: 30,
+            }}
+          >
+            <MuzeButton
+              gradientStyle={{ width: width / 2 - 80 }}
+              onPress={handleSubmit}
+            >
+              {t("Submit")}
+            </MuzeButton>
+            <MuzeButton
+              gradientStyle={{
+                width: width / 2 - 80,
+                backgroundColor: "red",
+              }}
+              onPress={handleDeleteAccount}
+            >
+              Delete
+            </MuzeButton>
+          </View>
+        </ScrollView>
+      </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  absolute: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
+  modalBackground: {
+    flex: 1,
+    backgroundColor: "#171717",
   },
   centeredView: {
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    // marginTop: 22,
     padding: 20,
+    paddingTop: 50,
   },
   headerContainer: {
     flexDirection: "row",
@@ -287,41 +303,60 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     marginBottom: 15,
-    backgroundColor: "#1c2839",
-    borderColor: "#ccc",
+    backgroundColor: "#f5f5f7",
+    borderColor: "#e2e2e7",
     borderWidth: 1,
     borderRadius: 8,
+    shadowColor: "#666",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 3,
   },
   inputLabel: {
     fontSize: 14,
-    color: "rgba(218, 218, 218, 1)",
+    color: "#2f2f3b",
     marginTop: 16,
     marginLeft: 16,
+    fontWeight: "500",
   },
   input: {
     height: 35,
     marginHorizontal: 16,
-    width: "100%",
-    color: "#ffffff",
+    width: "85%",
+    color: "#424250",
     paddingBottom: 16,
   },
   dropDownContainer: {
     width: "100%",
     marginBottom: 24,
-    backgroundColor: "#1c2839",
-    borderColor: "#ccc",
+    backgroundColor: "#ffffff",
+    borderColor: "#e0e0e0",
     borderWidth: 1,
     borderRadius: 8,
     padding: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   dropDownLabel: {
     fontSize: 14,
-    color: "rgba(218, 218, 218, 1)",
+    color: "#000000",
     marginBottom: 8,
+    fontWeight: "500",
   },
   dropdown: {
-    backgroundColor: "#1c2839",
+    backgroundColor: "#ffffff",
     borderWidth: 0,
+    color: "#000000",
   },
 });
 
