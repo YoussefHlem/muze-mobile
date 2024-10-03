@@ -3,15 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // Components
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Pressable,
-  Image,
-  Modal,
-} from "react-native";
+import { StyleSheet, Text, View, ImageBackground, Pressable, Image, Modal } from "react-native";
 import { CheckBox } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
@@ -91,14 +83,8 @@ const SignUpForm = ({ t, navigation }) => {
   };
 
   const handleSubmit = () => {
-    const {
-      firstName,
-      lastName,
-      password,
-      email,
-      confirmPassword,
-      acceptTermsConditions,
-    } = formData;
+    const { firstName, lastName, password, email, confirmPassword, acceptTermsConditions } =
+      formData;
     // Validation Conditions
     if (password !== confirmPassword) {
       Toast.show({
@@ -203,10 +189,7 @@ const SignUpForm = ({ t, navigation }) => {
             borderColor: error ? "#ff0000" : "#fff",
           }}
         />
-        <Pressable
-          style={styles.icon}
-          onPress={() => setShowPassword(!showPassword)}
-        >
+        <Pressable style={styles.icon} onPress={() => setShowPassword(!showPassword)}>
           <Ionicons name="eye" size={24} color="black" />
         </Pressable>
       </View>
@@ -223,10 +206,7 @@ const SignUpForm = ({ t, navigation }) => {
             borderColor: error ? "#ff0000" : "#fff",
           }}
         />
-        <Pressable
-          style={styles.icon}
-          onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-        >
+        <Pressable style={styles.icon} onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
           <Ionicons name="eye" size={24} color="black" />
         </Pressable>
       </View>
@@ -235,12 +215,7 @@ const SignUpForm = ({ t, navigation }) => {
         <CheckBox
           value={formData.acceptTermsConditions}
           checked={formData.acceptTermsConditions}
-          onPress={() =>
-            handleChange(
-              "acceptTermsConditions",
-              !formData.acceptTermsConditions
-            )
-          }
+          onPress={() => handleChange("acceptTermsConditions", !formData.acceptTermsConditions)}
           required={true}
         />
         <View style={styles.termsContainer}>
@@ -259,9 +234,7 @@ const SignUpForm = ({ t, navigation }) => {
 
       <MuzeButton onPress={handleSubmit}> {t("signUp")}</MuzeButton>
       <LineWrapper>
-        <Text style={{ color: "#fff", fontWeight: "600" }}>
-          {t("orSignUpWith")}
-        </Text>
+        <Text style={{ color: "#fff", fontWeight: "600" }}>{t("orSignUpWith")}</Text>
       </LineWrapper>
       <View style={styles.iconsContainer}>
         <Pressable style={styles.iconWrapper}>
