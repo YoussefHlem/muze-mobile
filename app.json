@@ -18,7 +18,13 @@
 		"ios": {
 			"supportsTablet": true,
 			"bundleIdentifier": "com.youssefhlemdev.muzemobile",
-			"buildNumber": "2"
+			"buildNumber": "2",
+			"infoPlist": {
+				"NSAppTransportSecurity": {
+					"NSAllowsArbitraryLoads": true
+				},
+				"NSPhotoLibraryUsageDescription": "This app requires access to your photo library to upload videos."
+			}
 		},
 		"android": {
 			"adaptiveIcon": {
