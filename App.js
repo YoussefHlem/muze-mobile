@@ -1,7 +1,7 @@
 // App.js
 import React, { Suspense } from "react";
 import { Provider as ReduxProvider } from "react-redux";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ThemeProvider, useTheme } from "./ThemeContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -37,9 +37,9 @@ import Settings from "./screens/Settings";
 import ChatsScreen from "./screens/messaging";
 import Chat from "./screens/messaging/Chat";
 import Auth from "./screens/New_Auth";
-import { getItemAsync } from "expo-secure-store";
 import HelpSupport from "./screens/Settings/screens/HelpSupport";
 import PrivacyPolicy from "./screens/Settings/screens/PrivacyPolicy";
+import Onboarding from "./screens/Onboarding";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -72,6 +72,7 @@ const ThemedApp = () => {
           }}
         >
           {/* Main Screens */}
+          <Stack.Screen name="Onboarding" component={Onboarding} />
           <Stack.Screen name="Auth" component={Auth} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Explore" component={Explore} />
