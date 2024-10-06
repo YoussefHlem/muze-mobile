@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MuzeButton } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { getItemAsync } from "expo-secure-store";
+import { BackgroundImage } from "react-native-elements/dist/config";
 // Assets
 const mainLogo = require("../../assets/Images/navbar/navbar-dark-logo.png");
 
@@ -17,16 +18,27 @@ const Auth = () => {
   })();
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Image source={mainLogo} style={styles.logo} />
-        <Text style={styles.subtitle}>Create a Free account</Text>
-        <MuzeButton onPress={() => navigate("Sign Up")} gradientStyle={{ width: 275 }}>
-          Create an account
-        </MuzeButton>
-        <MuzeButton onPress={() => navigate("Sign In")} gradientStyle={{ width: 275 }}>
-          Sign In
-        </MuzeButton>
-      </View>
+      <BackgroundImage
+        source={require("../../assets/Images/auth-background.png")}
+        style={styles.background}
+      >
+        <View style={styles.content}>
+          <Image source={mainLogo} style={styles.logo} />
+          <Text style={styles.subtitle}>Create a Free account</Text>
+          <MuzeButton
+            onPress={() => navigate("Sign Up")}
+            gradientStyle={{ width: 275 }}
+          >
+            Create an account
+          </MuzeButton>
+          <MuzeButton
+            onPress={() => navigate("Sign In")}
+            gradientStyle={{ width: 275 }}
+          >
+            Sign In
+          </MuzeButton>
+        </View>
+      </BackgroundImage>
     </SafeAreaView>
   );
 };
@@ -47,6 +59,9 @@ const styles = StyleSheet.create({
   logo: {
     width: 400,
     height: 100,
+  },
+  background: {
+    flex: 1,
   },
   subtitle: {
     fontSize: 24,

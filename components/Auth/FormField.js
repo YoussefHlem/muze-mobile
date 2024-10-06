@@ -1,17 +1,17 @@
-import React from "react";
-import { View, Text, TextInput } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { useField } from "formik";
 
 const FormField = ({ name, label, ...props }) => {
   const [field, meta, helpers] = useField(name);
 
   return (
-    <View className="mb-5">
-      <Text className="text-sm font-medium text-gray-600 mb-1">{label}</Text>
+    <View className="relative mb-8">
+      <Text className="absolute z-10 -top-4 left-5 bg-[#171717] text-lg font-medium mb-1 text-gray-200">
+        {label}
+      </Text>
       <TextInput
-        className={`w-full px-3 py-2 text-[#1A1C1E] text-sm font-medium border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 ${
-          meta.touched && meta.error && "border-red-500"
-        }`}
+        className={`w-full p-4 text-white text-md font-medium border border-gray-200 rounded-[20px] focus:outline-none focus:border-blue-500 ${meta.touched && meta.error && "border-red-500"}`}
+        placeholderTextColor={"rgb(194,199,207)"}
         onChangeText={helpers.setValue}
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
