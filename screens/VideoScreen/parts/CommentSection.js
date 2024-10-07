@@ -1,35 +1,45 @@
-// Libs
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, TextInput, Pressable, Image } from "react-native";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import {
+  Image,
+  Modal,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import EmojiSelector from "react-native-emoji-selector";
-
-// Apis
-import { createComment, getAllPostComments, deleteComment } from "../../../apis/video";
+import {
+  createComment,
+  deleteComment,
+  getAllPostComments,
+} from "../../../apis/video";
 import { getSearchedUserDetails } from "../../../apis/user";
-
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-import { selectUser, setSearchedUserDetails } from "../../../store/services/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectUser,
+  setSearchedUserDetails,
+} from "../../../store/services/userSlice";
 import { getAuthToken } from "../../../utils/AuthToken";
 import { useTranslation } from "react-i18next";
-// import style from "react-native-datepicker/style";
+import { Feather } from "@expo/vector-icons";
 
-// Assets
 const defaultImage = "../../../assets/Images/common/user.jpg";
 const CommentBtn = "../../../assets/Images/video-screen/comment-btn.png";
 
-const CommentSection = () => {
+const ModalCommentSection = ({ visible, setIsVisible, videoId }) => {
   const dispatch = useDispatch();
   const { navigate } = useNavigation();
   const { t } = useTranslation();
 
   const { user } = useSelector(selectUser);
   const { pk } = user;
-
-  const videoSource = useSelector((state) => state.video.video);
-  const { id } = videoSource;
 
   const [showPicker, setShowPicker] = useState(false);
   const [myComments, setMyComments] = useState([]);
@@ -38,16 +48,28 @@ const CommentSection = () => {
 
   useEffect(() => {
     (async () => {
-      const authToken = await getAuthToken();
-      setAuthToken(authToken);
+      const token = await getAuthToken();
+      setAuthToken(token);
     })();
   }, []);
 
+  useEffect(() => {
+    if (visible && videoId) {
+      getAllPostComments({ postId: videoId }).then((res) => {
+        if (res.data) {
+          setMyComments(res.data["All Post Comments"]);
+        }
+      });
+    }
+  }, [visible, videoId]);
+
   const handleCommentSubmit = async () => {
-    await createComment({ comment, postId: id }).then(() => {
-      if (id) {
+    if (!comment.trim()) return;
+
+    await createComment({ comment, postId: videoId }).then(() => {
+      if (videoId) {
         getAllPostComments({
-          postId: id,
+          postId: videoId,
         }).then((res) => {
           if (res.data) {
             setMyComments(res.data["All Post Comments"]);
@@ -63,6 +85,7 @@ const CommentSection = () => {
       getSearchedUserDetails({
         profileId: author,
       }).then((res) => {
+        setIsVisible(false);
         if (res.data["Profile Details"].user === pk) {
           navigate("Profile");
         } else {
@@ -71,6 +94,7 @@ const CommentSection = () => {
         }
       });
     } else {
+      setIsVisible(false);
       navigate("Sign In");
     }
   };
@@ -80,12 +104,12 @@ const CommentSection = () => {
     setShowPicker(false);
   };
 
-  const deleteCommentHandler = (id) => {
+  const deleteCommentHandler = (commentId) => {
     deleteComment({
-      commentId: id,
+      commentId: commentId,
     }).then(() => {
       getAllPostComments({
-        postId: id,
+        postId: videoId,
       }).then((res) => {
         if (res.data) {
           Toast.show({
@@ -98,22 +122,30 @@ const CommentSection = () => {
     });
   };
 
-  useEffect(() => {
-    getAllPostComments({ postId: id }).then((res) => {
-      if (res.data) {
-        setMyComments(res.data["All Post Comments"]);
-      }
-    });
-  }, []);
   return (
-    <>
-      <View style={styles.commentsSection}>
-        <Text style={styles.commentsHeader}>{t("Comments")}</Text>
-        <ScrollView contentContainerStyle={styles.commentsWrapper}>
+    <Modal
+      visible={visible}
+      animationType="slide"
+      onRequestClose={() => setIsVisible(false)}
+    >
+      <SafeAreaView style={styles.modalContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>{t("Comments")}</Text>
+          <Pressable
+            onPress={() => setIsVisible(false)}
+            style={styles.closeButton}
+          >
+            <Text style={styles.closeButtonText}>✕</Text>
+          </Pressable>
+        </View>
+
+        <ScrollView style={styles.commentsWrapper}>
           {myComments.length ? (
             myComments.map((commentData) => (
               <View key={commentData.id} style={styles.commentWrapper}>
-                <Pressable onPress={() => handleCommenterClick(commentData.author)}>
+                <Pressable
+                  onPress={() => handleCommenterClick(commentData.author)}
+                >
                   <Image
                     source={
                       commentData.userImageUrl
@@ -124,137 +156,180 @@ const CommentSection = () => {
                   />
                 </Pressable>
                 <View style={styles.userInfo}>
-                  <View>
-                    <Pressable onPress={() => handleCommenterClick(commentData.author)}>
-                      <Text
-                        style={styles.userName}
-                      >{`${commentData?.firstName} ${commentData?.lastName}`}</Text>
+                  <View style={styles.commentContent}>
+                    <Pressable
+                      onPress={() => handleCommenterClick(commentData.author)}
+                    >
+                      <Text style={styles.userName}>
+                        {`${commentData?.firstName} ${commentData?.lastName}`}
+                      </Text>
                     </Pressable>
                     <Text style={styles.comment}>{commentData.comment}</Text>
                   </View>
                   {user.pk === commentData.author && (
-                    <Pressable onPress={() => deleteCommentHandler(commentData.id)}>
-                      <Text style={styles.deleteButton}>{t("Delete")}</Text>
+                    <Pressable
+                      onPress={() => deleteCommentHandler(commentData.id)}
+                      style={styles.deleteButton}
+                    >
+                      <Feather name={"trash-2"} size={24} color={"#fc6a6a"} />
                     </Pressable>
                   )}
                 </View>
               </View>
             ))
           ) : (
-            <Text style={{ fontSize: 18, color: " #fff", marginLeft: 15 }}>
-              {t("No Comment Yet")}
-            </Text>
+            <Text style={styles.noComments}>{t("No Comment Yet")}</Text>
           )}
         </ScrollView>
 
-        <View style={styles.postComment}>
-          <TextInput
-            style={styles.commentInput}
-            placeholder="Write Comment Here..."
-            placeholderTextColor={"#fff"}
-            value={comment}
-            onChangeText={(text) => {
-              setComment(text);
-            }}
-          />
-          <Pressable style={styles.emojiButton} onPress={() => setShowPicker(!showPicker)}>
-            <Text style={{ fontSize: 20 }}>😀</Text>
-          </Pressable>
-          <Pressable onPress={handleCommentSubmit}>
-            <Image style={styles.commentButton} source={require(CommentBtn)} alt="Button" />
-          </Pressable>
+        <View style={styles.inputContainer}>
+          <View style={styles.postComment}>
+            <TextInput
+              style={styles.commentInput}
+              placeholder="Write a comment..."
+              placeholderTextColor={"#999"}
+              value={comment}
+              onChangeText={setComment}
+              multiline
+            />
+            <Pressable
+              style={styles.emojiButton}
+              onPress={() => setShowPicker(!showPicker)}
+            >
+              <Text style={styles.emojiButtonText}>😀</Text>
+            </Pressable>
+            <Pressable onPress={handleCommentSubmit} style={styles.sendButton}>
+              <Image
+                style={styles.commentButton}
+                source={require(CommentBtn)}
+              />
+            </Pressable>
+          </View>
         </View>
-      </View>
-      {showPicker && (
-        <EmojiSelector
-          showSearchBar={false}
-          key={Math.random().toString(32)}
-          theme="#007AFF"
-          onEmojiSelected={(emoji) => handleEmojiClick(emoji)}
-        />
-      )}
-    </>
+
+        {showPicker && (
+          <View style={styles.emojiSelector}>
+            <EmojiSelector
+              showSearchBar={false}
+              columns={8}
+              theme="#007AFF"
+              onEmojiSelected={handleEmojiClick}
+            />
+          </View>
+        )}
+      </SafeAreaView>
+    </Modal>
   );
 };
 
-export default CommentSection;
-
 const styles = StyleSheet.create({
-  commentsSection: {
+  modalContainer: {
+    flex: 1,
     backgroundColor: "#1f1f1f",
-    padding: 10,
-    borderRadius: 25,
-    margin: 10,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  commentsHeader: {
-    padding: 15,
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
     borderBottomWidth: 1,
-    marginBottom: 25,
+    borderBottomColor: "#333",
+  },
+  headerTitle: {
     fontSize: 18,
-    fontWeight: "800",
-    letterSpacing: 0.6,
+    fontWeight: "600",
     color: "#fff",
   },
+  closeButton: {
+    position: "absolute",
+    right: 16,
+    padding: 8,
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 24,
+  },
   commentsWrapper: {
-    maxHeight: "100%",
+    flex: 1,
   },
   commentWrapper: {
     flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#333",
   },
   commentImage: {
-    borderRadius: 30,
-    height: 60,
-    width: 60,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
   userInfo: {
+    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    flex: 2,
-    marginLeft: 10,
+    marginLeft: 12,
+  },
+  commentContent: {
+    flex: 1,
   },
   userName: {
-    fontWeight: "400",
-    fontSize: 13,
-    color: "white",
-    paddingBottom: 6,
+    color: "#fff",
+    fontWeight: "600",
+    marginBottom: 4,
   },
   comment: {
-    fontWeight: "400",
-    fontSize: 18,
-    color: "white",
-    width: "fit-content",
-    lineHeight: 20,
+    color: "#fff",
+    fontSize: 16,
   },
   deleteButton: {
-    padding: 8,
-    color: "#fc6a6a",
-    backgroundColor: "transparent",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
     borderWidth: 1,
-    borderRadius: 10,
     borderColor: "#fc6a6a",
-    transition: "all 0.3s",
-    marginTop: -18,
+  },
+  deleteButtonText: {
+    color: "#fc6a6a",
+    fontSize: 14,
+  },
+  inputContainer: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#333",
   },
   postComment: {
     flexDirection: "row",
-    marginTop: 25,
-    backgroundColor: "#161616",
-    borderRadius: 8,
     alignItems: "center",
+    backgroundColor: "#333",
+    borderRadius: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
   commentInput: {
     flex: 1,
-    color: "white",
-    padding: 10,
-    fontSize: 20,
+    color: "#fff",
+    fontSize: 16,
+    maxHeight: 100,
   },
   emojiButton: {
-    padding: 10,
+    paddingHorizontal: 8,
   },
-  commentButton: {
-    padding: 10,
+  emojiButtonText: {
+    fontSize: 24,
+  },
+  sendButton: {
+    padding: 8,
+  },
+  noComments: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+    padding: 24,
+  },
+  emojiSelector: {
+    height: 250,
   },
 });
+
+export default ModalCommentSection;

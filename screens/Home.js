@@ -9,12 +9,20 @@ import { useDispatch } from "react-redux";
 import { setVideoData } from "../store/services/videoSlice";
 import { popularVideos as getPopularVideos } from "../apis/video";
 import { getRandomPosts } from "../apis/post";
-import PopularArtistsTab from "./Explore/Tabs/PopularArtistsTab"; // Import your artists component
+import PopularArtistsTab from "./Explore/Tabs/PopularArtistsTab";
+import { signin } from "../apis/user";
+import {
+  setAuthToken,
+  setIsUserSignUpDone,
+  setUser,
+} from "../store/services/userSlice";
+import { getItemAsync } from "expo-secure-store"; // Import your artists component
 
 const Home = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [formData, setFormData] = useState({});
 
   const [showModal, setShowModal] = useState(false);
   const [popularVideos, setPopularVideos] = useState([]);
@@ -22,6 +30,24 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    (async () => {
+      const formData = await getItemAsync("FormData");
+      if (formData) {
+        setFormData(JSON.parse(formData));
+      }
+    })();
+    signin(formData)
+      .then((res) => {
+        if (!res.data.Error) {
+          console.log(res.data);
+          dispatch(setUser(res.data));
+          dispatch(setIsUserSignUpDone(res.data.signUpDone));
+          dispatch(setAuthToken(res.data.accessToken));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     setLoading(true); // Start loading before fetching data
 
     if (selectedValue === "Trending") {

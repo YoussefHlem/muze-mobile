@@ -11,13 +11,18 @@ import { signin } from "../../apis/user";
 // Redux
 import { setAllArtists } from "../../store/services/searchSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, setIsUserSignUpDone, setAuthToken } from "../../store/services/userSlice";
+import {
+  setAuthToken,
+  setIsUserSignUpDone,
+  setUser,
+} from "../../store/services/userSlice";
 
 // Screens
 import ProfilePrefrences from "../Auth/SignUp/screens/ProfilePrefrences";
 import AccountDetails from "../Auth/SignUp/screens/AccountDetails";
 import Tabs from "./Tabs";
 import { getItemAsync } from "expo-secure-store";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Explore = () => {
   const dispatch = useDispatch();
@@ -31,19 +36,18 @@ const Explore = () => {
   const prevPage = () => setActivePage((prevState) => prevState - 1);
 
   useEffect(() => {
+    getAllArtists().then((res) => {
+      dispatch(setAllArtists(res.data));
+    });
+  }, []);
+
+  useFocusEffect(() => {
     (async () => {
       const formData = await getItemAsync("FormData");
       if (formData) {
         setFormData(JSON.parse(formData));
       }
     })();
-
-    getAllArtists().then((res) => {
-      dispatch(setAllArtists(res.data));
-    });
-  }, []);
-
-  useEffect(() => {
     signin(formData)
       .then((res) => {
         if (!res.data.Error) {
@@ -55,7 +59,7 @@ const Explore = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, [formData]);
+  });
 
   const handleSwitchScreen = () => {
     switch (activePage) {

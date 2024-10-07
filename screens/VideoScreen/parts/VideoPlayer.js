@@ -1,15 +1,13 @@
 // Libs
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
+  Image,
+  Pressable,
   StyleSheet,
   Text,
-  View,
   useWindowDimensions,
-  Pressable,
-  Image,
-  ImageBackground,
+  View,
 } from "react-native";
-import { Video, ResizeMode } from "expo-av";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,7 +16,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../../store/services/userSlice";
 
 // Apis
-import { likePost, dislikePost, deletePost, getAllDetails } from "../../../apis/user";
+import { deletePost } from "../../../apis/user";
 import { useTranslation } from "react-i18next";
 
 // Assets
@@ -32,9 +30,19 @@ const VideoPlayer = () => {
   const { user } = useSelector(selectUser);
   const { width } = useWindowDimensions();
 
-  const [isLike, setIsLike] = useState(likes?.map((ele) => ele.id).indexOf(user.pk) >= 0);
+  const [isLike, setIsLike] = useState(
+    likes?.map((ele) => ele.id).indexOf(user.pk) >= 0,
+  );
   const [likesCount, setLikesCount] = useState(likes?.length);
   const [userCoverPhoto, setUserCoverPhoto] = useState();
+  const [videos, setVideos] = useState([
+    {
+      _id: "13",
+      uri: {
+        uri: "https://muzefirststorage.blob.core.windows.net/usercontainer/posts/posts-1695155626922",
+      },
+    },
+  ]);
   const [status, setStatus] = useState({});
 
   const videoSource = useSelector((state) => state.video.video);
@@ -42,31 +50,23 @@ const VideoPlayer = () => {
   const vidoeURL = videoSource.videoUrl[0].url;
 
   useEffect(() => {
-    getAllDetails().then((res) => {
-      setUserCoverPhoto(res.data["Profile Details"]?.userCoverImageUrl);
+    getRandomPosts({
+      noWantedPosts: 9,
+    }).then((res) => {
+      const data = res.data;
+      const videoEntries = [];
+      data.posts.map((post) =>
+        post.videoUrl.map((video) => {
+          videoEntries.push({
+            _id: video.id,
+            uri: video.url,
+          });
+        }),
+      );
+      console.log(videoEntries);
+      setVideos(videoEntries);
     });
   }, []);
-
-  const handleLikePress = (id, action) => {
-    setIsLike(!isLike);
-    if (isLike) {
-      Toast.show({
-        type: "success",
-        text1: "DisLiked",
-      });
-    } else {
-      Toast.show({
-        type: "success",
-        text1: "Liked",
-      });
-    }
-    const mutationFunction = action === "like" ? likePost : dislikePost;
-    mutationFunction({
-      post_id: id,
-    }).then((res) => {
-      setLikesCount(res.data.post.likes?.length);
-    });
-  };
 
   const handleDeletePress = (id) => {
     deletePost({ postId: id }).then(() => {
@@ -78,42 +78,7 @@ const VideoPlayer = () => {
     });
   };
 
-  return (
-    <View style={{ margin: 10 }}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{body}</Text>
-      </View>
-      <ImageBackground
-        source={{ uri: userCoverPhoto }}
-        style={[styles.container, { height: 213, width: width - 20 }]}
-      >
-        <Video
-          ref={video}
-          style={[styles.video, { width: width - 20 }]}
-          source={{
-            uri: vidoeURL,
-          }}
-          useNativeControls
-          resizeMode={ResizeMode.CONTAIN}
-          isLooping
-          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-        />
-      </ImageBackground>
-
-      <View style={styles.actions}>
-        {author === user.pk ? <DeletePost onPress={() => handleDeletePress(id)} /> : <View></View>}
-
-        <LikeBtn
-          onPress={() => handleLikePress(id, isLike ? "dislike" : "like")}
-          likesCount={likesCount}
-        />
-      </View>
-      <View>
-        <Text style={styles.title}>{t("Description")}:</Text>
-        <Text style={styles.title}>{description}</Text>
-      </View>
-    </View>
-  );
+  return <View></View>;
 };
 
 // Mini Components
